@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C4A4F3323C63B65D99B25A6 /* Pods_GPSchedule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91310B779E80B23342F30A1 /* Pods_GPSchedule.framework */; };
 		7A345EF02231C340004DDD11 /* .sourcery.yml in Resources */ = {isa = PBXBuildFile; fileRef = 7A345EEF2231C340004DDD11 /* .sourcery.yml */; };
+		7A345EF42231C757004DDD11 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 7A345EF12231C74A004DDD11 /* .swiftlint.yml */; };
 		7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE122231BBD400B24351 /* AppDelegate.swift */; };
 		7AACDE152231BBD400B24351 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE142231BBD400B24351 /* ViewController.swift */; };
 		7AACDE182231BBD400B24351 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE162231BBD400B24351 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		0FE4FBBC8B08F2E17E6A7C3D /* Pods-GPSchedule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPSchedule.debug.xcconfig"; path = "Target Support Files/Pods-GPSchedule/Pods-GPSchedule.debug.xcconfig"; sourceTree = "<group>"; };
 		7A345EEF2231C340004DDD11 /* .sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .sourcery.yml; sourceTree = "<group>"; };
+		7A345EF12231C74A004DDD11 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7AACDE0F2231BBD400B24351 /* GPSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AACDE122231BBD400B24351 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AACDE142231BBD400B24351 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				7A345EEF2231C340004DDD11 /* .sourcery.yml */,
+				7A345EF12231C74A004DDD11 /* .swiftlint.yml */,
 				7AACDE112231BBD400B24351 /* GPSchedule */,
 				7AACDE102231BBD400B24351 /* Products */,
 				D65D608BAEC3BA30D7E95970 /* Pods */,
@@ -150,6 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A345EF42231C757004DDD11 /* .swiftlint.yml in Resources */,
 				7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */,
 				7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */,
 				7AACDE182231BBD400B24351 /* Main.storyboard in Resources */,
