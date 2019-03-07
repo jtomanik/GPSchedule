@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C4A4F3323C63B65D99B25A6 /* Pods_GPSchedule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91310B779E80B23342F30A1 /* Pods_GPSchedule.framework */; };
+		7A345EF02231C340004DDD11 /* .sourcery.yml in Resources */ = {isa = PBXBuildFile; fileRef = 7A345EEF2231C340004DDD11 /* .sourcery.yml */; };
 		7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE122231BBD400B24351 /* AppDelegate.swift */; };
 		7AACDE152231BBD400B24351 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE142231BBD400B24351 /* ViewController.swift */; };
 		7AACDE182231BBD400B24351 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE162231BBD400B24351 /* Main.storyboard */; };
@@ -51,6 +53,7 @@
 		7AACDE062231BBD300B24351 = {
 			isa = PBXGroup;
 			children = (
+				7A345EEF2231C340004DDD11 /* .sourcery.yml */,
 				7AACDE112231BBD400B24351 /* GPSchedule */,
 				7AACDE102231BBD400B24351 /* Products */,
 				D65D608BAEC3BA30D7E95970 /* Pods */,
@@ -150,6 +153,7 @@
 				7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */,
 				7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */,
 				7AACDE182231BBD400B24351 /* Main.storyboard in Resources */,
+				7A345EF02231C340004DDD11 /* .sourcery.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
