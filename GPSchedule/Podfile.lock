@@ -1,3 +1,31 @@
-PODFILE CHECKSUM: 317ace9653526692234d64d52d4b1c89399cade6
+PODS:
+  - RxAtomic (4.4.1)
+  - RxCocoa (4.4.1):
+    - RxSwift (~> 4.0)
+  - RxFeedback (2.0.0):
+    - RxCocoa (~> 4.4)
+    - RxSwift (~> 4.4)
+  - RxSwift (4.4.1):
+    - RxAtomic (~> 4.4)
+
+DEPENDENCIES:
+  - RxCocoa
+  - RxFeedback
+  - RxSwift
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - RxAtomic
+    - RxCocoa
+    - RxFeedback
+    - RxSwift
+
+SPEC CHECKSUMS:
+  RxAtomic: f8d6adc1ccb87a767811269e4875887bc74dbf19
+  RxCocoa: 2f35a76bf8887872e28a1914112395b11b8e0e64
+  RxFeedback: 49bb931caf6d05e315d5b5366c0991ad1474ea36
+  RxSwift: 92fcf68dfef21f3e2ab1965363d9e7b3d787597e
+
+PODFILE CHECKSUM: f0c67db63c6cd36c4a37fe28becb37219c832f91
 
 COCOAPODS: 1.6.1

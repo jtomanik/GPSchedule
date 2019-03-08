@@ -6,5 +6,7 @@ target 'GPSchedule' do
   use_frameworks!
 
   # Pods for GPSchedule
-
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxFeedback'
 end
