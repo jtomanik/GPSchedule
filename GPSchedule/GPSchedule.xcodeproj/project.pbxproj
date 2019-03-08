@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0C4A4F3323C63B65D99B25A6 /* Pods_GPSchedule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91310B779E80B23342F30A1 /* Pods_GPSchedule.framework */; };
+		7A79A6A92233030800E22CDA /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6A82233030800E22CDA /* LogInViewController.swift */; };
+		7A79A6AB2233031D00E22CDA /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6AA2233031D00E22CDA /* LoggedInViewController.swift */; };
+		7A79A6AD2233033100E22CDA /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6AC2233033100E22CDA /* LoadingViewController.swift */; };
+		7A79A6AF2233034B00E22CDA /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */; };
+		7A79A6B12233037300E22CDA /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6B02233037300E22CDA /* RootViewController.swift */; };
 		7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE122231BBD400B24351 /* AppDelegate.swift */; };
-		7AACDE152231BBD400B24351 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE142231BBD400B24351 /* ViewController.swift */; };
-		7AACDE182231BBD400B24351 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE162231BBD400B24351 /* Main.storyboard */; };
 		7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE192231BBD600B24351 /* Assets.xcassets */; };
 		7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -19,10 +22,13 @@
 		0FE4FBBC8B08F2E17E6A7C3D /* Pods-GPSchedule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPSchedule.debug.xcconfig"; path = "Target Support Files/Pods-GPSchedule/Pods-GPSchedule.debug.xcconfig"; sourceTree = "<group>"; };
 		7A345EEF2231C340004DDD11 /* .sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .sourcery.yml; sourceTree = "<group>"; };
 		7A345EF12231C74A004DDD11 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		7A79A6A82233030800E22CDA /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		7A79A6AA2233031D00E22CDA /* LoggedInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
+		7A79A6AC2233033100E22CDA /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
+		7A79A6B02233037300E22CDA /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		7AACDE0F2231BBD400B24351 /* GPSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AACDE122231BBD400B24351 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7AACDE142231BBD400B24351 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		7AACDE172231BBD400B24351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7AACDE192231BBD600B24351 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7AACDE1C2231BBD600B24351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7AACDE1E2231BBD600B24351 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,8 +80,11 @@
 			isa = PBXGroup;
 			children = (
 				7AACDE122231BBD400B24351 /* AppDelegate.swift */,
-				7AACDE142231BBD400B24351 /* ViewController.swift */,
-				7AACDE162231BBD400B24351 /* Main.storyboard */,
+				7A79A6B02233037300E22CDA /* RootViewController.swift */,
+				7A79A6A82233030800E22CDA /* LogInViewController.swift */,
+				7A79A6AA2233031D00E22CDA /* LoggedInViewController.swift */,
+				7A79A6AC2233033100E22CDA /* LoadingViewController.swift */,
+				7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */,
 				7AACDE192231BBD600B24351 /* Assets.xcassets */,
 				7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */,
 				7AACDE1E2231BBD600B24351 /* Info.plist */,
@@ -153,7 +162,6 @@
 			files = (
 				7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */,
 				7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */,
-				7AACDE182231BBD400B24351 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,22 +197,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AACDE152231BBD400B24351 /* ViewController.swift in Sources */,
+				7A79A6AF2233034B00E22CDA /* ErrorViewController.swift in Sources */,
 				7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */,
+				7A79A6B12233037300E22CDA /* RootViewController.swift in Sources */,
+				7A79A6AD2233033100E22CDA /* LoadingViewController.swift in Sources */,
+				7A79A6A92233030800E22CDA /* LogInViewController.swift in Sources */,
+				7A79A6AB2233031D00E22CDA /* LoggedInViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7AACDE162231BBD400B24351 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7AACDE172231BBD400B24351 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -347,7 +351,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jakub.tomanik.GPSchedule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -366,7 +370,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jakub.tomanik.GPSchedule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
