@@ -1,0 +1,9 @@
+{% for enum in types.enums %}
+// sourcery:inline:{{ enum.name }}.Switch
+switch value {
+{% for case in enum.cases %}
+case .{{case.name}}:
+{% endfor %}
+}
+// sourcery:end
+{% endfor %}
