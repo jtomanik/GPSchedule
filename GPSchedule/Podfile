@@ -8,5 +8,11 @@ target 'GPSchedule' do
   # Pods for GPSchedule
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxSwiftExt'
+  pod 'RxOptional'
   pod 'RxFeedback'
+
+  pod 'Cartography'
+
+  pod 'Sourcery'
 end
