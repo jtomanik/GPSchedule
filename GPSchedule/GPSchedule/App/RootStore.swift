@@ -12,7 +12,7 @@ import RxSwiftExt
 
 class RootState: DomainState {
     enum State {
-        case unauthorized
+        case unauthorized(error: String?)
         case authorized
         case error(Error)
     }
@@ -26,13 +26,15 @@ class RootState: DomainState {
     let rootState: State
 
     init() {
-        self.rootState = .unauthorized
+        self.rootState = .unauthorized(error: nil)
     }
 }
 
 struct RootUseCase: DomaninStateReducer {
     func reduce(state: RootState, event: RootState.Event) -> RootState {
         return state
+        // sourcer :inline:RootState.Event.Switch
+        // sourcer :end
     }
 }
 

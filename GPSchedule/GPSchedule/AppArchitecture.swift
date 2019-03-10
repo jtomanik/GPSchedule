@@ -44,7 +44,7 @@ protocol ViewStateTransformer {
     associatedtype State: ViewState
     associatedtype Store: DomainStateStore
 
-    func transform(store state: Store.State) -> State
+    func transform(storeState: Store.State, state: State) -> State
 }
 
 protocol ViewStateReducer {
@@ -52,7 +52,7 @@ protocol ViewStateReducer {
     func reduce(state: State, action: State.UserAction) -> State
 }
 
-protocol ViewReactor {
+protocol ViewReactor: class, ViewStateReducer, ViewStateTransformer {
     associatedtype State: ViewState
     associatedtype Store: DomainStateStore
 
@@ -61,6 +61,12 @@ protocol ViewReactor {
     var state: BehaviorSubject<State> { get }
 
     init(store: Store)
+}
+
+protocol ChildViewReactor: ViewReactor {
+    associatedtype Parent: ViewReactor
+
+    var parent: Parent? { get set }
 }
 
 protocol AppView {
