@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 import RxSwiftExt
+import Cartography
 
 // sourcery: viewmodel = "RootViewModel"
 class RootViewController: UIViewController, AppView {
@@ -33,10 +34,21 @@ class RootViewController: UIViewController, AppView {
     }
     // sourcery:end
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
+        setupView()
+        bindToViewModel()
     }
 
     func setupView() {
+        self.addChild(logInView)
+        logInView.didMove(toParent: self)
+        view.addSubview(logInView.view)
+        constrain(logInView.view) { view in
+            view.edges == inset(view.superview!.edges, 0)
+        }
+        logInView.view.isUserInteractionEnabled = false
     }
 
     func bindToViewModel() {
