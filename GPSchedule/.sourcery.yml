@@ -1,0 +1,10 @@
+sources:
+- GPSchedule
+#- <sources path>
+templates:
+- GPSchedule/Templates
+#- <templates path>
+output:
+    path: GPSchedule/Generated
+#args:
+#<name>: <value>
