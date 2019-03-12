@@ -8,18 +8,18 @@
 
 import Foundation
 
-struct TextFieldState {
+struct TextFieldState: Comparable {
     var placeholder: String?
     var text: String?
     var isEnabled: Bool
 }
 
-struct ButtonState {
+struct ButtonState: Comparable {
     var text: String?
     var isEnabled: Bool
 }
 
-struct LabelState {
+struct LabelState: Comparable {
     var text: String?
     var isHidden: Bool
 }

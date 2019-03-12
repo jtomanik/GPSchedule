@@ -14,13 +14,13 @@ class RootState: DomainState {
     enum State {
         case unauthorized(error: String?)
         case authorized
-        case error(Error)
+        case error(AppError)
     }
 
-    enum Event {
+    enum DomainEvent: Event {
         case login(username: String, password: String)
         case logout
-        case error(Error)
+        case error(AppError)
     }
 
     let rootState: State
@@ -31,9 +31,9 @@ class RootState: DomainState {
 }
 
 struct RootUseCase: DomaninStateReducer {
-    func reduce(state: RootState, event: RootState.Event) -> RootState {
+    func reduce(state: RootState, event: RootState.DomainEvent) -> RootState {
         return state
-        // sourcer :inline:RootState.Event.Switch
+        // sourcer :inline:RootState.DomainEvent.Switch
         // sourcer :end
     }
 }
@@ -50,7 +50,7 @@ class RootStore: DomainStateStore {
         self.state = BehaviorSubject(value: initialState)
     }
 
-    func dispatch(event: RootState.Event) {
+    func dispatch(event: RootState.DomainEvent) {
         state.onNext(reducer.reduce(state: currentState, event: event))
     }
 }
