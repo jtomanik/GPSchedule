@@ -8,18 +8,8 @@
 
 import Foundation
 
-//protocol UIKitAutoState {}
-//
-//protocol ViewAutoState: UIKitAutoState {
-//    var isHidden: Bool { get set }
-//}
-//
-//protocol ControlAutoState: ViewAutoState {
-//    var isEnabled: Bool { get set }
-//}
-
-
-struct TextFieldState: Equatable {
+struct TextInputState: Equatable {
+    var title: String?
     var placeholder: String?
     var text: String?
     var isEnabled: Bool
