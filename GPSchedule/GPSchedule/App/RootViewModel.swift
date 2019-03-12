@@ -20,6 +20,7 @@ enum RootViewState: ViewState {
 
     enum UserAction: Event {
         case bussy
+        // case dissmissError
     }
 
     init(){
