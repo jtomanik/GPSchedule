@@ -28,18 +28,15 @@ enum RootViewState: ViewState {
     }
 }
 
-class RootViewModel: GenericViewModel<RootViewState, RootStore> {}
+class RootViewModel: GenericViewModel<RootViewState, RootStore> {
 
-extension RootViewModel {
     static func reduce(state: State, action: State.UserAction) -> State {
         switch action {
         case .bussy:
             return .loading
         }
     }
-}
 
-extension RootViewModel {
     static func transform(storeState: RootState, state: State) -> State {
         switch storeState.rootState {
         case .unauthorized:
@@ -49,5 +46,13 @@ extension RootViewModel {
         case .error(let error):
             return .error(error)
         }
+    }
+
+    convenience init(store: RootStore) {
+        self.init(store: store, transformer: RootViewModel.transform, reducer: RootViewModel.reduce)
+    }
+
+    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        super.init(store: store, transformer: transformer, reducer: reducer)
     }
 }

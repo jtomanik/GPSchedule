@@ -1,16 +1,29 @@
 PODS:
+  - Bento (0.3):
+    - FlexibleDiff (= 0.0.7)
+  - BentoKit (0.3):
+    - Bento
+    - ReactiveCocoa (~> 8.0.2)
+    - ReactiveSwift (~> 4.0.0)
+    - StyleSheets
   - Cartography (3.1.0)
-  - RxAtomic (4.4.1)
-  - RxCocoa (4.4.1):
-    - RxSwift (~> 4.0)
+  - FlexibleDiff (0.0.7)
+  - ReactiveCocoa (8.0.2):
+    - ReactiveSwift (~> 4.0)
+  - ReactiveSwift (4.0.0):
+    - Result (~> 4.0)
+  - Result (4.1.0)
+  - RxAtomic (4.4.2)
+  - RxCocoa (4.4.2):
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - RxFeedback (2.0.0):
     - RxCocoa (~> 4.4)
     - RxSwift (~> 4.4)
   - RxOptional (3.6.2):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - RxSwift (4.4.1):
-    - RxAtomic (~> 4.4)
+  - RxSwift (4.4.2):
+    - RxAtomic (>= 4.4.2, ~> 4.4)
   - RxSwiftExt (3.4.0):
     - RxSwiftExt/Core (= 3.4.0)
     - RxSwiftExt/RxCocoa (= 3.4.0)
@@ -20,8 +33,11 @@ PODS:
     - RxCocoa (~> 4.0)
     - RxSwiftExt/Core
   - Sourcery (0.16.0)
+  - StyleSheets (0.3)
 
 DEPENDENCIES:
+  - Bento (from `https://github.com/Babylonpartners/Bento.git`)
+  - BentoKit (from `https://github.com/Babylonpartners/Bento.git`)
   - Cartography
   - RxCocoa
   - RxFeedback
@@ -29,10 +45,15 @@ DEPENDENCIES:
   - RxSwift
   - RxSwiftExt
   - Sourcery
+  - StyleSheets (from `https://github.com/Babylonpartners/Bento.git`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Cartography
+    - FlexibleDiff
+    - ReactiveCocoa
+    - ReactiveSwift
+    - Result
     - RxAtomic
     - RxCocoa
     - RxFeedback
@@ -41,16 +62,42 @@ SPEC REPOS:
     - RxSwiftExt
     - Sourcery
 
+EXTERNAL SOURCES:
+  Bento:
+    :git: https://github.com/Babylonpartners/Bento.git
+  BentoKit:
+    :git: https://github.com/Babylonpartners/Bento.git
+  StyleSheets:
+    :git: https://github.com/Babylonpartners/Bento.git
+
+CHECKOUT OPTIONS:
+  Bento:
+    :commit: 80aeb3007f453500cf75d4079c53dea690891e41
+    :git: https://github.com/Babylonpartners/Bento.git
+  BentoKit:
+    :commit: 80aeb3007f453500cf75d4079c53dea690891e41
+    :git: https://github.com/Babylonpartners/Bento.git
+  StyleSheets:
+    :commit: 80aeb3007f453500cf75d4079c53dea690891e41
+    :git: https://github.com/Babylonpartners/Bento.git
+
 SPEC CHECKSUMS:
+  Bento: 0e214943724886608393d4ebcccb0e720eaa073b
+  BentoKit: c1907158e740e3184256c26c94073b45158c1270
   Cartography: 1988b7578871a56c036e7af17195cb2190edf18c
-  RxAtomic: f8d6adc1ccb87a767811269e4875887bc74dbf19
-  RxCocoa: 2f35a76bf8887872e28a1914112395b11b8e0e64
+  FlexibleDiff: 9449f18d480e07b0d6599838c973f088df8e5d33
+  ReactiveCocoa: fbd26e9ba60e98417ee47433e59465a98ed9da0f
+  ReactiveSwift: a2bb9ace428a109e9c0209615645d9d286c8c433
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
+  RxCocoa: 477990dc3b4c3ff55fb0ac77e1cc06244e0aaec8
   RxFeedback: 49bb931caf6d05e315d5b5366c0991ad1474ea36
   RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
-  RxSwift: 92fcf68dfef21f3e2ab1965363d9e7b3d787597e
+  RxSwift: 74c29b693c8e42b0f64400e8b06564575742d649
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
   Sourcery: 3e55aad9719ee5782ab81eb16addd44d272e4d13
+  StyleSheets: cb35ec6073f95ad4b6ede668f5ba33099bfb3fda
 
-PODFILE CHECKSUM: 6ac1682c60d13d9502b31cd074d775ca6f79d3a8
+PODFILE CHECKSUM: 5bdef6a4d0053305ef261e9f2de0d572c8d3e6ed
 
 COCOAPODS: 1.6.1

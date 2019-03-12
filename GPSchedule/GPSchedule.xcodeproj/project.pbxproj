@@ -28,6 +28,14 @@
 		7AEFB2642237C0EA00E86256 /* AutoUIStates.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB2632237C0EA00E86256 /* AutoUIStates.stencil */; };
 		7AEFB2662237E79B00E86256 /* BasicView.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB2652237E79B00E86256 /* BasicView.stencil */; };
 		7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB2672237E80300E86256 /* Sourcery.swift */; };
+		7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */; };
+		7AEFB26E223829F800E86256 /* LabelComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26D223829F800E86256 /* LabelComponent.swift */; };
+		7AEFB27022382B8A00E86256 /* TextInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26F22382B8A00E86256 /* TextInputComponent.swift */; };
+		7AEFB2732238341700E86256 /* LabelComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB2722238341700E86256 /* LabelComponentView.xib */; };
+		7AEFB2752238355800E86256 /* GenericComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB2742238355800E86256 /* GenericComponent.swift */; };
+		7AEFB27722383CD600E86256 /* ButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB27622383CD600E86256 /* ButtonComponent.swift */; };
+		7AEFB27922383D3700E86256 /* ButtonComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB27822383D3700E86256 /* ButtonComponentView.xib */; };
+		7AEFB27B22383E2500E86256 /* TextInputComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB27A22383E2500E86256 /* TextInputComponentView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +69,14 @@
 		7AEFB2652237E79B00E86256 /* BasicView.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = BasicView.stencil; sourceTree = "<group>"; };
 		7AEFB2672237E80300E86256 /* Sourcery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sourcery.swift; sourceTree = "<group>"; };
 		7AEFB2692237EA0700E86256 /* BasicView.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicView.generated.swift; sourceTree = "<group>"; };
+		7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		7AEFB26D223829F800E86256 /* LabelComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelComponent.swift; sourceTree = "<group>"; };
+		7AEFB26F22382B8A00E86256 /* TextInputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputComponent.swift; sourceTree = "<group>"; };
+		7AEFB2722238341700E86256 /* LabelComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LabelComponentView.xib; sourceTree = "<group>"; };
+		7AEFB2742238355800E86256 /* GenericComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericComponent.swift; sourceTree = "<group>"; };
+		7AEFB27622383CD600E86256 /* ButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonComponent.swift; sourceTree = "<group>"; };
+		7AEFB27822383D3700E86256 /* ButtonComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonComponentView.xib; sourceTree = "<group>"; };
+		7AEFB27A22383E2500E86256 /* TextInputComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextInputComponentView.xib; sourceTree = "<group>"; };
 		D07D5D047C7571DDD8060662 /* Pods-GPSchedule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPSchedule.release.xcconfig"; path = "Target Support Files/Pods-GPSchedule/Pods-GPSchedule.release.xcconfig"; sourceTree = "<group>"; };
 		F91310B779E80B23342F30A1 /* Pods_GPSchedule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GPSchedule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -88,15 +104,14 @@
 		7A79A6B4223422CA00E22CDA /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7AEFB27D22386F4500E86256 /* Extensions */,
+				7AEFB2712238322800E86256 /* Components */,
 				7A79A6B02233037300E22CDA /* RootViewController.swift */,
 				7A79A6CE2235A03D00E22CDA /* RootViewModel.swift */,
-				7A79A6A82233030800E22CDA /* LogInViewController.swift */,
-				7A79A6C82235935400E22CDA /* LoginViewModel.swift */,
+				7AEFB27C22386F2300E86256 /* LogIn */,
 				7A79A6AA2233031D00E22CDA /* LoggedInViewController.swift */,
 				7A79A6AC2233033100E22CDA /* LoadingViewController.swift */,
 				7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */,
-				7A79A6BF22354B4800E22CDA /* UIElementsStates.swift */,
-				7AEFB2672237E80300E86256 /* Sourcery.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -104,6 +119,7 @@
 		7A79A6B922344A0000E22CDA /* Templates */ = {
 			isa = PBXGroup;
 			children = (
+				7AEFB2672237E80300E86256 /* Sourcery.swift */,
 				7A79A6C322357CCF00E22CDA /* Common.stencil */,
 				7A79A6BA22344A1D00E22CDA /* ViewReactor.stencil */,
 				7A79A6C122357B3600E22CDA /* AppView.stencil */,
@@ -168,6 +184,38 @@
 				7A79A6B522342C5400E22CDA /* RootStore.swift */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		7AEFB2712238322800E86256 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				7A79A6BF22354B4800E22CDA /* UIElementsStates.swift */,
+				7AEFB2742238355800E86256 /* GenericComponent.swift */,
+				7AEFB2722238341700E86256 /* LabelComponentView.xib */,
+				7AEFB26D223829F800E86256 /* LabelComponent.swift */,
+				7AEFB27822383D3700E86256 /* ButtonComponentView.xib */,
+				7AEFB27622383CD600E86256 /* ButtonComponent.swift */,
+				7AEFB27A22383E2500E86256 /* TextInputComponentView.xib */,
+				7AEFB26F22382B8A00E86256 /* TextInputComponent.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		7AEFB27C22386F2300E86256 /* LogIn */ = {
+			isa = PBXGroup;
+			children = (
+				7A79A6A82233030800E22CDA /* LogInViewController.swift */,
+				7A79A6C82235935400E22CDA /* LoginViewModel.swift */,
+			);
+			path = LogIn;
+			sourceTree = "<group>";
+		};
+		7AEFB27D22386F4500E86256 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D65D608BAEC3BA30D7E95970 /* Pods */ = {
@@ -243,11 +291,14 @@
 				7A79A6C422357CCF00E22CDA /* Common.stencil in Resources */,
 				7A79A6CB2235952300E22CDA /* InlineHelpers.stencil in Resources */,
 				7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */,
+				7AEFB27B22383E2500E86256 /* TextInputComponentView.xib in Resources */,
 				7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */,
 				7A79A6C222357B3600E22CDA /* AppView.stencil in Resources */,
 				7A79A6BB22344A1D00E22CDA /* ViewReactor.stencil in Resources */,
 				7AEFB2662237E79B00E86256 /* BasicView.stencil in Resources */,
+				7AEFB27922383D3700E86256 /* ButtonComponentView.xib in Resources */,
 				7AEFB2642237C0EA00E86256 /* AutoUIStates.stencil in Resources */,
+				7AEFB2732238341700E86256 /* LabelComponentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,25 +354,39 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GPSchedule/Pods-GPSchedule-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bento/Bento.framework",
+				"${BUILT_PRODUCTS_DIR}/BentoKit/BentoKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework",
+				"${BUILT_PRODUCTS_DIR}/FlexibleDiff/FlexibleDiff.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveSwift/ReactiveSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxFeedback/RxFeedback.framework",
 				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
+				"${BUILT_PRODUCTS_DIR}/StyleSheets/StyleSheets.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bento.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BentoKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cartography.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlexibleDiff.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxFeedback.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StyleSheets.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -336,17 +401,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A79A6AF2233034B00E22CDA /* ErrorViewController.swift in Sources */,
+				7AEFB2752238355800E86256 /* GenericComponent.swift in Sources */,
 				7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */,
 				7A79A6B322339FAB00E22CDA /* AppArchitecture.swift in Sources */,
 				7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */,
+				7AEFB27722383CD600E86256 /* ButtonComponent.swift in Sources */,
 				7A79A6C022354B4800E22CDA /* UIElementsStates.swift in Sources */,
+				7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */,
 				7A79A6B622342C5400E22CDA /* RootStore.swift in Sources */,
 				7A79A6B12233037300E22CDA /* RootViewController.swift in Sources */,
+				7AEFB26E223829F800E86256 /* LabelComponent.swift in Sources */,
 				7A79A6AD2233033100E22CDA /* LoadingViewController.swift in Sources */,
 				7A79A6A92233030800E22CDA /* LogInViewController.swift in Sources */,
 				7A79A6CF2235A03D00E22CDA /* RootViewModel.swift in Sources */,
 				7A79A6C92235935400E22CDA /* LoginViewModel.swift in Sources */,
 				7A79A6AB2233031D00E22CDA /* LoggedInViewController.swift in Sources */,
+				7AEFB27022382B8A00E86256 /* TextInputComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

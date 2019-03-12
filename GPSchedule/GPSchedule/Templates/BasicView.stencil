@@ -9,7 +9,18 @@ extension {{type.annotations.viewName}}ViewState: ViewState {
 }
 
 class {{type.annotations.viewName}}ViewModel: GenericChildViewModel<{{type.annotations.viewName}}ViewState, {{type.annotations.parentViewModel}}> {
+    convenience init(parent: {{type.annotations.parentViewModel}}) {
+        self.init(parent: parent, transformer: nil, reducer: nil)
+    }
 
+    required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        self.init(store: parent.store, transformer: transformer, reducer: reducer)
+        self.parent = parent
+    }
+
+    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        super.init(store: store, transformer: transformer, reducer: reducer)
+    }
 }
 
 class {{type.annotations.viewName}}ViewController: GenericViewController<{{type.annotations.viewName}}ViewModel> {

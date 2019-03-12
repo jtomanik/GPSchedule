@@ -13,6 +13,9 @@ target 'GPSchedule' do
   pod 'RxFeedback'
 
   pod 'Cartography'
+  pod 'Bento', :git => 'https://github.com/Babylonpartners/Bento.git'
+  pod 'BentoKit', :git => 'https://github.com/Babylonpartners/Bento.git'
+  pod 'StyleSheets', :git => 'https://github.com/Babylonpartners/Bento.git'
 
   pod 'Sourcery'
 end
