@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import Cartography
 
 class RootViewController: GenericViewController<RootViewModel> {
 
@@ -33,17 +32,13 @@ class RootViewController: GenericViewController<RootViewModel> {
         self.addChild(logInView)
         logInView.didMove(toParent: self)
         view.addSubview(logInView.view)
-        constrain(logInView.view) { view in
-            view.edges == inset(view.superview!.edges, 0)
-        }
+        logInView.view.pinToEdges(of: view)
         hideLogInView()
 
         self.addChild(loggedInView)
         loggedInView.didMove(toParent: self)
         view.addSubview(loggedInView.view)
-        constrain(loggedInView.view) { view in
-            view.edges == inset(view.superview!.edges, 0)
-        }
+        loggedInView.view.pinToEdges(of: view)
         hideLoggedInView()
     }
 
