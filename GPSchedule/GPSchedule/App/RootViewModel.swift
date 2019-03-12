@@ -27,7 +27,6 @@ enum RootViewState: ViewState {
     }
 }
 
-// sourcery: store = RootStore
 class RootViewModel: GenericViewModel<RootViewState, RootStore> {}
 
 extension RootViewModel {

@@ -20,6 +20,13 @@ required init?(coder aDecoder: NSCoder) {
 {{inline_body}}
 // sourcery:end
 {% set setup_body %}
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    setupView()
+    bindToViewModel()
+}
+
 func setupView() {
 
 }

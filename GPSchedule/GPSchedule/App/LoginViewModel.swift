@@ -51,13 +51,11 @@ extension LoginViewState: ViewState {
     }
 }
 
-// sourcery: state = "LoginViewState"
-// sourcery: parent = "RootViewModel"
 class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
 
     override func forwarder<S>(state: S) where S : ViewState {
         guard let loginState = state as? LoginViewState else {
-            super.forwarder(state: state)
+            parent.forwarder(state: state)
             return
         }
         guard case LoginViewState.done(let context) = loginState else {
