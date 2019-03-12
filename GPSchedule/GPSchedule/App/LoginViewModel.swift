@@ -15,15 +15,17 @@ import RxSwiftExt
 enum LoginViewState {
 
     struct DisplayModel: Equatable {
-        var usernameField: TextFieldState
-        var passwordField: TextFieldState
+        var title: LabelState
+        var usernameField: TextInputState
+        var passwordField: TextInputState
         var loginButton: ButtonState
         var errorMessage: LabelState
 
         init() {
-            self.usernameField = TextFieldState(placeholder: nil, text: nil, isEnabled: true)
-            self.passwordField = TextFieldState(placeholder: nil, text: nil, isEnabled: false)
-            self.loginButton = ButtonState(text: nil, isEnabled: false)
+            self.title = LabelState(text: "Please log in", isHidden: false)
+            self.usernameField = TextInputState(title: "user", placeholder: "username", text: nil, isEnabled: true)
+            self.passwordField = TextInputState(title: "pass", placeholder: "password", text: nil, isEnabled: false)
+            self.loginButton = ButtonState(text: "login", isEnabled: false)
             self.errorMessage = LabelState(text: nil, isHidden: true)
         }
     }
@@ -69,8 +71,7 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
 }
 
 extension LoginViewModel {
-
-    static func reduce(state: State, action: State.UserAction) -> State {
+    static func reduce(state: LoginViewState, action: LoginViewState.UserAction) -> LoginViewState {
         guard case .inProgress(let context) = state else {
             return state
         }
