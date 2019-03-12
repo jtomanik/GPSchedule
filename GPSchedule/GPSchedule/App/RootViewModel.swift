@@ -16,7 +16,7 @@ enum RootViewState: ViewState {
     case logIn
     case loggedIn
     case loading
-    case error(Error)
+    case error(DomainError)
 
     enum UserAction: Event {
         case bussy

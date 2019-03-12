@@ -14,7 +14,7 @@ import RxSwiftExt
 // sourcery: defaultState = "inProgress(DisplayModel())"
 enum LoginViewState {
 
-    struct DisplayModel: Comparable {
+    struct DisplayModel: Equatable {
         var usernameField: TextFieldState
         var passwordField: TextFieldState
         var loginButton: ButtonState

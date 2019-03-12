@@ -10,23 +10,34 @@ import Foundation
 import RxSwift
 import RxSwiftExt
 
+enum DomainError: AppError, Equatable {
+    case genericError
+}
+
 class RootState: DomainState {
-    enum State {
+
+    enum State: Equatable {
         case unauthorized(error: String?)
         case authorized
-        case error(AppError)
+        case error(DomainError)
     }
 
     enum DomainEvent: Event {
         case login(username: String, password: String)
         case logout
-        case error(AppError)
+        case error(DomainError)
     }
 
     let rootState: State
 
     init() {
         self.rootState = .unauthorized(error: nil)
+    }
+}
+
+extension RootState: Equatable {
+    static func == (lhs: RootState, rhs: RootState) -> Bool {
+        return lhs.rootState == rhs.rootState
     }
 }
 

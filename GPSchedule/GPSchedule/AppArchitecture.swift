@@ -15,7 +15,7 @@ import RxSwift
 */
 protocol Event {}
 
-protocol DomainState: Comparable {
+protocol DomainState: Equatable {
     associatedtype DomainEvent: Event
 }
 
@@ -39,7 +39,7 @@ protocol DomainStateStore: class {
     func dispatch(event: State.DomainEvent)
 }
 
-protocol ViewState: Comparable {
+protocol ViewState: Equatable {
     associatedtype UserAction: Event
 
     init()
