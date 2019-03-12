@@ -12,6 +12,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    private lazy var store: RootStore = {
+        return RootStore(
+            initialState: RootState(),
+            reducer: RootUseCase())
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupWindow()
@@ -24,9 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = UIColor.white
         window?.rootViewController = RootViewController(
             viewModel: RootViewModel(
-                store: RootStore(
-                    initialState: RootState(),
-                    reducer: RootUseCase())))
+                store: store))
         self.window?.makeKeyAndVisible()
     }
 }
