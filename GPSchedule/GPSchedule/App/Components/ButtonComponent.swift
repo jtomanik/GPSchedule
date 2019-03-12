@@ -12,6 +12,10 @@ import Bento
 
 final class ButtonComponentView: UIView, NibLoadable {
     @IBOutlet weak var button: UIButton!
+    var onButtonPressed: ((Void) -> Void)?
+    @IBAction func buttonPressed(_ sender: Any) {
+        onButtonPressed?(())
+    }
 }
 
 class ButtonComponent: GenericActionableComponent<ButtonState, Void, ButtonComponentView> {
@@ -19,5 +23,6 @@ class ButtonComponent: GenericActionableComponent<ButtonState, Void, ButtonCompo
     override func render(in view: ButtonComponentView) {
         view.button.setTitle(state.text, for: .normal)
         view.button.isEnabled = state.isEnabled
+        view.onButtonPressed = self.didUpdate
     }
 }
