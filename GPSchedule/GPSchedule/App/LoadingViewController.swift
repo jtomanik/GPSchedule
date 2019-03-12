@@ -7,3 +7,35 @@
 //
 
 import Foundation
+import UIKit
+
+// sourcery: viewName = "Loading"
+// sourcery: parentViewModel = "RootViewModel"
+// sourcery: defaultState = "none"
+enum LoadingViewState: BasicViewGenerator {
+    case none
+
+    enum UserAction: Event {
+    }
+}
+
+extension LoadingViewState: ViewState {
+    init() {
+        self = .none
+    }
+}
+
+class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootViewModel> {
+
+}
+
+class LoadingViewController: GenericViewController<LoadingViewModel> {
+
+    override func setupView() {
+        self.view.backgroundColor = UIColor.green
+    }
+
+    override func process(state: LoadingViewModel.State) {
+        return
+    }
+}
