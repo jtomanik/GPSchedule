@@ -27,6 +27,18 @@ extension LoadingViewState: ViewState {
 
 class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootViewModel> {
 
+    convenience init(parent: RootViewModel) {
+        self.init(parent: parent, transformer: nil, reducer: nil)
+    }
+
+    required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        self.init(store: parent.store, transformer: transformer, reducer: reducer)
+        self.parent = parent
+    }
+
+    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        super.init(store: store, transformer: transformer, reducer: reducer)
+    }
 }
 
 class LoadingViewController: GenericViewController<LoadingViewModel> {

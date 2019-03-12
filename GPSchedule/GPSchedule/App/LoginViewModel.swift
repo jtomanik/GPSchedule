@@ -55,22 +55,31 @@ extension LoginViewState: ViewState {
 
 class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
 
-    override func forwarder<S>(state: S) where S : ViewState {
-        guard let loginState = state as? LoginViewState else {
-            parent.forwarder(state: state)
-            return
-        }
-        guard case LoginViewState.done(let context) = loginState else {
-            return
-        }
-        parent?.action.onNext(.bussy)
-        store.dispatch(event: .login(
-            username: context.usernameField.text!,
-            password: context.passwordField.text!))
+    convenience init(parent: RootViewModel) {
+        self.init(parent: parent, transformer: LoginViewModel.transform, reducer: LoginViewModel.reduce)
     }
-}
 
-extension LoginViewModel {
+    required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        self.init(store: parent.store, transformer: transformer, reducer: reducer)
+        self.parent = parent
+    }
+
+    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        super.init(store: store, transformer: transformer, reducer: reducer)
+    }
+
+    static func transform(storeState: Store.State, state: State) -> State {
+        switch storeState.rootState {
+        case .unauthorized(let error):
+            var newContext = state.context
+            newContext.errorMessage.text = error
+            newContext.errorMessage.isHidden = error == nil
+            return .inProgress(newContext)
+        default:
+            return state
+        }
+    }
+
     static func reduce(state: LoginViewState, action: LoginViewState.UserAction) -> LoginViewState {
         guard case .inProgress(let context) = state else {
             return state
@@ -114,18 +123,14 @@ extension LoginViewModel {
             }
         }
     }
-}
 
-extension LoginViewModel {
-    static func transform(storeState: Store.State, state: State) -> State {
-        switch storeState.rootState {
-        case .unauthorized(let error):
-            var newContext = state.context
-            newContext.errorMessage.text = error
-            newContext.errorMessage.isHidden = error == nil
-            return .inProgress(newContext)
-        default:
-            return state
+    override func forwarder(state: LoginViewState) {
+        guard case LoginViewState.done(let context) = state else {
+            return
         }
+        parent?.action.onNext(.bussy)
+        store.dispatch(event: .login(
+            username: context.usernameField.text!,
+            password: context.passwordField.text!))
     }
 }
