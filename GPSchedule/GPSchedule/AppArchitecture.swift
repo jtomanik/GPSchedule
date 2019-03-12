@@ -70,15 +70,16 @@ protocol ChildViewReactor: ViewReactor {
     init(parent: Parent)
 }
 
-protocol AppView {
+protocol AppView: class {
     associatedtype ViewModel: ViewReactor
 
-    var viewModel: ViewModel { get }
+//    var viewModel: ViewModel { get }
     init(viewModel: ViewModel)
 }
 
 
 // MARK: Implementations
+import UIKit
 
 protocol AppError: Error {} // make it comparable?
 
@@ -144,7 +145,51 @@ class GenericChildViewModel<VS: ViewState, PT: ViewReactor>: GenericViewModel<VS
         self.parent = parent
     }
 
+    // TODO: Think how we can get rid of this initializator
     required init(store: Store) {
-        super.init(store: store)
+        fatalError("Child ViewModel must be initialized with a parent")
+    }
+}
+
+class GenericViewController<VM: ViewReactor>: UIViewController, AppView {
+
+    typealias ViewModel = VM
+
+    private(set) var viewModel: ViewModel
+    private(set) var disposeBag = DisposeBag()
+
+    required init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupView()
+        bindToViewModel()
+    }
+
+    func setupView() {
+        return
+    }
+
+    func bindToViewModel() {
+        viewModel.state
+            .subscribe(
+                weak: self,
+                onNext: { return $0.process },
+                onError: { (_) -> (Error) -> Void in fatalError("Unhandled error has occured") },
+                onCompleted: { (_) -> () -> Void in fatalError("Root state must not compleate while application is running") },
+                onDisposed: { (_) -> () -> Void in fatalError("Root state must not be disposed while application is running") })
+            .disposed(by: disposeBag)
+    }
+
+    func process(state: ViewModel.State) {
+        return
     }
 }
