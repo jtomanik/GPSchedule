@@ -11,14 +11,36 @@ import UIKit
 import RxSwift
 import RxSwiftExt
 
+// sourcery: defaultState = "logIn"
+enum RootViewState: ViewState {
+    case logIn
+    case loggedIn
+    case loading
+    case error(Error)
+
+    enum UserAction: Event {
+        case bussy
     }
 
+    init(){
+        self = .logIn
     }
 }
 
+// sourcery: store = RootStore
+class RootViewModel: GenericViewModel<RootViewState, RootStore> {}
+
+extension RootViewModel {
+    static func reduce(state: State, action: State.UserAction) -> State {
+        switch action {
+        case .bussy:
+            return .loading
+        }
     }
 }
 
+extension RootViewModel {
+    static func transform(storeState: RootState, state: State) -> State {
         switch storeState.rootState {
         case .unauthorized:
             return .logIn
