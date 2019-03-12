@@ -11,22 +11,14 @@ import UIKit
 import RxSwift
 import RxSwiftExt
 
-// sourcery: store = "RootStore"
-// sourcery: parent = "RootViewModel"
-class LoginViewModel: ChildViewReactor {
+// sourcery: defaultState = "inProgress(DisplayModel())"
+enum LoginViewState {
 
-    // sourcery: defaultState = "logIn"
-    struct State: ViewState {
+    struct DisplayModel: Comparable {
         var usernameField: TextFieldState
         var passwordField: TextFieldState
         var loginButton: ButtonState
         var errorMessage: LabelState
-
-        enum UserAction {
-            case usernameEntry(String?)
-            case passwordEntry(String?)
-            case loginButtonPressed
-        }
 
         init() {
             self.usernameField = TextFieldState(placeholder: nil, text: nil, isEnabled: true)
@@ -36,69 +28,103 @@ class LoginViewModel: ChildViewReactor {
         }
     }
 
-    // sourcery:inline:LoginViewModel.ViewReactor
-    weak var parent: RootViewModel?
-    let store: RootStore
-    let action = PublishSubject<State.UserAction>()
-    let state = BehaviorSubject<State>(value: State())
-    
-    required init(store: RootStore) {
-        self.store = store
+    enum UserAction: Event {
+        case usernameEntry(String?)
+        case passwordEntry(String?)
+        case loginButtonPressed
     }
 
-    // sourcery:end
+    case inProgress(DisplayModel)
+    case done(DisplayModel)
+
+    init() {
+        self = .inProgress(DisplayModel())
+    }
 }
 
-extension LoginViewModel: ViewStateReducer {
-    func reduce(state: State, action: State.UserAction) -> State {
-        var newState = state
+extension LoginViewState: ViewState {
+    var context: DisplayModel {
+        switch self {
+        case .inProgress(let displayModel): return displayModel
+        case .done(let displayModel): return displayModel
+        }
+    }
+}
+
+// sourcery: state = "LoginViewState"
+// sourcery: parent = "RootViewModel"
+class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
+
+    override func forwarder<S>(state: S) where S : ViewState {
+        guard let loginState = state as? LoginViewState else {
+            super.forwarder(state: state)
+            return
+        }
+        guard case LoginViewState.done(let context) = loginState else {
+            return
+        }
+        parent?.action.onNext(.bussy)
+        store.dispatch(event: .login(
+            username: context.usernameField.text!,
+            password: context.passwordField.text!))
+    }
+}
+
+extension LoginViewModel {
+
+    static func reduce(state: State, action: State.UserAction) -> State {
+        guard case .inProgress(let context) = state else {
+            return state
+        }
+
+        func isValid(state: State.DisplayModel) -> Bool {
+            return isValid(username: state.usernameField.text) &&
+                isValid(password: state.passwordField.text)
+        }
+
+        func isValid(password: String?) -> Bool {
+            guard let password = password else {
+                return false
+            }
+            return password.count > 4
+        }
+
+        func isValid(username: String?) -> Bool {
+            guard let username = username else {
+                return false
+            }
+            return username.count > 4
+        }
+
+        var newContext = context
         switch action {
         case .usernameEntry(let text):
-            newState.usernameField.text = text
-            newState.passwordField.isEnabled = isValid(username: text)
-            newState.loginButton.isEnabled = isValid(state: newState)
+            newContext.usernameField.text = text
+            newContext.passwordField.isEnabled = isValid(username: text)
+            newContext.loginButton.isEnabled = isValid(state: newContext)
+            return .inProgress(newContext)
         case .passwordEntry(let text):
-            newState.passwordField.text = text
-            newState.loginButton.isEnabled = isValid(state: newState)
+            newContext.passwordField.text = text
+            newContext.loginButton.isEnabled = isValid(state: newContext)
+            return .inProgress(newContext)
         case .loginButtonPressed:
-            if isValid(state: newState) {
-                parent?.action.onNext(.bussy)
-                store.dispatch(event: .login(
-                    username: newState.usernameField.text!,
-                    password: newState.passwordField.text!))
+            if isValid(state: newContext) {
+                return .done(newContext)
+            } else {
+                return .inProgress(newContext)
             }
         }
-        return newState
-    }
-
-    private func isValid(state: State) -> Bool {
-        return isValid(username: state.usernameField.text) &&
-            isValid(password: state.passwordField.text)
-    }
-
-    private func isValid(password: String?) -> Bool {
-        guard let password = password else {
-            return false
-        }
-        return password.count > 4
-    }
-
-    private func isValid(username: String?) -> Bool {
-        guard let username = username else {
-            return false
-        }
-        return username.count > 4
     }
 }
 
-extension LoginViewModel: ViewStateTransformer {
-    func transform(storeState: Store.State, state: State) -> State {
+extension LoginViewModel {
+    static func transform(storeState: Store.State, state: State) -> State {
         switch storeState.rootState {
         case .unauthorized(let error):
-            var newState = state
-            newState.errorMessage.text = error
-            newState.errorMessage.isHidden = error == nil
-            return newState
+            var newContext = state.context
+            newContext.errorMessage.text = error
+            newContext.errorMessage.isHidden = error == nil
+            return .inProgress(newContext)
         default:
             return state
         }
