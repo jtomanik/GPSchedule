@@ -45,15 +45,10 @@ protocol ViewState: Equatable {
     init()
 }
 
-protocol ViewStateTransformer {
-    static func transform<StoreState: DomainState, State: ViewState>(storeState: StoreState, state: State) -> State
-}
+typealias ViewStateTransformer<StoreState: DomainState, State: ViewState> = (StoreState, State) -> State
+typealias ViewStateReducer<State: ViewState> = (State, State.UserAction) -> State
 
-protocol ViewStateReducer {
-    static func reduce<State: ViewState>(state: State, action: State.UserAction) -> State
-}
-
-protocol ViewReactor: class, ViewStateReducer, ViewStateTransformer {
+protocol ViewReactor: class {
     associatedtype State: ViewState
     associatedtype Store: DomainStateStore
 
@@ -61,43 +56,31 @@ protocol ViewReactor: class, ViewStateReducer, ViewStateTransformer {
     var action: PublishSubject<State.UserAction> { get }
     var state: BehaviorSubject<State> { get }
 
-    init(store: Store)
+    init(store: Store,
+         transformer: ViewStateTransformer<Store.State, State>?,
+         reducer: ViewStateReducer<State>?)
 }
 
 protocol ChildViewReactor: ViewReactor {
     associatedtype Parent: ViewReactor where Parent.Store == Store
 
-    init(parent: Parent)
+    init(parent: Parent,
+         transformer: ViewStateTransformer<Store.State, State>?,
+         reducer: ViewStateReducer<State>?)
 }
 
 protocol AppView: class {
     associatedtype ViewModel: ViewReactor
 
-//    var viewModel: ViewModel { get }
     init(viewModel: ViewModel)
 }
-
 
 // MARK: Implementations
 import UIKit
 
 protocol AppError: Error {} // make it comparable?
 
-extension ViewStateTransformer {
-    static func transform<StoreState, State>(storeState: StoreState, state: State) -> State
-        where StoreState: DomainState, State: ViewState {
-            return state
-    }
-}
-
-extension ViewStateReducer {
-    static func reduce<State>(state: State, action: State.UserAction) -> State
-        where State: ViewState {
-            return state
-    }
-}
-
-class GenericViewModel<VS: ViewState, ST: DomainStateStore>: ViewReactor, ViewStateTransformer, ViewStateReducer {
+class GenericViewModel<VS: ViewState, ST: DomainStateStore>: ViewReactor {
 
     typealias State = VS
     typealias Store = ST
@@ -105,19 +88,36 @@ class GenericViewModel<VS: ViewState, ST: DomainStateStore>: ViewReactor, ViewSt
     weak var store: Store!
     let action = PublishSubject<State.UserAction>()
     let state = BehaviorSubject<State>(value: State.init())
+    private let transform: ViewStateTransformer<Store.State, State>
+    private let reduce: ViewStateReducer<State>
     private let disposableBag = DisposeBag()
 
-    required init(store: Store) {
+    required init(store: Store,
+                  transformer: ViewStateTransformer<Store.State, State>?,
+                  reducer: ViewStateReducer<State>?) {
+
+        func defaultViewStateTransformer<StoreState, State>(storeState: StoreState, state: State) -> State
+            where StoreState: DomainState, State: ViewState {
+                return state
+        }
+
+        func defaultViewStateReducer<State>(state: State, action: State.UserAction) -> State
+            where State: ViewState {
+                return state
+        }
+
         self.store = store
+        self.transform = transformer ?? defaultViewStateTransformer
+        self.reduce = reducer ?? defaultViewStateReducer
 
         store.state
             .distinctUntilChanged()
-            .map { [state] in try type(of: self).transform(storeState: $0, state: state.value()) }
+            .map { [state, transform] in try transform($0, state.value()) }
             .bind(to: state)
             .disposed(by: disposableBag)
 
         action
-            .map { [state] in try type(of: self).reduce(state: state.value(), action: $0) }
+            .map { [state, reduce] in try reduce(state.value(), $0) }
             .bind(to: state)
             .disposed(by: disposableBag)
 
@@ -127,7 +127,7 @@ class GenericViewModel<VS: ViewState, ST: DomainStateStore>: ViewReactor, ViewSt
             .disposed(by: disposableBag)
     }
 
-    func forwarder<S: ViewState>(state: S) {
+    func forwarder(state: State) {
         return
     }
 }
@@ -138,16 +138,19 @@ class GenericChildViewModel<VS: ViewState, PT: ViewReactor>: GenericViewModel<VS
     typealias Store = PT.Store
     typealias Parent = GenericViewModel<PT.State, Store>
 
-    weak var parent:  Parent!
+    weak var parent:  Parent?
 
-    required init(parent: Parent) {
-        super.init(store: parent.store)
+    required convenience init(parent: Parent,
+                  transformer: ViewStateTransformer<Store.State, State>?,
+                  reducer: ViewStateReducer<State>?) {
+        self.init(store: parent.store, transformer: transformer, reducer: reducer)
         self.parent = parent
     }
 
-    // TODO: Think how we can get rid of this initializator
-    required init(store: Store) {
-        fatalError("Child ViewModel must be initialized with a parent")
+    required init(store: Store,
+                  transformer: ViewStateTransformer<Store.State, State>?,
+                  reducer: ViewStateReducer<State>?) {
+        super.init(store: store, transformer: transformer, reducer: reducer)
     }
 }
 
