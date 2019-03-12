@@ -9,54 +9,55 @@
 import Foundation
 import RxSwift
 
+// MARK: Abstract declarations
 /*
  responsibility: 
 */
-protocol DomainState: class {
-    associatedtype Event
+protocol Event {}
+
+protocol DomainState: Comparable {
+    associatedtype DomainEvent: Event
 }
 
 protocol DomaninStateReducer {
     associatedtype State: DomainState
-    func reduce(state: State, event: State.Event) -> State
+    func reduce(state: State, event: State.DomainEvent) -> State
 }
 
 protocol DomainStateFeedbackLoop {
     associatedtype State: DomainState
-    func feedback(state: Observable<State>) -> Observable<State.Event>
+    func feedback(state: Observable<State>) -> Observable<State.DomainEvent>
 }
 
-protocol DomainStateStore {
+protocol DomainStateStore: class {
     associatedtype State: DomainState
     associatedtype Reducer: DomaninStateReducer
 
     var state: BehaviorSubject<State> { get }
 
     init(initialState: State, reducer: Reducer)
-    func dispatch(event: State.Event)
+    func dispatch(event: State.DomainEvent)
 }
 
-protocol ViewState {
-    associatedtype UserAction
+protocol ViewState: Comparable {
+    associatedtype UserAction: Event
+
+    init()
 }
 
 protocol ViewStateTransformer {
-    associatedtype State: ViewState
-    associatedtype Store: DomainStateStore
-
-    func transform(storeState: Store.State, state: State) -> State
+    static func transform<StoreState: DomainState, State: ViewState>(storeState: StoreState, state: State) -> State
 }
 
 protocol ViewStateReducer {
-    associatedtype State: ViewState
-    func reduce(state: State, action: State.UserAction) -> State
+    static func reduce<State: ViewState>(state: State, action: State.UserAction) -> State
 }
 
 protocol ViewReactor: class, ViewStateReducer, ViewStateTransformer {
     associatedtype State: ViewState
     associatedtype Store: DomainStateStore
 
-    var store: Store { get }
+    var store: Store! { get }
     var action: PublishSubject<State.UserAction> { get }
     var state: BehaviorSubject<State> { get }
 
@@ -64,9 +65,9 @@ protocol ViewReactor: class, ViewStateReducer, ViewStateTransformer {
 }
 
 protocol ChildViewReactor: ViewReactor {
-    associatedtype Parent: ViewReactor
+    associatedtype Parent: ViewReactor where Parent.Store == Store
 
-    var parent: Parent? { get set }
+    init(parent: Parent)
 }
 
 protocol AppView {
