@@ -1,0 +1,46 @@
+{% include "Common.stencil"%}
+{{disclaimer}}
+
+{% for type in types.implementing.ViewReactor|annotated:"store" %}
+
+{% set inline_body %}
+{% if type.implements.ChildViewReactor %}
+weak var parent: {{ type.annotations.parent }}?
+{% endif %}
+let store: {{ type.annotations.store }}
+let action = PublishSubject<State.UserAction>()
+let state = BehaviorSubject<State>(value: State())
+
+required init(store: {{type.annotations.store}}) {
+    self.store = store
+}
+{% endset %}
+
+// generating inline ViewReactor for {{type.name}} with {{type.annotations.store}}
+// sourcery:inline:{{ type.name }}.ViewReactor
+{{disclaimer}}
+{{ inline_body }}
+// sourcery:end
+
+{% for enum in types.enums %}
+{% if enum.parent.parent.name == type.name %}
+
+// generating ViewStateReducer setup for {{type.name}} with {{enum.name}}
+// sourcery:inline:{{type.name}}.ViewStateReducer.UserAction.setup
+extension {{type.name}}: ViewStateReducer {
+    func reduce(state: State, action: State.UserAction) -> State {
+        switch action {
+        {% for case in enum.cases %}
+        case .{{case.name}}:
+            return State()
+        {% endfor %}
+        }
+    }
+}
+// sourcery:end
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+
+

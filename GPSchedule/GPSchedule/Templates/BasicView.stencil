@@ -1,0 +1,22 @@
+{% include "Common.stencil"%}
+
+{% for type in types.implementing.BasicViewGenerator|annotated:"viewName" %}
+// sourcery:inline:{{ type.name }}.BasicViewGenerator
+extension {{type.annotations.viewName}}ViewState: ViewState {
+    init() {
+        self = .{{type.annotations.defaultState}}
+    }
+}
+
+class {{type.annotations.viewName}}ViewModel: GenericChildViewModel<{{type.annotations.viewName}}ViewState, {{type.annotations.parentViewModel}}> {
+
+}
+
+class {{type.annotations.viewName}}ViewController: GenericViewController<{{type.annotations.viewName}}ViewModel> {
+
+    override func process(state: {{type.annotations.viewName}}ViewModel.State) {
+        return
+    }
+}
+// sourcery:end
+{% endfor %}
