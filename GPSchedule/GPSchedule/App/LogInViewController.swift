@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import RxSwift
-import RxSwiftExt
 
 class LoginViewController: GenericViewController<LoginViewModel> {
 

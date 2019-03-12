@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import RxSwift
-import RxSwiftExt
 import Cartography
 
 class RootViewController: GenericViewController<RootViewModel> {
