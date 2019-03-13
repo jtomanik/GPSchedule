@@ -26,9 +26,18 @@ extension ErrorViewState: ViewState {
 }
 
 class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootViewModel> {
-    
-    convenience init(parent: RootViewModel) {
-        self.init(parent: parent, transformer: nil, reducer: nil)
+
+    static func transform(storeState: RootState, state: State) -> State {
+        return state
+    }
+
+    static func reduce(state: State, action: State.UserAction) -> State {
+        return state
+    }
+
+// sourcery:inline:auto:ErrorViewModel.AutoInit
+     convenience init(parent: RootViewModel) {
+        self.init(parent: parent, transformer: ErrorViewModel.transform, reducer: ErrorViewModel.reduce)
     }
 
     required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
@@ -39,6 +48,7 @@ class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootViewModel> {
     required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
         super.init(store: store, transformer: transformer, reducer: reducer)
     }
+// sourcery:end
 }
 
 class ErrorViewController: GenericViewController<ErrorViewModel> {

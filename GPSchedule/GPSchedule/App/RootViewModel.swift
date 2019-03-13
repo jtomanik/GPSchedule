@@ -30,13 +30,6 @@ enum RootViewState: ViewState {
 
 class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
 
-    static func reduce(state: State, action: State.UserAction) -> State {
-        switch action {
-        case .bussy:
-            return .loading
-        }
-    }
-
     static func transform(storeState: RootState, state: State) -> State {
         switch storeState {
         case .unauthorized:
@@ -48,6 +41,14 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
         }
     }
 
+    static func reduce(state: State, action: State.UserAction) -> State {
+        switch action {
+        case .bussy:
+            return .loading
+        }
+    }
+
+// sourcery:inline:auto:RootViewModel.AutoInit
     convenience init(store: RootUseCase) {
         self.init(store: store, transformer: RootViewModel.transform, reducer: RootViewModel.reduce)
     }
@@ -55,4 +56,5 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
     required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
         super.init(store: store, transformer: transformer, reducer: reducer)
     }
+// sourcery:end
 }
