@@ -15,7 +15,7 @@ import UIKit
 enum LoadingViewState: BasicViewGenerator {
     case none
 
-    enum UserAction: Event {
+    enum UserAction: Event, Equatable {
     }
 }
 

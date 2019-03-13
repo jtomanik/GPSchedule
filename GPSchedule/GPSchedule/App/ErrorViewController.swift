@@ -15,7 +15,7 @@ import UIKit
 enum ErrorViewState: BasicViewGenerator {
     case none
 
-    enum UserAction: Event {
+    enum UserAction: Event, Equatable {
     }
 }
 

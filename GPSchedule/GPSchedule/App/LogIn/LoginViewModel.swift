@@ -30,7 +30,7 @@ enum LoginViewState {
         }
     }
 
-    enum UserAction: Event {
+    enum UserAction: Event, Equatable {
         case usernameEntry(String?)
         case passwordEntry(String?)
         case loginButtonPressed
@@ -69,7 +69,7 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
     }
 
     static func transform(storeState: Store.State, state: State) -> State {
-        switch storeState.rootState {
+        switch storeState {
         case .unauthorized(let error):
             var newContext = state.context
             newContext.errorMessage.text = error
