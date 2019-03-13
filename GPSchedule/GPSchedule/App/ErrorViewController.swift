@@ -12,17 +12,17 @@ import UIKit
 // sourcery: viewName = "Error"
 // sourcery: parentViewModel = "RootViewModel"
 // sourcery: defaultState = "none"
-enum ErrorViewState: BasicViewGenerator {
+enum ErrorViewState: BasicViewGenerator, ViewState {
     case none
 
     enum UserAction: Event, Equatable {
     }
-}
 
-extension ErrorViewState: ViewState {
+// sourcery:inline:auto:ErrorViewState.AutoInit
     init() {
         self = .none
     }
+// sourcery:end
 }
 
 class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootViewModel> {

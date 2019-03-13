@@ -12,17 +12,17 @@ import UIKit
 // sourcery: viewName = "LoggedIn"
 // sourcery: parentViewModel = "RootViewModel"
 // sourcery: defaultState = "none"
-enum LoggedInViewState: BasicViewGenerator {
+enum LoggedInViewState: BasicViewGenerator, ViewState {
     case none
     
     enum UserAction: Event, Equatable {
     }
-}
 
-extension LoggedInViewState: ViewState {
+// sourcery:inline:auto:LoggedInViewState.AutoInit
     init() {
         self = .none
     }
+// sourcery:end
 }
 
 class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, RootViewModel> {

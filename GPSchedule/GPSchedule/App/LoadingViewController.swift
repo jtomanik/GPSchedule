@@ -12,17 +12,17 @@ import UIKit
 // sourcery: viewName = "Loading"
 // sourcery: parentViewModel = "RootViewModel"
 // sourcery: defaultState = "none"
-enum LoadingViewState: BasicViewGenerator {
+enum LoadingViewState: BasicViewGenerator, ViewState {
     case none
 
     enum UserAction: Event, Equatable {
     }
-}
 
-extension LoadingViewState: ViewState {
+// sourcery:inline:auto:LoadingViewState.AutoInit
     init() {
         self = .none
     }
+// sourcery:end
 }
 
 class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootViewModel> {

@@ -31,3 +31,11 @@ class {{type.annotations.viewName}}ViewController: GenericViewController<{{type.
 }
 // sourcery:end
 {% endfor %}
+
+{% for type in types.implementing.BasicViewGenerator|annotated:"defaultState" %}
+// sourcery:inline:auto:{{ type.name }}.AutoInit
+    init() {
+        self = .{{type.annotations.defaultState}}
+    }
+// sourcery:end
+{% endfor %}
