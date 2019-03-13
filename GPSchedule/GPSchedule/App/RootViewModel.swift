@@ -28,7 +28,7 @@ enum RootViewState: ViewState {
     }
 }
 
-class RootViewModel: GenericViewModel<RootViewState, RootStore> {
+class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
 
     static func reduce(state: State, action: State.UserAction) -> State {
         switch action {
@@ -38,7 +38,7 @@ class RootViewModel: GenericViewModel<RootViewState, RootStore> {
     }
 
     static func transform(storeState: RootState, state: State) -> State {
-        switch storeState.rootState {
+        switch storeState {
         case .unauthorized:
             return .logIn
         case .authorized:
@@ -48,7 +48,7 @@ class RootViewModel: GenericViewModel<RootViewState, RootStore> {
         }
     }
 
-    convenience init(store: RootStore) {
+    convenience init(store: RootUseCase) {
         self.init(store: store, transformer: RootViewModel.transform, reducer: RootViewModel.reduce)
     }
 
