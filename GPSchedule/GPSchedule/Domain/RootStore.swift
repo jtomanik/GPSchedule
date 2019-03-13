@@ -10,58 +10,101 @@ import Foundation
 import RxSwift
 import RxSwiftExt
 
-enum DomainError: AppError, Equatable {
-    case genericError
+struct User: DomainModel, Equatable {
+    let username: String
 }
 
-class RootState: DomainState {
+enum AuthError: Error {
+    case unknown
+    case errorMessage(String)
+}
 
-    enum State: Equatable {
-        case unauthorized(error: String?)
-        case authorized
-        case error(DomainError)
-    }
+protocol AuthService: ServiceCommand {
+    static func logIn(username: String, password: String) -> Self
+    func execute() -> Single<User>
+}
 
-    enum DomainEvent: Event {
+protocol AuthServiceProvider: ServiceProvider {
+    associatedtype Service: AuthService
+    var authService: Service.Type { get }
+}
+
+protocol RootUseCaseDependenciesProvider: AuthServiceProvider {}
+
+enum DomainError: Error, Equatable {
+    case genericError
+    case errorMessage(String)
+}
+
+enum RootState: DomainState {
+
+    enum DomainEvent: Event, Equatable {
         case login(username: String, password: String)
+        case loggedIn(User)
         case logout
+        case lock
+        case unlock
         case error(DomainError)
     }
 
-    let rootState: State
+    case unauthorized(error: String?)
+    case authorized(user: User)
+    //        case locked(user: User)
+    case error(DomainError)
 
     init() {
-        self.rootState = .unauthorized(error: nil)
+        self = .unauthorized(error: nil)
     }
 }
 
-extension RootState: Equatable {
-    static func == (lhs: RootState, rhs: RootState) -> Bool {
-        return lhs.rootState == rhs.rootState
+class RootUseCase: GenericUseCase<RootState> {
+
+    static func authMiddleware<Service: AuthService>(service: Service.Type) -> DomainStateMiddleware<RootState> {
+        return { (event: RootState.DomainEvent) -> Observable<RootState.DomainEvent> in
+            guard case .login(let username, let password) = event else {
+                return Observable.just(event)
+            }
+            return service.logIn(username: username, password: password)
+                .execute()
+                .map { RootState.DomainEvent.loggedIn($0) }
+                .catchError { (error) -> Single<RootState.DomainEvent> in
+                    guard let error = error as? AuthError else {
+                        return Single.just(RootState.DomainEvent.error(.genericError))
+                    }
+                    switch error {
+                    case .unknown:
+                        return Single.just(RootState.DomainEvent.error(.genericError))
+                    case .errorMessage(let message):
+                        return Single.just(RootState.DomainEvent.error(.errorMessage(message)))
+                    }
+                }
+                .asObservable()
+        }
     }
-}
 
-struct RootUseCase: DomaninStateReducer {
-    func reduce(state: RootState, event: RootState.DomainEvent) -> RootState {
-        return state
-        // sourcer :inline:RootState.DomainEvent.Switch
-        // sourcer :end
-    }
-}
-
-class RootStore: DomainStateStore {
-
-    let state: BehaviorSubject<RootState>
-    private var currentState: RootState
-    private let reducer: RootUseCase
-
-    required init(initialState: RootState, reducer: RootUseCase) {
-        self.currentState = initialState
-        self.reducer = reducer
-        self.state = BehaviorSubject(value: initialState)
+    static func reduce(_ state: RootState, _ event: RootState.DomainEvent) -> RootState {
+        switch event {
+        case .login:
+            return state
+        case .loggedIn(let user):
+            return .authorized(user: user)
+        case .logout:
+            return .unauthorized(error: nil)
+        case .lock:
+            return state
+        case .unlock:
+            return state
+        case .error:
+            return state
+        }
     }
 
-    func dispatch(event: RootState.DomainEvent) {
-        state.onNext(reducer.reduce(state: currentState, event: event))
+    convenience init<DependenciesProvider: RootUseCaseDependenciesProvider>(
+        initialState: State = RootState(),
+        dependencyProvider: DependenciesProvider)  {
+        self.init(initialState: initialState,
+                  reducer: RootUseCase.reduce,
+                  middlewares: [RootUseCase.authMiddleware(service: dependencyProvider.authService)],
+                  feedbackLoops: [])
     }
 }
