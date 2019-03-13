@@ -30,7 +30,7 @@ enum LoginViewState {
         }
     }
 
-    enum UserAction: Event {
+    enum UserAction: Event, Equatable {
         case usernameEntry(String?)
         case passwordEntry(String?)
         case loginButtonPressed
@@ -55,21 +55,8 @@ extension LoginViewState: ViewState {
 
 class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
 
-    convenience init(parent: RootViewModel) {
-        self.init(parent: parent, transformer: LoginViewModel.transform, reducer: LoginViewModel.reduce)
-    }
-
-    required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-        self.init(store: parent.store, transformer: transformer, reducer: reducer)
-        self.parent = parent
-    }
-
-    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-        super.init(store: store, transformer: transformer, reducer: reducer)
-    }
-
     static func transform(storeState: Store.State, state: State) -> State {
-        switch storeState.rootState {
+        switch storeState {
         case .unauthorized(let error):
             var newContext = state.context
             newContext.errorMessage.text = error
@@ -133,4 +120,19 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
             username: context.usernameField.text!,
             password: context.passwordField.text!))
     }
+
+// sourcery:inline:auto:LoginViewModel.AutoInit
+     convenience init(parent: RootViewModel) {
+        self.init(parent: parent, transformer: LoginViewModel.transform, reducer: LoginViewModel.reduce)
+    }
+
+    required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        self.init(store: parent.store, transformer: transformer, reducer: reducer)
+        self.parent = parent
+    }
+
+    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+        super.init(store: store, transformer: transformer, reducer: reducer)
+    }
+// sourcery:end
 }

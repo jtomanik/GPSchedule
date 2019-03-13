@@ -15,7 +15,7 @@ import UIKit
 enum LoggedInViewState: BasicViewGenerator {
     case none
     
-    enum UserAction: Event {
+    enum UserAction: Event, Equatable {
     }
 }
 
@@ -26,8 +26,18 @@ extension LoggedInViewState: ViewState {
 }
 
 class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, RootViewModel> {
-    convenience init(parent: RootViewModel) {
-        self.init(parent: parent, transformer: nil, reducer: nil)
+
+    static func transform(storeState: RootState, state: State) -> State {
+        return state
+    }
+
+    static func reduce(state: State, action: State.UserAction) -> State {
+        return state
+    }
+
+// sourcery:inline:auto:LoggedInViewModel.AutoInit
+     convenience init(parent: RootViewModel) {
+        self.init(parent: parent, transformer: LoggedInViewModel.transform, reducer: LoggedInViewModel.reduce)
     }
 
     required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
@@ -38,6 +48,7 @@ class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, RootViewModel>
     required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
         super.init(store: store, transformer: transformer, reducer: reducer)
     }
+// sourcery:end
 }
 
 class LoggedInViewController: GenericViewController<LoggedInViewModel> {

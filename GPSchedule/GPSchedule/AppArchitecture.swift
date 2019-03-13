@@ -10,37 +10,50 @@ import Foundation
 import RxSwift
 
 // MARK: Abstract declarations
+// MARK: Business Domain
 /*
  responsibility: 
 */
+
+protocol DomainModel {}
 protocol Event {}
-
-protocol DomainState: Equatable {
-    associatedtype DomainEvent: Event
+protocol PureState {}
+protocol DomainState: PureState, Equatable {
+    associatedtype DomainEvent: Event, Equatable
 }
 
-protocol DomaninStateReducer {
+protocol DomainStore: class {
     associatedtype State: DomainState
-    func reduce(state: State, event: State.DomainEvent) -> State
-}
-
-protocol DomainStateFeedbackLoop {
-    associatedtype State: DomainState
-    func feedback(state: Observable<State>) -> Observable<State.DomainEvent>
-}
-
-protocol DomainStateStore: class {
-    associatedtype State: DomainState
-    associatedtype Reducer: DomaninStateReducer
 
     var state: BehaviorSubject<State> { get }
 
-    init(initialState: State, reducer: Reducer)
+    init(initialState: State,
+         reducer: @escaping DomaninStateReducer<State>,
+         middlewares: [DomainStateMiddleware<State>],
+         feedbackLoops: [DomainStateFeedback<State>])
+
     func dispatch(event: State.DomainEvent)
 }
 
+typealias DomaninStateReducer<State: DomainState> = (State, State.DomainEvent) -> State
+typealias DomainStateFeedback<State: DomainState> = (State) -> Observable<State.DomainEvent>
+//typealias DomainStateMiddleware<State: DomainState> = (ServiceCommand) -> (State.DomainEvent) -> Observable<State.DomainEvent>
+typealias DomainStateMiddleware<State: DomainState> = (State.DomainEvent) -> Observable<State.DomainEvent>
+
+protocol ServiceCommand {
+    associatedtype Model: DomainModel
+    func execute() -> Single<Model>
+}
+
+protocol ServiceProvider: class {}
+
+protocol DomainStoreFacade {
+    func dispatch(event: Event)
+}
+
+// MARK: Presentation Domain
 protocol ViewState: Equatable {
-    associatedtype UserAction: Event
+    associatedtype UserAction: Event, Equatable
 
     init()
 }
@@ -50,7 +63,7 @@ typealias ViewStateReducer<State: ViewState> = (State, State.UserAction) -> Stat
 
 protocol ViewReactor: class {
     associatedtype State: ViewState
-    associatedtype Store: DomainStateStore
+    associatedtype Store: DomainStore
 
     var store: Store! { get }
     var action: PublishSubject<State.UserAction> { get }
@@ -69,6 +82,7 @@ protocol ChildViewReactor: ViewReactor {
          reducer: ViewStateReducer<State>?)
 }
 
+// MARK: Platform Domain
 protocol AppView: class {
     associatedtype ViewModel: ViewReactor
 
@@ -78,9 +92,57 @@ protocol AppView: class {
 // MARK: Implementations
 import UIKit
 
-protocol AppError: Error {} // make it comparable?
+protocol AppError: Error {} // should I make it Equatable?
 
-class GenericViewModel<VS: ViewState, ST: DomainStateStore>: ViewReactor {
+class GenericUseCase<State: DomainState>: DomainStore {
+
+    var state: BehaviorSubject<State>
+    private var currentState: State
+    private let events = PublishSubject<State.DomainEvent>()
+    private let reduce: DomaninStateReducer<State>
+    private let middlewares: [DomainStateMiddleware<State>]
+    private let feedbackLoops: [DomainStateFeedback<State>]
+    private let disposeBag = DisposeBag()
+
+    required init(initialState: State,
+                  reducer: @escaping DomaninStateReducer<State>,
+                  middlewares: [DomainStateMiddleware<State>] = [],
+                  feedbackLoops: [DomainStateFeedback<State>] = []) {
+        self.currentState = initialState
+        self.reduce = reducer
+        self.middlewares = middlewares
+        self.feedbackLoops = feedbackLoops
+        self.state = BehaviorSubject(value: initialState)
+
+        events
+            .distinctUntilChanged() // that may not always be desirable
+            .map { [middlewares] event in middlewares.map{ $0(event) } }
+            .map { Observable.from($0).merge() }.merge()
+            .map { [reduce, currentState] in reduce(currentState, $0) }
+            .bind(to: state)
+            .disposed(by: disposeBag)
+
+        state
+            .distinctUntilChanged()
+            .map{ [feedbackLoops] state in feedbackLoops.map{ $0(state) } }
+            .map { Observable.from($0).merge() }.merge()
+            .bind(to: events)
+            .disposed(by: disposeBag)
+
+        state
+            .distinctUntilChanged()
+            .subscribeNext(weak: self, { obj in
+                return { obj.currentState = $0
+                }})
+            .disposed(by: disposeBag)
+    }
+
+    func dispatch(event: State.DomainEvent) {
+        events.onNext(event)
+    }
+}
+
+class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
 
     typealias State = VS
     typealias Store = ST
@@ -117,6 +179,7 @@ class GenericViewModel<VS: ViewState, ST: DomainStateStore>: ViewReactor {
             .disposed(by: disposableBag)
 
         action
+            .distinctUntilChanged() // that may not always be desirable
             .map { [state, reduce] in try reduce(state.value(), $0) }
             .bind(to: state)
             .disposed(by: disposableBag)

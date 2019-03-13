@@ -12,11 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private lazy var store: RootStore = {
-        return RootStore(
-            initialState: RootState(),
-            reducer: RootUseCase())
-    }()
+    private let generalStore = DomainWarehouse()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupWindow()
@@ -29,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = UIColor.white
         window?.rootViewController = RootViewController(
             viewModel: RootViewModel(
-                store: store))
+                store: generalStore.rootUseCase))
         self.window?.makeKeyAndVisible()
     }
 }
