@@ -45,9 +45,13 @@ class RootViewController: GenericViewController<RootViewModel> {
     override func process(state: RootViewModel.State) {
         switch state {
         case .logIn:
+            hideLoggedInView()
             showLogInView()
+            hideLoadingView()
         case .loggedIn:
+            hideLogInView()
             showLoggedInView()
+            hideLoadingView()
         case .error(let error):
             showErrorView()
         case .loading:
