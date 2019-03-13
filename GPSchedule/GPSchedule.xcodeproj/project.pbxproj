@@ -15,18 +15,14 @@
 		7A79A6B12233037300E22CDA /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6B02233037300E22CDA /* RootViewController.swift */; };
 		7A79A6B322339FAB00E22CDA /* AppArchitecture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6B222339FAB00E22CDA /* AppArchitecture.swift */; };
 		7A79A6B622342C5400E22CDA /* RootStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6B522342C5400E22CDA /* RootStore.swift */; };
-		7A79A6BB22344A1D00E22CDA /* ViewReactor.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7A79A6BA22344A1D00E22CDA /* ViewReactor.stencil */; };
 		7A79A6C022354B4800E22CDA /* UIElementsStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6BF22354B4800E22CDA /* UIElementsStates.swift */; };
-		7A79A6C222357B3600E22CDA /* AppView.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7A79A6C122357B3600E22CDA /* AppView.stencil */; };
-		7A79A6C422357CCF00E22CDA /* Common.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7A79A6C322357CCF00E22CDA /* Common.stencil */; };
 		7A79A6C92235935400E22CDA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6C82235935400E22CDA /* LoginViewModel.swift */; };
-		7A79A6CB2235952300E22CDA /* InlineHelpers.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7A79A6CA2235952300E22CDA /* InlineHelpers.stencil */; };
 		7A79A6CF2235A03D00E22CDA /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6CE2235A03D00E22CDA /* RootViewModel.swift */; };
 		7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE122231BBD400B24351 /* AppDelegate.swift */; };
 		7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE192231BBD600B24351 /* Assets.xcassets */; };
 		7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */; };
-		7AEFB2642237C0EA00E86256 /* AutoUIStates.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB2632237C0EA00E86256 /* AutoUIStates.stencil */; };
-		7AEFB2662237E79B00E86256 /* BasicView.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB2652237E79B00E86256 /* BasicView.stencil */; };
+		7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */; };
+		7AE0E0F322398F1A00F341B7 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */; };
 		7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB2672237E80300E86256 /* Sourcery.swift */; };
 		7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */; };
 		7AEFB26E223829F800E86256 /* LabelComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26D223829F800E86256 /* LabelComponent.swift */; };
@@ -49,7 +45,7 @@
 		7A79A6B02233037300E22CDA /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		7A79A6B222339FAB00E22CDA /* AppArchitecture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppArchitecture.swift; sourceTree = "<group>"; };
 		7A79A6B522342C5400E22CDA /* RootStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootStore.swift; sourceTree = "<group>"; };
-		7A79A6BA22344A1D00E22CDA /* ViewReactor.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ViewReactor.stencil; sourceTree = "<group>"; };
+		7A79A6BA22344A1D00E22CDA /* ViewReactor.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ViewReactor.stencil; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		7A79A6BF22354B4800E22CDA /* UIElementsStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementsStates.swift; sourceTree = "<group>"; };
 		7A79A6C122357B3600E22CDA /* AppView.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppView.stencil; sourceTree = "<group>"; };
 		7A79A6C322357CCF00E22CDA /* Common.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Common.stencil; sourceTree = "<group>"; };
@@ -65,7 +61,8 @@
 		7AACDE192231BBD600B24351 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7AACDE1C2231BBD600B24351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7AACDE1E2231BBD600B24351 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7AEFB2632237C0EA00E86256 /* AutoUIStates.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = AutoUIStates.stencil; sourceTree = "<group>"; };
+		7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainWarehouse.swift; sourceTree = "<group>"; };
+		7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		7AEFB2652237E79B00E86256 /* BasicView.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = BasicView.stencil; sourceTree = "<group>"; };
 		7AEFB2672237E80300E86256 /* Sourcery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sourcery.swift; sourceTree = "<group>"; };
 		7AEFB2692237EA0700E86256 /* BasicView.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicView.generated.swift; sourceTree = "<group>"; };
@@ -125,7 +122,6 @@
 				7A79A6C122357B3600E22CDA /* AppView.stencil */,
 				7AEFB2652237E79B00E86256 /* BasicView.stencil */,
 				7A79A6CA2235952300E22CDA /* InlineHelpers.stencil */,
-				7AEFB2632237C0EA00E86256 /* AutoUIStates.stencil */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -167,7 +163,9 @@
 			children = (
 				7A79A6BC2235105D00E22CDA /* Generated */,
 				7AACDE122231BBD400B24351 /* AppDelegate.swift */,
+				7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */,
 				7A79A6B222339FAB00E22CDA /* AppArchitecture.swift */,
+				7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */,
 				7A79A6B922344A0000E22CDA /* Templates */,
 				7A79A6B4223422CA00E22CDA /* App */,
 				7AEFB26A2237EA2500E86256 /* Domain */,
@@ -288,16 +286,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A79A6C422357CCF00E22CDA /* Common.stencil in Resources */,
-				7A79A6CB2235952300E22CDA /* InlineHelpers.stencil in Resources */,
 				7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */,
 				7AEFB27B22383E2500E86256 /* TextInputComponentView.xib in Resources */,
 				7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */,
-				7A79A6C222357B3600E22CDA /* AppView.stencil in Resources */,
-				7A79A6BB22344A1D00E22CDA /* ViewReactor.stencil in Resources */,
-				7AEFB2662237E79B00E86256 /* BasicView.stencil in Resources */,
 				7AEFB27922383D3700E86256 /* ButtonComponentView.xib in Resources */,
-				7AEFB2642237C0EA00E86256 /* AutoUIStates.stencil in Resources */,
 				7AEFB2732238341700E86256 /* LabelComponentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,6 +397,7 @@
 				7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */,
 				7A79A6B322339FAB00E22CDA /* AppArchitecture.swift in Sources */,
 				7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */,
+				7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */,
 				7AEFB27722383CD600E86256 /* ButtonComponent.swift in Sources */,
 				7A79A6C022354B4800E22CDA /* UIElementsStates.swift in Sources */,
 				7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */,
@@ -415,6 +408,7 @@
 				7A79A6A92233030800E22CDA /* LogInViewController.swift in Sources */,
 				7A79A6CF2235A03D00E22CDA /* RootViewModel.swift in Sources */,
 				7A79A6C92235935400E22CDA /* LoginViewModel.swift in Sources */,
+				7AE0E0F322398F1A00F341B7 /* MockAuthService.swift in Sources */,
 				7A79A6AB2233031D00E22CDA /* LoggedInViewController.swift in Sources */,
 				7AEFB27022382B8A00E86256 /* TextInputComponent.swift in Sources */,
 			);
