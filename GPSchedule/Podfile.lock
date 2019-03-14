@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.7.3)
   - Bento (0.3):
     - FlexibleDiff (= 0.0.7)
   - BentoKit (0.3):
@@ -8,6 +9,8 @@ PODS:
     - StyleSheets
   - Cartography (3.1.0)
   - FlexibleDiff (0.0.7)
+  - OpenMRS (0.0.1):
+    - Alamofire (~> 4.7.0)
   - ReactiveCocoa (8.0.2):
     - ReactiveSwift (~> 4.0)
   - ReactiveSwift (4.0.0):
@@ -39,6 +42,7 @@ DEPENDENCIES:
   - Bento (from `https://github.com/Babylonpartners/Bento.git`)
   - BentoKit (from `https://github.com/Babylonpartners/Bento.git`)
   - Cartography
+  - OpenMRS (from `./GPSchedule/ApiClient/Generated/OpenMRS.podspec`)
   - RxCocoa
   - RxFeedback
   - RxOptional
@@ -49,6 +53,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
     - Cartography
     - FlexibleDiff
     - ReactiveCocoa
@@ -67,6 +72,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/Babylonpartners/Bento.git
   BentoKit:
     :git: https://github.com/Babylonpartners/Bento.git
+  OpenMRS:
+    :path: "./GPSchedule/ApiClient/Generated/OpenMRS.podspec"
   StyleSheets:
     :git: https://github.com/Babylonpartners/Bento.git
 
@@ -82,10 +89,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/Babylonpartners/Bento.git
 
 SPEC CHECKSUMS:
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Bento: 0e214943724886608393d4ebcccb0e720eaa073b
   BentoKit: c1907158e740e3184256c26c94073b45158c1270
   Cartography: 1988b7578871a56c036e7af17195cb2190edf18c
   FlexibleDiff: 9449f18d480e07b0d6599838c973f088df8e5d33
+  OpenMRS: 610674a285c695f7a670cd567ad01dbdf2a88bfc
   ReactiveCocoa: fbd26e9ba60e98417ee47433e59465a98ed9da0f
   ReactiveSwift: a2bb9ace428a109e9c0209615645d9d286c8c433
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
@@ -98,6 +107,6 @@ SPEC CHECKSUMS:
   Sourcery: 3e55aad9719ee5782ab81eb16addd44d272e4d13
   StyleSheets: cb35ec6073f95ad4b6ede668f5ba33099bfb3fda
 
-PODFILE CHECKSUM: 5bdef6a4d0053305ef261e9f2de0d572c8d3e6ed
+PODFILE CHECKSUM: 9b72f8f13b2bed3f2457464daba688d3298f5060
 
 COCOAPODS: 1.6.1

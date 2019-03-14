@@ -17,5 +17,7 @@ target 'GPSchedule' do
   pod 'BentoKit', :git => 'https://github.com/Babylonpartners/Bento.git'
   pod 'StyleSheets', :git => 'https://github.com/Babylonpartners/Bento.git'
 
+  pod 'OpenMRS', :path => './GPSchedule/ApiClient/Generated/OpenMRS.podspec'
+
   pod 'Sourcery'
 end
