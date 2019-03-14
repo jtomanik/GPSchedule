@@ -1147,8 +1147,7 @@
       },
       "/idgen/autogenerationoption":{
          "get":{
-            "tags":[
-               "idgen/autogenerationoption"
+            "tags":["idgenAutogenerationoption"
             ],
             "summary":"Fetch all non-retired idgen/autogenerationoption resources or perform search",
             "description":"All search parameters are optional",
@@ -1210,8 +1209,7 @@
       },
       "/idgen/autogenerationoption/{uuid}":{
          "get":{
-            "tags":[
-               "idgen/autogenerationoption"
+            "tags":["idgenAutogenerationoption"
             ],
             "summary":"Fetch by uuid",
             "operationId":"getAutoGenerationOption",
@@ -1259,8 +1257,7 @@
             }
          },
          "delete":{
-            "tags":[
-               "idgen/autogenerationoption"
+            "tags":["idgenAutogenerationoption"
             ],
             "summary":"Delete or purge resource by uuid",
             "description":"The resource will be voided/retired unless purge = 'true'",
@@ -2689,8 +2686,7 @@
       },
       "/appointmentscheduling/appointmenttype":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointmenttype"
+            "tags":["appointmentschedulingAppointmenttype"
             ],
             "summary":"Fetch all non-retired appointmentscheduling/appointmenttype resources or perform search",
             "description":"All search parameters are optional",
@@ -2752,8 +2748,7 @@
       },
       "/appointmentscheduling/appointmenttype/{uuid}":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointmenttype"
+            "tags":["appointmentschedulingAppointmenttype"
             ],
             "summary":"Fetch by uuid",
             "operationId":"getAppointmentType",
@@ -2801,8 +2796,7 @@
             }
          },
          "delete":{
-            "tags":[
-               "appointmentscheduling/appointmenttype"
+            "tags":["appointmentschedulingAppointmenttype"
             ],
             "summary":"Delete or purge resource by uuid",
             "description":"The resource will be voided/retired unless purge = 'true'",
@@ -3305,8 +3299,7 @@
       },
       "/appointmentscheduling/appointmentblock":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointmentblock"
+            "tags":["appointmentschedulingAppointmentblock"
             ],
             "summary":"Fetch all non-retired appointmentscheduling/appointmentblock resources or perform search",
             "description":"All search parameters are optional",
@@ -3368,8 +3361,7 @@
       },
       "/appointmentscheduling/appointmentblock/{uuid}":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointmentblock"
+            "tags":["appointmentschedulingAppointmentblock"
             ],
             "summary":"Fetch by uuid",
             "operationId":"getAppointmentBlock",
@@ -3417,8 +3409,7 @@
             }
          },
          "delete":{
-            "tags":[
-               "appointmentscheduling/appointmentblock"
+            "tags":["appointmentschedulingAppointmentblock"
             ],
             "summary":"Delete or purge resource by uuid",
             "description":"The resource will be voided/retired unless purge = 'true'",
@@ -4686,8 +4677,7 @@
       },
       "/appointmentscheduling/appointmentrequest":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointmentrequest"
+            "tags":["appointmentschedulingAppointmentrequest"
             ],
             "summary":"Fetch all non-retired appointmentscheduling/appointmentrequest resources or perform search",
             "description":"All search parameters are optional",
@@ -4749,8 +4739,7 @@
       },
       "/appointmentscheduling/appointmentrequest/{uuid}":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointmentrequest"
+            "tags":["appointmentschedulingAppointmentrequest"
             ],
             "summary":"Fetch by uuid",
             "operationId":"getAppointmentRequest",
@@ -4798,8 +4787,7 @@
             }
          },
          "delete":{
-            "tags":[
-               "appointmentscheduling/appointmentrequest"
+            "tags":["appointmentschedulingAppointmentrequest"
             ],
             "summary":"Delete or purge resource by uuid",
             "description":"The resource will be voided/retired unless purge = 'true'",
@@ -5000,8 +4988,7 @@
       },
       "/appointmentscheduling/timeslot":{
          "get":{
-            "tags":[
-               "appointmentscheduling/timeslot"
+            "tags":["appointmentschedulingTimeslot"
             ],
             "summary":"Fetch all non-retired appointmentscheduling/timeslot resources or perform search",
             "description":"All search parameters are optional",
@@ -5063,8 +5050,7 @@
       },
       "/appointmentscheduling/timeslot/{uuid}":{
          "get":{
-            "tags":[
-               "appointmentscheduling/timeslot"
+            "tags":["appointmentschedulingTimeslot"
             ],
             "summary":"Fetch by uuid",
             "operationId":"getTimeSlot",
@@ -5112,8 +5098,7 @@
             }
          },
          "delete":{
-            "tags":[
-               "appointmentscheduling/timeslot"
+            "tags":["appointmentschedulingTimeslot"
             ],
             "summary":"Delete or purge resource by uuid",
             "description":"The resource will be voided/retired unless purge = 'true'",
@@ -5616,8 +5601,7 @@
       },
       "/idgen/identifiersource":{
          "get":{
-            "tags":[
-               "idgen/identifiersource"
+            "tags":["idgenIdentifiersource"
             ],
             "summary":"Fetch all non-retired idgen/identifiersource resources or perform search",
             "description":"All search parameters are optional",
@@ -5679,8 +5663,7 @@
       },
       "/idgen/identifiersource/{uuid}":{
          "get":{
-            "tags":[
-               "idgen/identifiersource"
+            "tags":["idgenIdentifiersource"
             ],
             "summary":"Fetch by uuid",
             "operationId":"getIdentifierSource",
@@ -5728,8 +5711,7 @@
             }
          },
          "delete":{
-            "tags":[
-               "idgen/identifiersource"
+            "tags":["idgenIdentifiersource"
             ],
             "summary":"Delete or purge resource by uuid",
             "description":"The resource will be voided/retired unless purge = 'true'",
@@ -5919,8 +5901,7 @@
       },
       "/appointmentscheduling/appointment":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointment"
+            "tags":["appointmentschedulingAppointment"
             ],
             "summary":"Fetch all non-retired appointmentscheduling/appointment resources or perform search",
             "description":"All search parameters are optional",
@@ -5982,8 +5963,7 @@
       },
       "/appointmentscheduling/appointment/{uuid}":{
          "get":{
-            "tags":[
-               "appointmentscheduling/appointment"
+            "tags":["appointmentschedulingAppointment"
             ],
             "summary":"Fetch by uuid",
             "operationId":"getAppointment",
@@ -6031,8 +6011,7 @@
             }
          },
          "delete":{
-            "tags":[
-               "appointmentscheduling/appointment"
+            "tags":["appointmentschedulingAppointment"
             ],
             "summary":"Delete or purge resource by uuid",
             "description":"The resource will be voided/retired unless purge = 'true'",
