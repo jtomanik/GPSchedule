@@ -7855,12 +7855,6 @@
             "type": "string"
           },
           {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "code",
             "in": "query",
             "description": "Must be used with source",
@@ -10185,47 +10179,6 @@
         }
       }
     },
-    "/patient/{parent-uuid}/allergy": {
-      "post": {
-        "tags": [
-          "patient"
-        ],
-        "summary": "Create allergy subresource with properties in request",
-        "operationId": "createPatientAllergy",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientAllergyCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "allergy response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      }
-    },
     "/patient/{parent-uuid}/allergy/{uuid}": {
       "get": {
         "tags": [
@@ -10277,52 +10230,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "patient"
-        ],
-        "summary": "edit allergy subresource with given uuid, only modifying properties in request",
-        "operationId": "updatePatientAllergy",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientAllergyUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "allergy response"
           },
           "401": {
             "description": "User not logged in"
@@ -14616,22 +14523,6 @@
   "definitions": {
     "ConceptGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -14690,22 +14581,6 @@
     },
     "ConceptGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -14718,22 +14593,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -14926,22 +14785,6 @@
     },
     "FieldtypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -14956,22 +14799,6 @@
     },
     "FieldtypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -14984,22 +14811,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -15051,22 +14862,6 @@
     "FieldtypeUpdate": {},
     "CustomdatatypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15085,45 +14880,12 @@
       }
     },
     "CustomdatatypeGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "CustomdatatypeGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -15144,22 +14906,6 @@
     },
     "EncounterroleGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15170,22 +14916,6 @@
     },
     "EncounterroleGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15198,22 +14928,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -15273,22 +14987,6 @@
     },
     "ConceptdatatypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15311,22 +15009,6 @@
     },
     "ConceptdatatypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15339,22 +15021,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -15378,22 +15044,6 @@
     },
     "ConceptstopwordGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15411,22 +15061,6 @@
     },
     "ConceptstopwordGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15439,22 +15073,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -15515,22 +15133,6 @@
     },
     "VisittypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15541,22 +15143,6 @@
     },
     "VisittypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15569,22 +15155,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -15643,65 +15213,15 @@
       }
     },
     "IdgenAutogenerationoptionGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "IdgenAutogenerationoptionGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "IdgenAutogenerationoptionGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
@@ -15735,22 +15255,6 @@
     },
     "Hl7sourceGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15761,22 +15265,6 @@
     },
     "Hl7sourceGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15789,22 +15277,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -15839,22 +15311,6 @@
     },
     "ProgramGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15874,22 +15330,6 @@
     },
     "ProgramGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -15908,22 +15348,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -16004,22 +15428,6 @@
     "ProgramUpdate": {},
     "VisitGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16064,45 +15472,12 @@
       }
     },
     "VisitGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "VisitGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -16266,22 +15641,6 @@
     },
     "ReportingrestCohortDefinitionGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16292,22 +15651,6 @@
     },
     "ReportingrestCohortDefinitionGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16320,22 +15663,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -16395,22 +15722,6 @@
     },
     "CaresettingGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16428,22 +15739,6 @@
     },
     "CaresettingGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16456,22 +15751,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -16499,22 +15778,6 @@
     },
     "EncountertypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16525,22 +15788,6 @@
     },
     "EncountertypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16553,22 +15800,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -16666,22 +15897,6 @@
     },
     "PatientGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16707,45 +15922,12 @@
       }
     },
     "PatientGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PatientGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -16783,22 +15965,6 @@
     },
     "TaskdefinitionGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16809,22 +15975,6 @@
     },
     "TaskdefinitionGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16837,22 +15987,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -16912,22 +16046,6 @@
     },
     "ConceptmaptypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16941,22 +16059,6 @@
     },
     "ConceptmaptypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -16969,22 +16071,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -17056,22 +16142,6 @@
     },
     "ReportingrestReportDefinitionGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17082,22 +16152,6 @@
     },
     "ReportingrestReportDefinitionGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17110,22 +16164,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -17185,22 +16223,6 @@
     },
     "AppointmentschedulingAppointmenttypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17211,22 +16233,6 @@
     },
     "AppointmentschedulingAppointmenttypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17239,22 +16245,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -17314,22 +16304,6 @@
     },
     "PrivilegeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17340,22 +16314,6 @@
     },
     "PrivilegeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17368,22 +16326,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -17437,22 +16379,6 @@
     },
     "ConceptattributetypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17477,22 +16403,6 @@
     },
     "ConceptattributetypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17505,22 +16415,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -17663,22 +16557,6 @@
     },
     "ConceptsourceGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17704,22 +16582,6 @@
     },
     "ConceptsourceGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17744,22 +16606,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -17846,22 +16692,6 @@
     },
     "ReportingrestDataSetDefinitionGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17872,22 +16702,6 @@
     },
     "ReportingrestDataSetDefinitionGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -17900,22 +16714,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -17974,86 +16772,20 @@
       }
     },
     "AppointmentschedulingAppointmentblockGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingAppointmentblockGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingAppointmentblockGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "SystemsettingGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -18072,45 +16804,12 @@
       }
     },
     "SystemsettingGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "SystemsettingGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -18300,22 +16999,6 @@
     },
     "ProgramenrollmentGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -18345,45 +17028,12 @@
       }
     },
     "ProgramenrollmentGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ProgramenrollmentGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -18444,86 +17094,20 @@
       }
     },
     "AppGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "FormGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -18563,22 +17147,6 @@
     },
     "FormGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -18591,22 +17159,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -18767,22 +17319,6 @@
     },
     "PersonattributetypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -18811,22 +17347,6 @@
     },
     "PersonattributetypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -18839,22 +17359,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -18995,22 +17499,6 @@
     },
     "LocationGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19075,22 +17563,6 @@
     },
     "LocationGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19103,22 +17575,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -19394,22 +17850,6 @@
     },
     "OrdersetGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19434,22 +17874,6 @@
     },
     "OrdersetGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19462,22 +17886,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -19565,86 +17973,20 @@
       }
     },
     "ReportingrestReportdataGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestReportdataGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestReportdataGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ConceptreferencetermGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19664,22 +18006,6 @@
     },
     "ConceptreferencetermGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19692,22 +18018,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -19786,22 +18096,6 @@
     "ConceptreferencetermUpdate": {},
     "OrdertypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19824,22 +18118,6 @@
     },
     "OrdertypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -19852,22 +18130,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -20035,86 +18297,20 @@
       }
     },
     "TaskactionGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "TaskactionGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "TaskactionGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "FieldGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -20144,22 +18340,6 @@
     },
     "FieldGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -20172,22 +18352,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -20295,149 +18459,33 @@
     },
     "FieldUpdate": {},
     "AppointmentschedulingAppointmentrequestGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingAppointmentrequestGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingAppointmentrequestGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ReportingrestDataSetGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestDataSetGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestDataSetGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ProviderGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -20463,22 +18511,6 @@
     },
     "ProviderGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -20491,22 +18523,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -20633,86 +18649,20 @@
       }
     },
     "AppointmentschedulingTimeslotGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingTimeslotGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingTimeslotGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ConceptclassGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -20723,22 +18673,6 @@
     },
     "ConceptclassGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -20751,22 +18685,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -20825,86 +18743,20 @@
       }
     },
     "IdgenLogentryGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "IdgenLogentryGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "IdgenLogentryGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "CohortGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -20923,45 +18775,12 @@
       }
     },
     "CohortGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "CohortGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -21040,22 +18859,6 @@
     },
     "LocationattributetypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -21080,22 +18883,6 @@
     },
     "LocationattributetypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -21108,22 +18895,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -21265,65 +19036,15 @@
       }
     },
     "IdgenIdentifiersourceGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "IdgenIdentifiersourceGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "IdgenIdentifiersourceGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
@@ -21495,22 +19216,6 @@
     },
     "OrderGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -21565,45 +19270,12 @@
       }
     },
     "OrderGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "OrderGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -21659,65 +19331,15 @@
       }
     },
     "AppointmentschedulingAppointmentGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingAppointmentGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "AppointmentschedulingAppointmentGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
@@ -21851,22 +19473,6 @@
     },
     "PersonGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -21927,45 +19533,12 @@
       }
     },
     "PersonGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PersonGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -22135,22 +19708,6 @@
     },
     "ConceptreferencetermmapGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "termA": {
           "$ref": "#/definitions/ConceptreferencetermGetRef"
         },
@@ -22163,45 +19720,12 @@
       }
     },
     "ConceptreferencetermmapGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ConceptreferencetermmapGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "termA": {
           "$ref": "#/definitions/ConceptreferencetermGet"
@@ -22216,86 +19740,20 @@
     },
     "ConceptreferencetermmapUpdate": {},
     "ReportingrestReportRequestGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestReportRequestGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestReportRequestGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ExtensionGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -22349,22 +19807,6 @@
     },
     "ExtensionGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -22377,22 +19819,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -22584,22 +20010,6 @@
     },
     "ObsGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -22692,22 +20102,6 @@
     },
     "ObsGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "formFieldPath": {
           "type": "string"
         },
@@ -22750,22 +20144,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -22860,22 +20238,6 @@
     "ObsUpdate": {},
     "LocationtagGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -22886,22 +20248,6 @@
     },
     "LocationtagGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -22914,22 +20260,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -23006,86 +20336,20 @@
       }
     },
     "ApptemplateGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ApptemplateGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ApptemplateGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "RelationshipGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -23107,45 +20371,12 @@
       }
     },
     "RelationshipGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "RelationshipGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -23231,22 +20462,6 @@
     },
     "UserGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -23281,22 +20496,6 @@
     },
     "UserGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -23309,22 +20508,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -23522,22 +20705,6 @@
     },
     "ProviderattributetypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -23562,22 +20729,6 @@
     },
     "ProviderattributetypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -23590,22 +20741,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -23747,149 +20882,33 @@
       }
     },
     "PersonimageGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PersonimageGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PersonimageGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ReportingrestCohortGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestCohortGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ReportingrestCohortGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ModuleGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -23912,22 +20931,6 @@
     },
     "ModuleGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -23940,22 +20943,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -24063,22 +21050,6 @@
     },
     "DrugGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -24117,22 +21088,6 @@
     },
     "DrugGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -24145,22 +21100,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -24338,22 +21277,6 @@
     },
     "RoleGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -24376,22 +21299,6 @@
     },
     "RoleGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -24404,22 +21311,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -24546,86 +21437,20 @@
       }
     },
     "ChartSearchPreferenceGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ChartSearchPreferenceGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ChartSearchPreferenceGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
     "ServerlogGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "serverLog": {
           "type": "object"
         }
@@ -24633,22 +21458,6 @@
     },
     "ServerlogGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "serverLog": {
           "type": "object"
         }
@@ -24659,22 +21468,6 @@
         "auditInfo": {
           "type": "string"
         },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "serverLog": {
           "type": "object"
         }
@@ -24682,22 +21475,6 @@
     },
     "VisitattributetypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -24722,22 +21499,6 @@
     },
     "VisitattributetypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -24750,22 +21511,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -24907,65 +21652,15 @@
       }
     },
     "ChartsearchnoteGet": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ChartsearchnoteGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ChartsearchnoteGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         }
       }
     },
@@ -25049,22 +21744,6 @@
     },
     "EncounterGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25108,45 +21787,12 @@
       }
     },
     "EncounterGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "EncounterGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -25257,22 +21903,6 @@
     },
     "WorkflowGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25292,22 +21922,6 @@
     },
     "WorkflowGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25329,22 +21943,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -25387,22 +21985,6 @@
     },
     "OrderfrequencyGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25413,22 +21995,6 @@
     },
     "OrderfrequencyGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25441,22 +22007,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -25490,22 +22040,6 @@
     },
     "PatientidentifiertypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25541,22 +22075,6 @@
     },
     "PatientidentifiertypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25569,22 +22087,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -25744,22 +22246,6 @@
     },
     "RelationshiptypeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25776,22 +22262,6 @@
     },
     "RelationshiptypeGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25804,22 +22274,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -25901,22 +22355,6 @@
     "RelationshiptypeUpdate": {},
     "FormResourceGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25933,22 +22371,6 @@
     },
     "FormResourceGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -25961,22 +22383,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -26078,22 +22484,6 @@
     },
     "LocationAttributeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -26112,45 +22502,12 @@
       }
     },
     "LocationAttributeGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "LocationAttributeGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -26306,22 +22663,6 @@
     },
     "PatientAllergyGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -26349,45 +22690,12 @@
       }
     },
     "PatientAllergyGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PatientAllergyGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -26462,22 +22770,6 @@
     },
     "CohortMembershipGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -26498,45 +22790,12 @@
       }
     },
     "CohortMembershipGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "CohortMembershipGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -26601,22 +22860,6 @@
     },
     "ConceptMappingGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -26632,45 +22875,12 @@
       }
     },
     "ConceptMappingGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ConceptMappingGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -26730,22 +22940,6 @@
     },
     "FormFormfieldGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -26794,45 +22988,12 @@
       }
     },
     "FormFormfieldGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "FormFormfieldGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -26977,22 +23138,6 @@
     "FormFormfieldUpdate": {},
     "PersonAddressGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -27057,22 +23202,6 @@
     },
     "PersonAddressGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -27085,22 +23214,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -27331,22 +23444,6 @@
     },
     "CustomdatatypeHandlersGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -27359,45 +23456,12 @@
       }
     },
     "CustomdatatypeHandlersGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "CustomdatatypeHandlersGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -27412,22 +23476,6 @@
     },
     "ConceptAttributeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -27446,45 +23494,12 @@
       }
     },
     "ConceptAttributeGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ConceptAttributeGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -27550,22 +23565,6 @@
     },
     "PersonAttributeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -27584,45 +23583,12 @@
       }
     },
     "PersonAttributeGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PersonAttributeGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -27699,22 +23665,6 @@
     },
     "WorkflowStateGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -27731,22 +23681,6 @@
     },
     "WorkflowStateGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -27762,22 +23696,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -27797,22 +23715,6 @@
     "WorkflowStateCreateFull": {},
     "PersonNameGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -27837,45 +23739,12 @@
       }
     },
     "PersonNameGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PersonNameGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -28022,22 +23891,6 @@
     },
     "DrugIngredientGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -28057,45 +23910,12 @@
       }
     },
     "DrugIngredientGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "DrugIngredientGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -28174,22 +23994,6 @@
     },
     "VisitAttributeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -28208,45 +24012,12 @@
       }
     },
     "VisitAttributeGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "VisitAttributeGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -28312,22 +24083,6 @@
     },
     "PatientIdentifierGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -28353,45 +24108,12 @@
       }
     },
     "PatientIdentifierGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "PatientIdentifierGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -28486,22 +24208,6 @@
     },
     "OrdersetOrdersetmemberGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -28526,45 +24232,12 @@
       }
     },
     "OrdersetOrdersetmemberGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "OrdersetOrdersetmemberGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -28657,22 +24330,6 @@
     },
     "ConceptNameGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -28701,22 +24358,6 @@
     },
     "ConceptNameGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -28729,22 +24370,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -28835,22 +24460,6 @@
     },
     "FieldAnswerGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -28866,45 +24475,12 @@
       }
     },
     "FieldAnswerGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "FieldAnswerGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -28968,22 +24544,6 @@
     },
     "ProviderAttributeGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "display": {
           "type": "string"
         },
@@ -29002,45 +24562,12 @@
       }
     },
     "ProviderAttributeGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "ProviderAttributeGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "display": {
           "type": "string"
@@ -29106,22 +24633,6 @@
     },
     "EncounterEncounterproviderGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -29137,45 +24648,12 @@
       }
     },
     "EncounterEncounterproviderGetRef": {
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "EncounterEncounterproviderGetFull": {
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -29234,22 +24712,6 @@
     },
     "ConceptDescriptionGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -29266,22 +24728,6 @@
     },
     "ConceptDescriptionGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -29294,22 +24740,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -29392,22 +24822,6 @@
     },
     "ProgramenrollmentStateGet": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self|full"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -29429,22 +24843,6 @@
     },
     "ProgramenrollmentStateGetRef": {
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "rel": {
-                "type": "string",
-                "example": "self"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        },
         "uuid": {
           "type": "string"
         },
@@ -29471,22 +24869,6 @@
       "properties": {
         "auditInfo": {
           "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": "self",
-            "properties": {
-              "rel": {
-                "type": "string"
-              },
-              "uri": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
         },
         "uuid": {
           "type": "string"
@@ -29534,22 +24916,6 @@
             "properties": {
               "display": {
                 "type": "string"
-              },
-              "links": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "rel": {
-                      "type": "string",
-                      "example": "self"
-                    },
-                    "uri": {
-                      "type": "string",
-                      "format": "uri"
-                    }
-                  }
-                }
               },
               "uuid": {
                 "type": "string"
