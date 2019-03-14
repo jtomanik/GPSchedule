@@ -25,6 +25,7 @@
 		7AE0E0F322398F1A00F341B7 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */; };
 		7AE0E0F72239C27100F341B7 /* LoggedInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */; };
 		7AE0E0FA2239C52A00F341B7 /* GenericTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F92239C52A00F341B7 /* GenericTableViewController.swift */; };
+		7AE0E0FC223A3D0C00F341B7 /* openmrs.rest.swagger.json in Resources */ = {isa = PBXBuildFile; fileRef = 7AE0E0FB223A3D0C00F341B7 /* openmrs.rest.swagger.json */; };
 		7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB2672237E80300E86256 /* Sourcery.swift */; };
 		7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */; };
 		7AEFB26E223829F800E86256 /* LabelComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26D223829F800E86256 /* LabelComponent.swift */; };
@@ -67,6 +68,7 @@
 		7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewModel.swift; sourceTree = "<group>"; };
 		7AE0E0F92239C52A00F341B7 /* GenericTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericTableViewController.swift; sourceTree = "<group>"; };
+		7AE0E0FB223A3D0C00F341B7 /* openmrs.rest.swagger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = openmrs.rest.swagger.json; sourceTree = "<group>"; };
 		7AEFB2652237E79B00E86256 /* BasicView.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = BasicView.stencil; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		7AEFB2672237E80300E86256 /* Sourcery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sourcery.swift; sourceTree = "<group>"; };
 		7AEFB2692237EA0700E86256 /* BasicView.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicView.generated.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 		7AACDE112231BBD400B24351 /* GPSchedule */ = {
 			isa = PBXGroup;
 			children = (
+				7AE0E0FD223A3D1200F341B7 /* ApiClient */,
 				7A79A6BC2235105D00E22CDA /* Generated */,
 				7AACDE122231BBD400B24351 /* AppDelegate.swift */,
 				7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */,
@@ -187,6 +190,14 @@
 				7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */,
 			);
 			path = LoggedIn;
+			sourceTree = "<group>";
+		};
+		7AE0E0FD223A3D1200F341B7 /* ApiClient */ = {
+			isa = PBXGroup;
+			children = (
+				7AE0E0FB223A3D0C00F341B7 /* openmrs.rest.swagger.json */,
+			);
+			path = ApiClient;
 			sourceTree = "<group>";
 		};
 		7AEFB26A2237EA2500E86256 /* Domain */ = {
@@ -305,6 +316,7 @@
 				7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */,
 				7AEFB27922383D3700E86256 /* ButtonComponentView.xib in Resources */,
 				7AEFB2732238341700E86256 /* LabelComponentView.xib in Resources */,
+				7AE0E0FC223A3D0C00F341B7 /* openmrs.rest.swagger.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
