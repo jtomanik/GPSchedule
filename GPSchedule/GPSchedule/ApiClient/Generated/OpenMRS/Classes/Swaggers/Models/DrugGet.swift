@@ -20,8 +20,19 @@ open class DrugGet: JSONEncodable {
     public var concept: ConceptGetRef?
     public var route: ConceptGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, doseStrength: Double?=nil, maximumDailyDose: Double?=nil, minimumDailyDose: Double?=nil, units: String?=nil, combination: Bool?=nil, dosageForm: ConceptGetRef?=nil, concept: ConceptGetRef?=nil, route: ConceptGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.doseStrength = doseStrength
+        self.maximumDailyDose = maximumDailyDose
+        self.minimumDailyDose = minimumDailyDose
+        self.units = units
+        self.combination = combination
+        self.dosageForm = dosageForm
+        self.concept = concept
+        self.route = route
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

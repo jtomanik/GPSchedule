@@ -11,8 +11,10 @@ import Foundation
 open class FetchAll: JSONEncodable {
     public var results: [Any]?
 
-    public init() {}
 
+    public init(results: [Any]?=nil) {
+        self.results = results
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

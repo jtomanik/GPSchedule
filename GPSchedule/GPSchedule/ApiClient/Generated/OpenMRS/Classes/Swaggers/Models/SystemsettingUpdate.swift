@@ -16,8 +16,15 @@ open class SystemsettingUpdate: JSONEncodable {
     public var handlerConfig: String?
     public var value: String?
 
-    public init() {}
 
+    public init(description: String?=nil, datatypeClassname: String?=nil, datatypeConfig: String?=nil, preferredHandlerClassname: String?=nil, handlerConfig: String?=nil, value: String?=nil) {
+        self.description = description
+        self.datatypeClassname = datatypeClassname
+        self.datatypeConfig = datatypeConfig
+        self.preferredHandlerClassname = preferredHandlerClassname
+        self.handlerConfig = handlerConfig
+        self.value = value
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

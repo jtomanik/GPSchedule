@@ -14,13 +14,18 @@ open class ConceptNameCreateFull: JSONEncodable {
         case short = "SHORT"
         case indexTerm = "INDEX_TERM"
     }
-    public var name: String?
-    public var locale: String?
+    public var name: String
+    public var locale: String
     public var localePreferred: Bool?
         public var conceptNameType: ConceptNameType?
 
-    public init() {}
 
+    public init(name: String, locale: String, localePreferred: Bool?=nil, conceptNameType: ConceptNameType?=nil) {
+        self.name = name
+        self.locale = locale
+        self.localePreferred = localePreferred
+        self.conceptNameType = conceptNameType
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

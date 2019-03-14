@@ -18,8 +18,17 @@ open class ConceptsourceGetFull: JSONEncodable {
     public var hl7Code: String?
     public var uniqueId: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, hl7Code: String?=nil, uniqueId: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.hl7Code = hl7Code
+        self.uniqueId = uniqueId
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -9,18 +9,23 @@ import Foundation
 
 
 open class PatientIdentifierCreateFull: JSONEncodable {
-    public var identifier: String?
-    public var identifierType: PatientidentifiertypeCreate?
+    public var identifier: String
+    public var identifierType: PatientidentifiertypeCreate
     public var location: LocationCreate?
     public var preferred: Bool?
 
-    public init() {}
 
+    public init(identifier: String, identifierType: PatientidentifiertypeCreate, location: LocationCreate?=nil, preferred: Bool?=nil) {
+        self.identifier = identifier
+        self.identifierType = identifierType
+        self.location = location
+        self.preferred = preferred
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["identifier"] = self.identifier
-        nillableDictionary["identifierType"] = self.identifierType?.encodeToJSON()
+        nillableDictionary["identifierType"] = self.identifierType.encodeToJSON()
         nillableDictionary["location"] = self.location?.encodeToJSON()
         nillableDictionary["preferred"] = self.preferred
 

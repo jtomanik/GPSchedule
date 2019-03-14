@@ -20,8 +20,19 @@ open class ProviderGetFull: JSONEncodable {
     public var attributes: [ProviderAttributeGet]?
     public var preferredHandlerClassname: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, person: PersonGet?=nil, identifier: String?=nil, attributes: [ProviderAttributeGet]?=nil, preferredHandlerClassname: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.person = person
+        self.identifier = identifier
+        self.attributes = attributes
+        self.preferredHandlerClassname = preferredHandlerClassname
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

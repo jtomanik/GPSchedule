@@ -19,8 +19,18 @@ open class ProgramenrollmentGetFull: JSONEncodable {
     public var program: ProgramGet?
     public var location: LocationGet?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, dateEnrolled: ISOFullDate?=nil, dateCompleted: ISOFullDate?=nil, voided: Bool?=nil, patient: PatientGet?=nil, program: ProgramGet?=nil, location: LocationGet?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.dateEnrolled = dateEnrolled
+        self.dateCompleted = dateCompleted
+        self.voided = voided
+        self.patient = patient
+        self.program = program
+        self.location = location
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

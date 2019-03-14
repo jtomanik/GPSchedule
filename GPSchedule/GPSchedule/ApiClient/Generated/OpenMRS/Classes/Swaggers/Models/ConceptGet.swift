@@ -23,8 +23,22 @@ open class ConceptGet: JSONEncodable {
     public var answers: [Any]?
     public var setMembers: [Any]?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, name: ConceptNameGet?=nil, datatype: ConceptdatatypeGetRef?=nil, conceptClass: ConceptclassGetRef?=nil, _set: Bool?=nil, version: String?=nil, retired: Bool?=nil, names: [ConceptNameGetRef]?=nil, descriptions: [ConceptDescriptionGetRef]?=nil, mappings: [ConceptMappingGetRef]?=nil, answers: [Any]?=nil, setMembers: [Any]?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.datatype = datatype
+        self.conceptClass = conceptClass
+        self._set = _set
+        self.version = version
+        self.retired = retired
+        self.names = names
+        self.descriptions = descriptions
+        self.mappings = mappings
+        self.answers = answers
+        self.setMembers = setMembers
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

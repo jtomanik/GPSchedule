@@ -17,8 +17,16 @@ open class PatientAllergyGet: JSONEncodable {
     public var reactions: [ConceptGetRef]?
     public var patient: PatientGetRef?
 
-    public init() {}
 
+    public init(display: String?=nil, uuid: String?=nil, allergen: Any?=nil, severity: ConceptGetRef?=nil, comment: String?=nil, reactions: [ConceptGetRef]?=nil, patient: PatientGetRef?=nil) {
+        self.display = display
+        self.uuid = uuid
+        self.allergen = allergen
+        self.severity = severity
+        self.comment = comment
+        self.reactions = reactions
+        self.patient = patient
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

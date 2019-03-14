@@ -11,8 +11,10 @@ import Foundation
 open class ServerlogGetRef: JSONEncodable {
     public var serverLog: Any?
 
-    public init() {}
 
+    public init(serverLog: Any?=nil) {
+        self.serverLog = serverLog
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

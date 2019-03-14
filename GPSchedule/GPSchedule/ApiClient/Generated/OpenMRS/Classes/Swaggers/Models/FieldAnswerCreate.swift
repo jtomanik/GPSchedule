@@ -9,11 +9,14 @@ import Foundation
 
 
 open class FieldAnswerCreate: JSONEncodable {
-    public var concept: String?
-    public var field: String?
+    public var concept: String
+    public var field: String
 
-    public init() {}
 
+    public init(concept: String, field: String) {
+        self.concept = concept
+        self.field = field
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

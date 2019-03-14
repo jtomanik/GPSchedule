@@ -19,8 +19,13 @@ open class OrdersetGet: JSONEncodable {
         public var _operator: Operator?
     public var orderSetMembers: [OrdersetOrdersetmemberGetRef]?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, _operator: Operator?=nil, orderSetMembers: [OrdersetOrdersetmemberGetRef]?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self._operator = _operator
+        self.orderSetMembers = orderSetMembers
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

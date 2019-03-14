@@ -9,13 +9,18 @@ import Foundation
 
 
 open class LocationtagUpdate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
     public var retired: Bool?
     public var retiredReason: String?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, retired: Bool?=nil, retiredReason: String?=nil) {
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.retiredReason = retiredReason
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

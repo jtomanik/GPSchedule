@@ -13,8 +13,12 @@ open class FieldtypeGet: JSONEncodable {
     public var display: String?
     public var isSet: Bool?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, isSet: Bool?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.isSet = isSet
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

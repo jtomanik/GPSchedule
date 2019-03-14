@@ -11,8 +11,10 @@ import Foundation
 open class RelationshipUpdate: JSONEncodable {
     public var voided: Bool?
 
-    public init() {}
 
+    public init(voided: Bool?=nil) {
+        self.voided = voided
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

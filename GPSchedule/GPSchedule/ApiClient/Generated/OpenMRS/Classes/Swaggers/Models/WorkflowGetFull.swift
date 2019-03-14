@@ -18,8 +18,17 @@ open class WorkflowGetFull: JSONEncodable {
     public var concept: ConceptGet?
     public var states: [WorkflowStateGet]?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, concept: ConceptGet?=nil, states: [WorkflowStateGet]?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.concept = concept
+        self.states = states
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

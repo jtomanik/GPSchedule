@@ -13,8 +13,12 @@ open class ProgramenrollmentStateUpdate: JSONEncodable {
     public var endDate: ISOFullDate?
     public var voided: Bool?
 
-    public init() {}
 
+    public init(startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, voided: Bool?=nil) {
+        self.startDate = startDate
+        self.endDate = endDate
+        self.voided = voided
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

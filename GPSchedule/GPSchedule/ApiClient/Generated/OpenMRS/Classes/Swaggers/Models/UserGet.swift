@@ -18,8 +18,17 @@ open class UserGet: JSONEncodable {
     public var privileges: [PrivilegeGetRef]?
     public var roles: [RoleGetRef]?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, username: String?=nil, systemId: String?=nil, userProperties: Any?=nil, person: PersonGetRef?=nil, privileges: [PrivilegeGetRef]?=nil, roles: [RoleGetRef]?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.username = username
+        self.systemId = systemId
+        self.userProperties = userProperties
+        self.person = person
+        self.privileges = privileges
+        self.roles = roles
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

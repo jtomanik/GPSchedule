@@ -18,8 +18,17 @@ open class FormResourceGetFull: JSONEncodable {
     public var handler: String?
     public var handlerConfig: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, valueReference: String?=nil, dataType: String?=nil, handler: String?=nil, handlerConfig: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.valueReference = valueReference
+        self.dataType = dataType
+        self.handler = handler
+        self.handlerConfig = handlerConfig
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

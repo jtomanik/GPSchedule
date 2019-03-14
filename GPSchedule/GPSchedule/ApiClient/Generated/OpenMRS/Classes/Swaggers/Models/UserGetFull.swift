@@ -25,8 +25,24 @@ open class UserGetFull: JSONEncodable {
     public var proficientLocales: [Any]?
     public var secretQuestion: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, username: String?=nil, systemId: String?=nil, userProperties: Any?=nil, person: PersonGet?=nil, privileges: [PrivilegeGet]?=nil, roles: [RoleGet]?=nil, allRoles: [RoleGet]?=nil, proficientLocales: [Any]?=nil, secretQuestion: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.username = username
+        self.systemId = systemId
+        self.userProperties = userProperties
+        self.person = person
+        self.privileges = privileges
+        self.roles = roles
+        self.allRoles = allRoles
+        self.proficientLocales = proficientLocales
+        self.secretQuestion = secretQuestion
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

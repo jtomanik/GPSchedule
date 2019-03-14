@@ -14,8 +14,13 @@ open class ConceptMappingGet: JSONEncodable {
     public var conceptReferenceTerm: ConceptreferencetermGetRef?
     public var conceptMapType: ConceptmaptypeGetRef?
 
-    public init() {}
 
+    public init(display: String?=nil, uuid: String?=nil, conceptReferenceTerm: ConceptreferencetermGetRef?=nil, conceptMapType: ConceptmaptypeGetRef?=nil) {
+        self.display = display
+        self.uuid = uuid
+        self.conceptReferenceTerm = conceptReferenceTerm
+        self.conceptMapType = conceptMapType
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -23,8 +23,22 @@ open class ModuleGetFull: JSONEncodable {
     public var awareOfModules: [String]?
     public var requiredModules: [String]?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, started: Bool?=nil, startupErrorMessage: String?=nil, packageName: String?=nil, author: String?=nil, version: String?=nil, requireOpenmrsVersion: String?=nil, awareOfModules: [String]?=nil, requiredModules: [String]?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.started = started
+        self.startupErrorMessage = startupErrorMessage
+        self.packageName = packageName
+        self.author = author
+        self.version = version
+        self.requireOpenmrsVersion = requireOpenmrsVersion
+        self.awareOfModules = awareOfModules
+        self.requiredModules = requiredModules
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

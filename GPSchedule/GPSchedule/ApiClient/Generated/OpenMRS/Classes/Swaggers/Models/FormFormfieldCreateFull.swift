@@ -9,9 +9,9 @@ import Foundation
 
 
 open class FormFormfieldCreateFull: JSONEncodable {
-    public var form: FormCreate?
-    public var field: FieldCreate?
-    public var _required: Bool?
+    public var form: FormCreate
+    public var field: FieldCreate
+    public var _required: Bool
     public var parent: FormFormfieldCreate?
     public var fieldNumber: Int32?
     public var fieldPart: String?
@@ -20,13 +20,24 @@ open class FormFormfieldCreateFull: JSONEncodable {
     public var maxOccurs: Int32?
     public var sortWeight: Bool?
 
-    public init() {}
 
+    public init(form: FormCreate, field: FieldCreate, _required: Bool, parent: FormFormfieldCreate?=nil, fieldNumber: Int32?=nil, fieldPart: String?=nil, pageNumber: Int32?=nil, minOccurs: Int32?=nil, maxOccurs: Int32?=nil, sortWeight: Bool?=nil) {
+        self.form = form
+        self.field = field
+        self._required = _required
+        self.parent = parent
+        self.fieldNumber = fieldNumber
+        self.fieldPart = fieldPart
+        self.pageNumber = pageNumber
+        self.minOccurs = minOccurs
+        self.maxOccurs = maxOccurs
+        self.sortWeight = sortWeight
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["form"] = self.form?.encodeToJSON()
-        nillableDictionary["field"] = self.field?.encodeToJSON()
+        nillableDictionary["form"] = self.form.encodeToJSON()
+        nillableDictionary["field"] = self.field.encodeToJSON()
         nillableDictionary["required"] = self._required
         nillableDictionary["parent"] = self.parent?.encodeToJSON()
         nillableDictionary["fieldNumber"] = self.fieldNumber?.encodeToJSON()

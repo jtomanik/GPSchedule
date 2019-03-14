@@ -9,16 +9,19 @@ import Foundation
 
 
 open class ConceptMappingUpdate: JSONEncodable {
-    public var conceptReferenceTerm: ConceptreferencetermCreate?
-    public var conceptMapType: ConceptmaptypeCreate?
+    public var conceptReferenceTerm: ConceptreferencetermCreate
+    public var conceptMapType: ConceptmaptypeCreate
 
-    public init() {}
 
+    public init(conceptReferenceTerm: ConceptreferencetermCreate, conceptMapType: ConceptmaptypeCreate) {
+        self.conceptReferenceTerm = conceptReferenceTerm
+        self.conceptMapType = conceptMapType
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["conceptReferenceTerm"] = self.conceptReferenceTerm?.encodeToJSON()
-        nillableDictionary["conceptMapType"] = self.conceptMapType?.encodeToJSON()
+        nillableDictionary["conceptReferenceTerm"] = self.conceptReferenceTerm.encodeToJSON()
+        nillableDictionary["conceptMapType"] = self.conceptMapType.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

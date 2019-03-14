@@ -9,10 +9,10 @@ import Foundation
 
 
 open class DrugCreateFull: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var combination: Bool?
-    public var concept: ConceptCreate?
+    public var combination: Bool
+    public var concept: ConceptCreate
     public var doseStrength: Double?
     public var maximumDailyDose: Double?
     public var minimumDailyDose: Double?
@@ -20,15 +20,26 @@ open class DrugCreateFull: JSONEncodable {
     public var dosageForm: ConceptCreate?
     public var route: ConceptCreate?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, combination: Bool, concept: ConceptCreate, doseStrength: Double?=nil, maximumDailyDose: Double?=nil, minimumDailyDose: Double?=nil, units: String?=nil, dosageForm: ConceptCreate?=nil, route: ConceptCreate?=nil) {
+        self.name = name
+        self.description = description
+        self.combination = combination
+        self.concept = concept
+        self.doseStrength = doseStrength
+        self.maximumDailyDose = maximumDailyDose
+        self.minimumDailyDose = minimumDailyDose
+        self.units = units
+        self.dosageForm = dosageForm
+        self.route = route
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["description"] = self.description
         nillableDictionary["combination"] = self.combination
-        nillableDictionary["concept"] = self.concept?.encodeToJSON()
+        nillableDictionary["concept"] = self.concept.encodeToJSON()
         nillableDictionary["doseStrength"] = self.doseStrength
         nillableDictionary["maximumDailyDose"] = self.maximumDailyDose
         nillableDictionary["minimumDailyDose"] = self.minimumDailyDose

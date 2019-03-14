@@ -13,8 +13,12 @@ open class WorkflowStateGetRef: JSONEncodable {
     public var retired: Bool?
     public var concept: ConceptGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, retired: Bool?=nil, concept: ConceptGetRef?=nil) {
+        self.uuid = uuid
+        self.retired = retired
+        self.concept = concept
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

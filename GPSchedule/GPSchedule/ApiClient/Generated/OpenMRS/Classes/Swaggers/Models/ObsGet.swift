@@ -54,8 +54,29 @@ open class ObsGet: JSONEncodable {
         public var status: Status?
         public var interpretation: Interpretation?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, obsDatetime: ISOFullDate?=nil, accessionNumber: String?=nil, comment: String?=nil, voided: Bool?=nil, value: String?=nil, valueModifier: String?=nil, concept: ConceptGetRef?=nil, person: PersonGetRef?=nil, obsGroup: ObsGetRef?=nil, groupMembers: [ObsGetRef]?=nil, valueCodedName: ConceptNameGetRef?=nil, location: LocationGetRef?=nil, order: OrderGetRef?=nil, encounter: EncounterGetRef?=nil, formFieldPath: String?=nil, formFieldNamespace: String?=nil, status: Status?=nil, interpretation: Interpretation?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.obsDatetime = obsDatetime
+        self.accessionNumber = accessionNumber
+        self.comment = comment
+        self.voided = voided
+        self.value = value
+        self.valueModifier = valueModifier
+        self.concept = concept
+        self.person = person
+        self.obsGroup = obsGroup
+        self.groupMembers = groupMembers
+        self.valueCodedName = valueCodedName
+        self.location = location
+        self.order = order
+        self.encounter = encounter
+        self.formFieldPath = formFieldPath
+        self.formFieldNamespace = formFieldNamespace
+        self.status = status
+        self.interpretation = interpretation
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

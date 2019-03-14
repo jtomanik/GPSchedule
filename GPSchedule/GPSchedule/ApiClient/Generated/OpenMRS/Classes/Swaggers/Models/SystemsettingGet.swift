@@ -15,8 +15,14 @@ open class SystemsettingGet: JSONEncodable {
     public var description: String?
     public var display: String?
 
-    public init() {}
 
+    public init(uuid: String?=nil, property: String?=nil, value: String?=nil, description: String?=nil, display: String?=nil) {
+        self.uuid = uuid
+        self.property = property
+        self.value = value
+        self.description = description
+        self.display = display
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

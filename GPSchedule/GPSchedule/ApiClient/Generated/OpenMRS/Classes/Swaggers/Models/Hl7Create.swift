@@ -9,10 +9,12 @@ import Foundation
 
 
 open class Hl7Create: JSONEncodable {
-    public var hl7: String?
+    public var hl7: String
 
-    public init() {}
 
+    public init(hl7: String) {
+        self.hl7 = hl7
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

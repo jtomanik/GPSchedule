@@ -15,8 +15,14 @@ open class CustomdatatypeGetFull: JSONEncodable {
     public var datatypeClassname: String?
     public var handlers: [CustomdatatypeHandlersGet]?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, datatypeClassname: String?=nil, handlers: [CustomdatatypeHandlersGet]?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.datatypeClassname = datatypeClassname
+        self.handlers = handlers
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

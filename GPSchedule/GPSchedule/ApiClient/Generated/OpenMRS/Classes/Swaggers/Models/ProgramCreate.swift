@@ -9,14 +9,20 @@ import Foundation
 
 
 open class ProgramCreate: JSONEncodable {
-    public var name: String?
-    public var description: String?
-    public var concept: String?
+    public var name: String
+    public var description: String
+    public var concept: String
     public var retired: Bool?
     public var outcomesConcept: String?
 
-    public init() {}
 
+    public init(name: String, description: String, concept: String, retired: Bool?=nil, outcomesConcept: String?=nil) {
+        self.name = name
+        self.description = description
+        self.concept = concept
+        self.retired = retired
+        self.outcomesConcept = outcomesConcept
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

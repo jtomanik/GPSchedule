@@ -9,23 +9,32 @@ import Foundation
 
 
 open class FieldCreateFull: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var fieldType: FieldtypeCreate?
-    public var selectMultiple: Bool?
+    public var fieldType: FieldtypeCreate
+    public var selectMultiple: Bool
     public var concept: ConceptCreate?
     public var tableName: String?
     public var attributeName: String?
     public var defaultValue: String?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, fieldType: FieldtypeCreate, selectMultiple: Bool, concept: ConceptCreate?=nil, tableName: String?=nil, attributeName: String?=nil, defaultValue: String?=nil) {
+        self.name = name
+        self.description = description
+        self.fieldType = fieldType
+        self.selectMultiple = selectMultiple
+        self.concept = concept
+        self.tableName = tableName
+        self.attributeName = attributeName
+        self.defaultValue = defaultValue
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["description"] = self.description
-        nillableDictionary["fieldType"] = self.fieldType?.encodeToJSON()
+        nillableDictionary["fieldType"] = self.fieldType.encodeToJSON()
         nillableDictionary["selectMultiple"] = self.selectMultiple
         nillableDictionary["concept"] = self.concept?.encodeToJSON()
         nillableDictionary["tableName"] = self.tableName

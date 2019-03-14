@@ -21,8 +21,20 @@ open class FormGetFull: JSONEncodable {
     public var encounterType: EncountertypeGet?
     public var formFields: [FormFormfieldGet]?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, version: String?=nil, build: Int32?=nil, published: Bool?=nil, encounterType: EncountertypeGet?=nil, formFields: [FormFormfieldGet]?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.version = version
+        self.build = build
+        self.published = published
+        self.encounterType = encounterType
+        self.formFields = formFields
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

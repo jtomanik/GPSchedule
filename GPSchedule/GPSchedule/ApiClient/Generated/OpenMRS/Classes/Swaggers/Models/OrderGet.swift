@@ -26,8 +26,25 @@ open class OrderGet: JSONEncodable {
     public var discontinuedBy: UserGetRef?
     public var discontinuedReason: ConceptGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, instructions: String?=nil, startDate: ISOFullDate?=nil, autoExpireDate: ISOFullDate?=nil, accessionNumber: String?=nil, discontinuedDate: ISOFullDate?=nil, discontinuedReasonNonCoded: String?=nil, voided: Bool?=nil, orderType: OrdertypeGetRef?=nil, patient: PatientGetRef?=nil, concept: ConceptGetRef?=nil, encounter: EncounterGetRef?=nil, orderer: UserGetRef?=nil, discontinuedBy: UserGetRef?=nil, discontinuedReason: ConceptGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.instructions = instructions
+        self.startDate = startDate
+        self.autoExpireDate = autoExpireDate
+        self.accessionNumber = accessionNumber
+        self.discontinuedDate = discontinuedDate
+        self.discontinuedReasonNonCoded = discontinuedReasonNonCoded
+        self.voided = voided
+        self.orderType = orderType
+        self.patient = patient
+        self.concept = concept
+        self.encounter = encounter
+        self.orderer = orderer
+        self.discontinuedBy = discontinuedBy
+        self.discontinuedReason = discontinuedReason
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -23,8 +23,22 @@ open class FormFormfieldGet: JSONEncodable {
     public var form: FormGetRef?
     public var field: FieldGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, fieldNumber: Int32?=nil, fieldPart: String?=nil, pageNumber: Int32?=nil, minOccurs: Int32?=nil, maxOccurs: Int32?=nil, _required: Bool?=nil, sortWeight: Float?=nil, retired: Bool?=nil, parent: FormFormfieldGetRef?=nil, form: FormGetRef?=nil, field: FieldGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.fieldNumber = fieldNumber
+        self.fieldPart = fieldPart
+        self.pageNumber = pageNumber
+        self.minOccurs = minOccurs
+        self.maxOccurs = maxOccurs
+        self._required = _required
+        self.sortWeight = sortWeight
+        self.retired = retired
+        self.parent = parent
+        self.form = form
+        self.field = field
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

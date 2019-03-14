@@ -9,7 +9,7 @@ import Foundation
 
 
 open class LocationCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
     public var address1: String?
     public var address2: String?
@@ -28,8 +28,27 @@ open class LocationCreate: JSONEncodable {
     public var parentLocation: String?
     public var childLocations: [String]?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, address1: String?=nil, address2: String?=nil, cityVillage: String?=nil, stateProvince: String?=nil, country: String?=nil, postalCode: String?=nil, latitude: String?=nil, longitude: String?=nil, countyDistrict: String?=nil, address3: String?=nil, address4: String?=nil, address5: String?=nil, address6: String?=nil, tags: [String]?=nil, parentLocation: String?=nil, childLocations: [String]?=nil) {
+        self.name = name
+        self.description = description
+        self.address1 = address1
+        self.address2 = address2
+        self.cityVillage = cityVillage
+        self.stateProvince = stateProvince
+        self.country = country
+        self.postalCode = postalCode
+        self.latitude = latitude
+        self.longitude = longitude
+        self.countyDistrict = countyDistrict
+        self.address3 = address3
+        self.address4 = address4
+        self.address5 = address5
+        self.address6 = address6
+        self.tags = tags
+        self.parentLocation = parentLocation
+        self.childLocations = childLocations
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

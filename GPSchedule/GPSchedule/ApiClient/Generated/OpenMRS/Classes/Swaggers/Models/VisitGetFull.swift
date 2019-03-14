@@ -22,8 +22,21 @@ open class VisitGetFull: JSONEncodable {
     public var location: LocationGet?
     public var encounters: [EncounterGet]?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, startDatetime: ISOFullDate?=nil, stopDatetime: ISOFullDate?=nil, attributes: [String]?=nil, voided: Bool?=nil, patient: PatientGet?=nil, visitType: VisittypeGet?=nil, indication: ConceptGet?=nil, location: LocationGet?=nil, encounters: [EncounterGet]?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.startDatetime = startDatetime
+        self.stopDatetime = stopDatetime
+        self.attributes = attributes
+        self.voided = voided
+        self.patient = patient
+        self.visitType = visitType
+        self.indication = indication
+        self.location = location
+        self.encounters = encounters
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

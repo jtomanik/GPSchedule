@@ -9,21 +9,28 @@ import Foundation
 
 
 open class ProviderCreateFull: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var person: PersonCreate?
-    public var identifier: String?
+    public var person: PersonCreate
+    public var identifier: String
     public var attributes: [ProviderAttributeCreate]?
     public var retired: Bool?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, person: PersonCreate, identifier: String, attributes: [ProviderAttributeCreate]?=nil, retired: Bool?=nil) {
+        self.name = name
+        self.description = description
+        self.person = person
+        self.identifier = identifier
+        self.attributes = attributes
+        self.retired = retired
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["description"] = self.description
-        nillableDictionary["person"] = self.person?.encodeToJSON()
+        nillableDictionary["person"] = self.person.encodeToJSON()
         nillableDictionary["identifier"] = self.identifier
         nillableDictionary["attributes"] = self.attributes?.encodeToJSON()
         nillableDictionary["retired"] = self.retired

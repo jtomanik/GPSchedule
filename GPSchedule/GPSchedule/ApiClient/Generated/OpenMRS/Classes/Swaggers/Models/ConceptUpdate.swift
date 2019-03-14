@@ -13,8 +13,12 @@ open class ConceptUpdate: JSONEncodable {
     public var names: [ConceptNameCreate]?
     public var descriptions: [ConceptDescriptionCreate]?
 
-    public init() {}
 
+    public init(name: ConceptNameCreate?=nil, names: [ConceptNameCreate]?=nil, descriptions: [ConceptDescriptionCreate]?=nil) {
+        self.name = name
+        self.names = names
+        self.descriptions = descriptions
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

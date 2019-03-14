@@ -9,8 +9,8 @@ import Foundation
 
 
 open class EncounterCreateFull: JSONEncodable {
-    public var patient: PatientCreate?
-    public var encounterType: EncountertypeCreate?
+    public var patient: PatientCreate
+    public var encounterType: EncountertypeCreate
     public var encounterDatetime: ISOFullDate?
     public var location: LocationCreate?
     public var form: FormCreate?
@@ -18,13 +18,22 @@ open class EncounterCreateFull: JSONEncodable {
     public var orders: [OrderCreate]?
     public var obs: [ObsCreate]?
 
-    public init() {}
 
+    public init(patient: PatientCreate, encounterType: EncountertypeCreate, encounterDatetime: ISOFullDate?=nil, location: LocationCreate?=nil, form: FormCreate?=nil, provider: String?=nil, orders: [OrderCreate]?=nil, obs: [ObsCreate]?=nil) {
+        self.patient = patient
+        self.encounterType = encounterType
+        self.encounterDatetime = encounterDatetime
+        self.location = location
+        self.form = form
+        self.provider = provider
+        self.orders = orders
+        self.obs = obs
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["patient"] = self.patient?.encodeToJSON()
-        nillableDictionary["encounterType"] = self.encounterType?.encodeToJSON()
+        nillableDictionary["patient"] = self.patient.encodeToJSON()
+        nillableDictionary["encounterType"] = self.encounterType.encodeToJSON()
         nillableDictionary["encounterDatetime"] = self.encounterDatetime?.encodeToJSON()
         nillableDictionary["location"] = self.location?.encodeToJSON()
         nillableDictionary["form"] = self.form?.encodeToJSON()

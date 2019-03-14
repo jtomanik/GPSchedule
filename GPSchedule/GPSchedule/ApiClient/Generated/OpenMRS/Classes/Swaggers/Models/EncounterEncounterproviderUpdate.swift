@@ -13,8 +13,12 @@ open class EncounterEncounterproviderUpdate: JSONEncodable {
     public var voided: Bool?
     public var voidReason: String?
 
-    public init() {}
 
+    public init(encounterRole: String?=nil, voided: Bool?=nil, voidReason: String?=nil) {
+        self.encounterRole = encounterRole
+        self.voided = voided
+        self.voidReason = voidReason
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

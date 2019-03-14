@@ -14,8 +14,13 @@ open class ConceptstopwordGet: JSONEncodable {
     public var value: String?
     public var locale: String?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, value: String?=nil, locale: String?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.value = value
+        self.locale = locale
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

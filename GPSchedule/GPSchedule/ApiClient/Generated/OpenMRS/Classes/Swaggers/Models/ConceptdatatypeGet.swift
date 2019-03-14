@@ -16,8 +16,15 @@ open class ConceptdatatypeGet: JSONEncodable {
     public var hl7Abbreviation: String?
     public var retired: Bool?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, hl7Abbreviation: String?=nil, retired: Bool?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.hl7Abbreviation = hl7Abbreviation
+        self.retired = retired
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

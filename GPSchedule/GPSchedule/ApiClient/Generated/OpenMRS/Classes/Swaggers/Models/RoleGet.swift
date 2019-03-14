@@ -14,8 +14,13 @@ open class RoleGet: JSONEncodable {
     public var privileges: [PrivilegeGetRef]?
     public var inheritedRoles: [RoleGetRef]?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, privileges: [PrivilegeGetRef]?=nil, inheritedRoles: [RoleGetRef]?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.privileges = privileges
+        self.inheritedRoles = inheritedRoles
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

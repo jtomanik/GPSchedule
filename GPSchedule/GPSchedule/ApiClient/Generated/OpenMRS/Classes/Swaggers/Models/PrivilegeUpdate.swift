@@ -11,8 +11,10 @@ import Foundation
 open class PrivilegeUpdate: JSONEncodable {
     public var description: String?
 
-    public init() {}
 
+    public init(description: String?=nil) {
+        self.description = description
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

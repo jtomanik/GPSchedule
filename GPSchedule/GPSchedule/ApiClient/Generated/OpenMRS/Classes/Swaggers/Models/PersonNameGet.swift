@@ -17,8 +17,16 @@ open class PersonNameGet: JSONEncodable {
     public var familyName2: String?
     public var voided: Bool?
 
-    public init() {}
 
+    public init(display: String?=nil, uuid: String?=nil, givenName: String?=nil, middleName: String?=nil, familyName: String?=nil, familyName2: String?=nil, voided: Bool?=nil) {
+        self.display = display
+        self.uuid = uuid
+        self.givenName = givenName
+        self.middleName = middleName
+        self.familyName = familyName
+        self.familyName2 = familyName2
+        self.voided = voided
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

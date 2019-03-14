@@ -12,8 +12,11 @@ open class ServerlogGetFull: JSONEncodable {
     public var auditInfo: String?
     public var serverLog: Any?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, serverLog: Any?=nil) {
+        self.auditInfo = auditInfo
+        self.serverLog = serverLog
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -9,17 +9,26 @@ import Foundation
 
 
 open class ConceptattributetypeCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var datatypeClassname: String?
+    public var datatypeClassname: String
     public var minOccurs: Int32?
     public var maxOccurs: Int32?
     public var datatypeConfig: String?
     public var preferredHandlerClassname: String?
     public var handlerConfig: String?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, datatypeClassname: String, minOccurs: Int32?=nil, maxOccurs: Int32?=nil, datatypeConfig: String?=nil, preferredHandlerClassname: String?=nil, handlerConfig: String?=nil) {
+        self.name = name
+        self.description = description
+        self.datatypeClassname = datatypeClassname
+        self.minOccurs = minOccurs
+        self.maxOccurs = maxOccurs
+        self.datatypeConfig = datatypeConfig
+        self.preferredHandlerClassname = preferredHandlerClassname
+        self.handlerConfig = handlerConfig
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

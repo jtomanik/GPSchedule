@@ -16,8 +16,15 @@ open class ProviderGet: JSONEncodable {
     public var attributes: [ProviderAttributeGetRef]?
     public var preferredHandlerClassname: String?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, person: PersonGetRef?=nil, identifier: String?=nil, attributes: [ProviderAttributeGetRef]?=nil, preferredHandlerClassname: String?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.person = person
+        self.identifier = identifier
+        self.attributes = attributes
+        self.preferredHandlerClassname = preferredHandlerClassname
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

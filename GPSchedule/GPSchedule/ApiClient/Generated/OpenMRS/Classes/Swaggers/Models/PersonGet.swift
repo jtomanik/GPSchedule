@@ -29,8 +29,24 @@ open class PersonGet: JSONEncodable {
     public var deathdateEstimated: Bool?
     public var birthtime: Date?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, gender: Gender?=nil, age: Int32?=nil, birthdate: Date?=nil, birthdateEstimated: Bool?=nil, dead: Bool?=nil, deathDate: ISOFullDate?=nil, causeOfDeath: String?=nil, attributes: [PersonAttributeGetRef]?=nil, voided: Bool?=nil, preferredName: PersonNameGetRef?=nil, preferredAddress: PersonAddressGetRef?=nil, deathdateEstimated: Bool?=nil, birthtime: Date?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.gender = gender
+        self.age = age
+        self.birthdate = birthdate
+        self.birthdateEstimated = birthdateEstimated
+        self.dead = dead
+        self.deathDate = deathDate
+        self.causeOfDeath = causeOfDeath
+        self.attributes = attributes
+        self.voided = voided
+        self.preferredName = preferredName
+        self.preferredAddress = preferredAddress
+        self.deathdateEstimated = deathdateEstimated
+        self.birthtime = birthtime
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

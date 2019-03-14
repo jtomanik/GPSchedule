@@ -17,8 +17,16 @@ open class PersonAttributeGetFull: JSONEncodable {
     public var voided: Bool?
     public var hydratedObject: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, display: String?=nil, uuid: String?=nil, value: String?=nil, attributeType: PersonattributetypeGetRef?=nil, voided: Bool?=nil, hydratedObject: String?=nil) {
+        self.auditInfo = auditInfo
+        self.display = display
+        self.uuid = uuid
+        self.value = value
+        self.attributeType = attributeType
+        self.voided = voided
+        self.hydratedObject = hydratedObject
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

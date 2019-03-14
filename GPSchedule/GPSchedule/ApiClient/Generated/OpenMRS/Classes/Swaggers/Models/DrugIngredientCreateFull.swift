@@ -9,12 +9,16 @@ import Foundation
 
 
 open class DrugIngredientCreateFull: JSONEncodable {
-    public var ingredient: String?
+    public var ingredient: String
     public var strength: Double?
     public var units: String?
 
-    public init() {}
 
+    public init(ingredient: String, strength: Double?=nil, units: String?=nil) {
+        self.ingredient = ingredient
+        self.strength = strength
+        self.units = units
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

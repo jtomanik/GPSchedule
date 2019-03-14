@@ -19,8 +19,18 @@ open class OrdertypeGetFull: JSONEncodable {
     public var conceptClasses: [ConceptclassGet]?
     public var parent: OrdertypeGet?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, javaClassName: String?=nil, conceptClasses: [ConceptclassGet]?=nil, parent: OrdertypeGet?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.javaClassName = javaClassName
+        self.conceptClasses = conceptClasses
+        self.parent = parent
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

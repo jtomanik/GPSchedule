@@ -23,8 +23,22 @@ open class PersonNameGetFull: JSONEncodable {
     public var familyNameSuffix: String?
     public var degree: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, display: String?=nil, uuid: String?=nil, givenName: String?=nil, middleName: String?=nil, familyName: String?=nil, familyName2: String?=nil, voided: Bool?=nil, preferred: Bool?=nil, _prefix: String?=nil, familyNamePrefix: String?=nil, familyNameSuffix: String?=nil, degree: String?=nil) {
+        self.auditInfo = auditInfo
+        self.display = display
+        self.uuid = uuid
+        self.givenName = givenName
+        self.middleName = middleName
+        self.familyName = familyName
+        self.familyName2 = familyName2
+        self.voided = voided
+        self.preferred = preferred
+        self._prefix = _prefix
+        self.familyNamePrefix = familyNamePrefix
+        self.familyNameSuffix = familyNameSuffix
+        self.degree = degree
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
