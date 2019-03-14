@@ -7637,7 +7637,7 @@
                   }
                }
             }
-         },
+         }
       },
       "/personimage/{uuid}":{
          "get":{
@@ -14589,7 +14589,7 @@
                }
             }
          }
-      },
+      }
    },
    "securityDefinitions":{
       "basic_auth":{
