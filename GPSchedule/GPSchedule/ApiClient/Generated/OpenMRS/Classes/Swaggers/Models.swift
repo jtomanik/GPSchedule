@@ -59,15 +59,15 @@ public enum DecodeError {
 }
 
 private var once = Int()
-class Decoders {
+public class Decoders {
     static fileprivate var decoders = Dictionary<String, ((AnyObject, AnyObject?) -> AnyObject)>()
 
-    static func addDecoder<T>(clazz: T.Type, decoder: @escaping ((AnyObject, AnyObject?) -> Decoded<T>)) {
+    static open func addDecoder<T>(clazz: T.Type, decoder: @escaping ((AnyObject, AnyObject?) -> Decoded<T>)) {
         let key = "\(T.self)"
         decoders[key] = { decoder($0, $1) as AnyObject }
     }
 
-    static func decode<T>(clazz: T.Type, discriminator: String, source: AnyObject) -> Decoded<T> {
+    static open func decode<T>(clazz: T.Type, discriminator: String, source: AnyObject) -> Decoded<T> {
         let key = discriminator
         if let decoder = decoders[key], let value = decoder(source, nil) as? Decoded<T> {
             return value
@@ -76,7 +76,7 @@ class Decoders {
         }
     }
 
-    static func decode<T>(clazz: [T].Type, source: AnyObject) -> Decoded<[T]> {
+    static open func decode<T>(clazz: [T].Type, source: AnyObject) -> Decoded<[T]> {
         if let sourceArray = source as? [AnyObject] {
             var values = [T]()
             for sourceValue in sourceArray {
@@ -93,7 +93,7 @@ class Decoders {
         }
     }
 
-    static func decode<T>(clazz: T.Type, source: AnyObject) -> Decoded<T> {
+    static open func decode<T>(clazz: T.Type, source: AnyObject) -> Decoded<T> {
         switch Decoders.decode(clazz: T.self, source: source, instance: nil) {
     	    case let .success(value):
                 return .success(value)
@@ -114,7 +114,7 @@ class Decoders {
         }
     }
 
-    static func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> Decoded<[Key:T]> {
+    public static func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> Decoded<[Key:T]> {
         if let sourceDictionary = source as? [Key: AnyObject] {
             var dictionary = [Key:T]()
             for (key, value) in sourceDictionary {
@@ -131,7 +131,7 @@ class Decoders {
         }
     }
 
-    static func decodeOptional<T: RawRepresentable>(clazz: T.Type, source: AnyObject?) -> Decoded<T?> {
+    public static func decodeOptional<T: RawRepresentable>(clazz: T.Type, source: AnyObject?) -> Decoded<T?> {
         guard !(source is NSNull), source != nil else { return .success(nil) }
         if let value = source as? T.RawValue {
             if let enumValue = T.init(rawValue: value) {
@@ -144,7 +144,7 @@ class Decoders {
         }
     }
 
-    static func decode<T>(clazz: T.Type, source: AnyObject, instance: AnyObject?) -> Decoded<T> {
+    public static func decode<T>(clazz: T.Type, source: AnyObject, instance: AnyObject?) -> Decoded<T> {
         initialize()
         if let sourceNumber = source as? NSNumber, let value = sourceNumber.int32Value as? T, T.self is Int32.Type {
             return .success(value)
@@ -295,7 +295,7 @@ class Decoders {
         // Decoder for AppGet
         Decoders.addDecoder(clazz: AppGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppGet() : instance as! AppGet
+                let _result = AppGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppGet", actual: "\(source)"))
@@ -309,7 +309,7 @@ class Decoders {
         // Decoder for AppGetFull
         Decoders.addDecoder(clazz: AppGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppGetFull() : instance as! AppGetFull
+                let _result = AppGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -327,7 +327,7 @@ class Decoders {
         // Decoder for AppGetRef
         Decoders.addDecoder(clazz: AppGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppGetRef() : instance as! AppGetRef
+                let _result = AppGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppGetRef", actual: "\(source)"))
@@ -341,7 +341,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentGet
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentGet() : instance as! AppointmentschedulingAppointmentGet
+                let _result = AppointmentschedulingAppointmentGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentGet", actual: "\(source)"))
@@ -355,7 +355,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentGetFull
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentGetFull() : instance as! AppointmentschedulingAppointmentGetFull
+                let _result = AppointmentschedulingAppointmentGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -373,7 +373,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentGetRef
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentGetRef() : instance as! AppointmentschedulingAppointmentGetRef
+                let _result = AppointmentschedulingAppointmentGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentGetRef", actual: "\(source)"))
@@ -387,7 +387,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentblockGet
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentblockGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentblockGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentblockGet() : instance as! AppointmentschedulingAppointmentblockGet
+                let _result = AppointmentschedulingAppointmentblockGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentblockGet", actual: "\(source)"))
@@ -401,7 +401,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentblockGetFull
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentblockGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentblockGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentblockGetFull() : instance as! AppointmentschedulingAppointmentblockGetFull
+                let _result = AppointmentschedulingAppointmentblockGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -419,7 +419,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentblockGetRef
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentblockGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentblockGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentblockGetRef() : instance as! AppointmentschedulingAppointmentblockGetRef
+                let _result = AppointmentschedulingAppointmentblockGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentblockGetRef", actual: "\(source)"))
@@ -433,7 +433,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentrequestGet
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentrequestGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentrequestGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentrequestGet() : instance as! AppointmentschedulingAppointmentrequestGet
+                let _result = AppointmentschedulingAppointmentrequestGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentrequestGet", actual: "\(source)"))
@@ -447,7 +447,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentrequestGetFull
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentrequestGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentrequestGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentrequestGetFull() : instance as! AppointmentschedulingAppointmentrequestGetFull
+                let _result = AppointmentschedulingAppointmentrequestGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -465,7 +465,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmentrequestGetRef
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentrequestGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentrequestGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmentrequestGetRef() : instance as! AppointmentschedulingAppointmentrequestGetRef
+                let _result = AppointmentschedulingAppointmentrequestGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentrequestGetRef", actual: "\(source)"))
@@ -479,11 +479,13 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmenttypeCreate
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmenttypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmenttypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmenttypeCreate() : instance as! AppointmentschedulingAppointmenttypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmenttypeCreate", actual: "\(nameSource)"))
+                }
+                let _result = AppointmentschedulingAppointmenttypeCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -501,11 +503,13 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmenttypeCreateFull
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmenttypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmenttypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmenttypeCreateFull() : instance as! AppointmentschedulingAppointmenttypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmenttypeCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = AppointmentschedulingAppointmenttypeCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -523,7 +527,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmenttypeGet
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmenttypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmenttypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmenttypeGet() : instance as! AppointmentschedulingAppointmenttypeGet
+                let _result = AppointmentschedulingAppointmenttypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -545,7 +549,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmenttypeGetFull
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmenttypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmenttypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmenttypeGetFull() : instance as! AppointmentschedulingAppointmenttypeGetFull
+                let _result = AppointmentschedulingAppointmenttypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -583,7 +587,7 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmenttypeGetRef
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmenttypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmenttypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmenttypeGetRef() : instance as! AppointmentschedulingAppointmenttypeGetRef
+                let _result = AppointmentschedulingAppointmenttypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -605,11 +609,13 @@ class Decoders {
         // Decoder for AppointmentschedulingAppointmenttypeUpdate
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmenttypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmenttypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingAppointmenttypeUpdate() : instance as! AppointmentschedulingAppointmenttypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmenttypeUpdate", actual: "\(nameSource)"))
+                }
+                let _result = AppointmentschedulingAppointmenttypeUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -627,7 +633,7 @@ class Decoders {
         // Decoder for AppointmentschedulingTimeslotGet
         Decoders.addDecoder(clazz: AppointmentschedulingTimeslotGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingTimeslotGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingTimeslotGet() : instance as! AppointmentschedulingTimeslotGet
+                let _result = AppointmentschedulingTimeslotGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingTimeslotGet", actual: "\(source)"))
@@ -641,7 +647,7 @@ class Decoders {
         // Decoder for AppointmentschedulingTimeslotGetFull
         Decoders.addDecoder(clazz: AppointmentschedulingTimeslotGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingTimeslotGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingTimeslotGetFull() : instance as! AppointmentschedulingTimeslotGetFull
+                let _result = AppointmentschedulingTimeslotGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -659,7 +665,7 @@ class Decoders {
         // Decoder for AppointmentschedulingTimeslotGetRef
         Decoders.addDecoder(clazz: AppointmentschedulingTimeslotGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingTimeslotGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? AppointmentschedulingTimeslotGetRef() : instance as! AppointmentschedulingTimeslotGetRef
+                let _result = AppointmentschedulingTimeslotGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingTimeslotGetRef", actual: "\(source)"))
@@ -673,7 +679,7 @@ class Decoders {
         // Decoder for ApptemplateGet
         Decoders.addDecoder(clazz: ApptemplateGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ApptemplateGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ApptemplateGet() : instance as! ApptemplateGet
+                let _result = ApptemplateGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ApptemplateGet", actual: "\(source)"))
@@ -687,7 +693,7 @@ class Decoders {
         // Decoder for ApptemplateGetFull
         Decoders.addDecoder(clazz: ApptemplateGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ApptemplateGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ApptemplateGetFull() : instance as! ApptemplateGetFull
+                let _result = ApptemplateGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -705,7 +711,7 @@ class Decoders {
         // Decoder for ApptemplateGetRef
         Decoders.addDecoder(clazz: ApptemplateGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ApptemplateGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ApptemplateGetRef() : instance as! ApptemplateGetRef
+                let _result = ApptemplateGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ApptemplateGetRef", actual: "\(source)"))
@@ -719,7 +725,7 @@ class Decoders {
         // Decoder for CaresettingGet
         Decoders.addDecoder(clazz: CaresettingGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CaresettingGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CaresettingGet() : instance as! CaresettingGet
+                let _result = CaresettingGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -745,7 +751,7 @@ class Decoders {
         // Decoder for CaresettingGetFull
         Decoders.addDecoder(clazz: CaresettingGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CaresettingGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CaresettingGetFull() : instance as! CaresettingGetFull
+                let _result = CaresettingGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -787,7 +793,7 @@ class Decoders {
         // Decoder for CaresettingGetRef
         Decoders.addDecoder(clazz: CaresettingGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CaresettingGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CaresettingGetRef() : instance as! CaresettingGetRef
+                let _result = CaresettingGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -809,7 +815,7 @@ class Decoders {
         // Decoder for ChartSearchPreferenceGet
         Decoders.addDecoder(clazz: ChartSearchPreferenceGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChartSearchPreferenceGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ChartSearchPreferenceGet() : instance as! ChartSearchPreferenceGet
+                let _result = ChartSearchPreferenceGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ChartSearchPreferenceGet", actual: "\(source)"))
@@ -823,7 +829,7 @@ class Decoders {
         // Decoder for ChartSearchPreferenceGetFull
         Decoders.addDecoder(clazz: ChartSearchPreferenceGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChartSearchPreferenceGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ChartSearchPreferenceGetFull() : instance as! ChartSearchPreferenceGetFull
+                let _result = ChartSearchPreferenceGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -841,7 +847,7 @@ class Decoders {
         // Decoder for ChartSearchPreferenceGetRef
         Decoders.addDecoder(clazz: ChartSearchPreferenceGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChartSearchPreferenceGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ChartSearchPreferenceGetRef() : instance as! ChartSearchPreferenceGetRef
+                let _result = ChartSearchPreferenceGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ChartSearchPreferenceGetRef", actual: "\(source)"))
@@ -855,7 +861,7 @@ class Decoders {
         // Decoder for ChartsearchnoteGet
         Decoders.addDecoder(clazz: ChartsearchnoteGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChartsearchnoteGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ChartsearchnoteGet() : instance as! ChartsearchnoteGet
+                let _result = ChartsearchnoteGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ChartsearchnoteGet", actual: "\(source)"))
@@ -869,7 +875,7 @@ class Decoders {
         // Decoder for ChartsearchnoteGetFull
         Decoders.addDecoder(clazz: ChartsearchnoteGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChartsearchnoteGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ChartsearchnoteGetFull() : instance as! ChartsearchnoteGetFull
+                let _result = ChartsearchnoteGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -887,7 +893,7 @@ class Decoders {
         // Decoder for ChartsearchnoteGetRef
         Decoders.addDecoder(clazz: ChartsearchnoteGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChartsearchnoteGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ChartsearchnoteGetRef() : instance as! ChartsearchnoteGetRef
+                let _result = ChartsearchnoteGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ChartsearchnoteGetRef", actual: "\(source)"))
@@ -901,19 +907,25 @@ class Decoders {
         // Decoder for CohortCreate
         Decoders.addDecoder(clazz: CohortCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortCreate() : instance as! CohortCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortCreate", actual: "\(nameSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: [Int32].self, source: sourceDictionary["memberIds"] as AnyObject?) {
-                case let .success(value): _result.memberIds = value
-                case let .failure(error): break
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
                 }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortCreate", actual: "\(descriptionSource)"))
+                }
+                guard let memberIdsSource = sourceDictionary["memberIds"] as AnyObject? else {
+                    return .failure(.missingKey(key: "memberIds"))
+                }
+                guard let memberIds = Decoders.decode(clazz: [Int32].self.self, source: memberIdsSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortCreate", actual: "\(memberIdsSource)"))
+                }
+                let _result = CohortCreate(name: name, description: description, memberIds: memberIds)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "CohortCreate", actual: "\(source)"))
@@ -927,19 +939,25 @@ class Decoders {
         // Decoder for CohortCreateFull
         Decoders.addDecoder(clazz: CohortCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortCreateFull() : instance as! CohortCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortCreateFull", actual: "\(nameSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: [Int32].self, source: sourceDictionary["memberIds"] as AnyObject?) {
-                case let .success(value): _result.memberIds = value
-                case let .failure(error): break
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
                 }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortCreateFull", actual: "\(descriptionSource)"))
+                }
+                guard let memberIdsSource = sourceDictionary["memberIds"] as AnyObject? else {
+                    return .failure(.missingKey(key: "memberIds"))
+                }
+                guard let memberIds = Decoders.decode(clazz: [Int32].self.self, source: memberIdsSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortCreateFull", actual: "\(memberIdsSource)"))
+                }
+                let _result = CohortCreateFull(name: name, description: description, memberIds: memberIds)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "CohortCreateFull", actual: "\(source)"))
@@ -953,7 +971,7 @@ class Decoders {
         // Decoder for CohortGet
         Decoders.addDecoder(clazz: CohortGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortGet() : instance as! CohortGet
+                let _result = CohortGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -987,7 +1005,7 @@ class Decoders {
         // Decoder for CohortGetFull
         Decoders.addDecoder(clazz: CohortGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortGetFull() : instance as! CohortGetFull
+                let _result = CohortGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -1025,7 +1043,7 @@ class Decoders {
         // Decoder for CohortGetRef
         Decoders.addDecoder(clazz: CohortGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortGetRef() : instance as! CohortGetRef
+                let _result = CohortGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "CohortGetRef", actual: "\(source)"))
@@ -1039,7 +1057,7 @@ class Decoders {
         // Decoder for CohortMembershipCreate
         Decoders.addDecoder(clazz: CohortMembershipCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortMembershipCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortMembershipCreate() : instance as! CohortMembershipCreate
+                let _result = CohortMembershipCreate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["patientUuid"] as AnyObject?) {
                 case let .success(value): _result.patientUuid = value
                 case let .failure(error): break
@@ -1065,7 +1083,7 @@ class Decoders {
         // Decoder for CohortMembershipCreateFull
         Decoders.addDecoder(clazz: CohortMembershipCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortMembershipCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortMembershipCreateFull() : instance as! CohortMembershipCreateFull
+                let _result = CohortMembershipCreateFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["patientUuid"] as AnyObject?) {
                 case let .success(value): _result.patientUuid = value
                 case let .failure(error): break
@@ -1091,7 +1109,7 @@ class Decoders {
         // Decoder for CohortMembershipGet
         Decoders.addDecoder(clazz: CohortMembershipGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortMembershipGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortMembershipGet() : instance as! CohortMembershipGet
+                let _result = CohortMembershipGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -1125,7 +1143,7 @@ class Decoders {
         // Decoder for CohortMembershipGetFull
         Decoders.addDecoder(clazz: CohortMembershipGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortMembershipGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortMembershipGetFull() : instance as! CohortMembershipGetFull
+                let _result = CohortMembershipGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -1163,7 +1181,7 @@ class Decoders {
         // Decoder for CohortMembershipGetRef
         Decoders.addDecoder(clazz: CohortMembershipGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortMembershipGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortMembershipGetRef() : instance as! CohortMembershipGetRef
+                let _result = CohortMembershipGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "CohortMembershipGetRef", actual: "\(source)"))
@@ -1177,7 +1195,7 @@ class Decoders {
         // Decoder for CohortMembershipUpdate
         Decoders.addDecoder(clazz: CohortMembershipUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortMembershipUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortMembershipUpdate() : instance as! CohortMembershipUpdate
+                let _result = CohortMembershipUpdate()
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
@@ -1199,15 +1217,19 @@ class Decoders {
         // Decoder for CohortUpdate
         Decoders.addDecoder(clazz: CohortUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CohortUpdate() : instance as! CohortUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortUpdate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "CohortUpdate", actual: "\(descriptionSource)"))
+                }
+                let _result = CohortUpdate(name: name, description: description)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "CohortUpdate", actual: "\(source)"))
@@ -1221,15 +1243,19 @@ class Decoders {
         // Decoder for ConceptAttributeCreate
         Decoders.addDecoder(clazz: ConceptAttributeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptAttributeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptAttributeCreate() : instance as! ConceptAttributeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptAttributeCreate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptAttributeCreate", actual: "\(valueSource)"))
+                }
+                let _result = ConceptAttributeCreate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptAttributeCreate", actual: "\(source)"))
@@ -1243,15 +1269,19 @@ class Decoders {
         // Decoder for ConceptAttributeCreateFull
         Decoders.addDecoder(clazz: ConceptAttributeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptAttributeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptAttributeCreateFull() : instance as! ConceptAttributeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptAttributeCreateFull", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptAttributeCreateFull", actual: "\(valueSource)"))
+                }
+                let _result = ConceptAttributeCreateFull(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptAttributeCreateFull", actual: "\(source)"))
@@ -1265,7 +1295,7 @@ class Decoders {
         // Decoder for ConceptAttributeGet
         Decoders.addDecoder(clazz: ConceptAttributeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptAttributeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptAttributeGet() : instance as! ConceptAttributeGet
+                let _result = ConceptAttributeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -1299,7 +1329,7 @@ class Decoders {
         // Decoder for ConceptAttributeGetFull
         Decoders.addDecoder(clazz: ConceptAttributeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptAttributeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptAttributeGetFull() : instance as! ConceptAttributeGetFull
+                let _result = ConceptAttributeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -1337,7 +1367,7 @@ class Decoders {
         // Decoder for ConceptAttributeGetRef
         Decoders.addDecoder(clazz: ConceptAttributeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptAttributeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptAttributeGetRef() : instance as! ConceptAttributeGetRef
+                let _result = ConceptAttributeGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptAttributeGetRef", actual: "\(source)"))
@@ -1351,15 +1381,19 @@ class Decoders {
         // Decoder for ConceptAttributeUpdate
         Decoders.addDecoder(clazz: ConceptAttributeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptAttributeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptAttributeUpdate() : instance as! ConceptAttributeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptAttributeUpdate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptAttributeUpdate", actual: "\(valueSource)"))
+                }
+                let _result = ConceptAttributeUpdate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptAttributeUpdate", actual: "\(source)"))
@@ -1373,15 +1407,25 @@ class Decoders {
         // Decoder for ConceptCreate
         Decoders.addDecoder(clazz: ConceptCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptCreate() : instance as! ConceptCreate
-                switch Decoders.decodeOptional(clazz: [ConceptNameCreate].self, source: sourceDictionary["names"] as AnyObject?) {
-                case let .success(value): _result.names = value
-                case let .failure(error): break
+                guard let namesSource = sourceDictionary["names"] as AnyObject? else {
+                    return .failure(.missingKey(key: "names"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatype"] as AnyObject?) {
-                case let .success(value): _result.datatype = value
-                case let .failure(error): break
+                guard let names = Decoders.decode(clazz: [ConceptNameCreate].self.self, source: namesSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptCreate", actual: "\(namesSource)"))
                 }
+                guard let datatypeSource = sourceDictionary["datatype"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatype"))
+                }
+                guard let datatype = Decoders.decode(clazz: String.self.self, source: datatypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptCreate", actual: "\(datatypeSource)"))
+                }
+                guard let conceptClassSource = sourceDictionary["conceptClass"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptClass"))
+                }
+                guard let conceptClass = Decoders.decode(clazz: String.self.self, source: conceptClassSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptCreate", actual: "\(conceptClassSource)"))
+                }
+                let _result = ConceptCreate(names: names, datatype: datatype, conceptClass: conceptClass)
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["set"] as AnyObject?) {
                 case let .success(value): _result._set = value
                 case let .failure(error): break
@@ -1432,10 +1476,6 @@ class Decoders {
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["displayPrecision"] as AnyObject?) {
                 case let .success(value): _result.displayPrecision = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["conceptClass"] as AnyObject?) {
-                case let .success(value): _result.conceptClass = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["descriptions"] as AnyObject?) {
@@ -1459,15 +1499,25 @@ class Decoders {
         // Decoder for ConceptCreateFull
         Decoders.addDecoder(clazz: ConceptCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptCreateFull() : instance as! ConceptCreateFull
-                switch Decoders.decodeOptional(clazz: [ConceptNameCreate].self, source: sourceDictionary["names"] as AnyObject?) {
-                case let .success(value): _result.names = value
-                case let .failure(error): break
+                guard let namesSource = sourceDictionary["names"] as AnyObject? else {
+                    return .failure(.missingKey(key: "names"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatype"] as AnyObject?) {
-                case let .success(value): _result.datatype = value
-                case let .failure(error): break
+                guard let names = Decoders.decode(clazz: [ConceptNameCreate].self.self, source: namesSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptCreateFull", actual: "\(namesSource)"))
                 }
+                guard let datatypeSource = sourceDictionary["datatype"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatype"))
+                }
+                guard let datatype = Decoders.decode(clazz: String.self.self, source: datatypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptCreateFull", actual: "\(datatypeSource)"))
+                }
+                guard let conceptClassSource = sourceDictionary["conceptClass"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptClass"))
+                }
+                guard let conceptClass = Decoders.decode(clazz: ConceptclassCreate.self.self, source: conceptClassSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptCreateFull", actual: "\(conceptClassSource)"))
+                }
+                let _result = ConceptCreateFull(names: names, datatype: datatype, conceptClass: conceptClass)
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["set"] as AnyObject?) {
                 case let .success(value): _result._set = value
                 case let .failure(error): break
@@ -1520,10 +1570,6 @@ class Decoders {
                 case let .success(value): _result.displayPrecision = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ConceptclassCreate.self, source: sourceDictionary["conceptClass"] as AnyObject?) {
-                case let .success(value): _result.conceptClass = value
-                case let .failure(error): break
-                }
                 switch Decoders.decodeOptional(clazz: [ConceptDescriptionCreate].self, source: sourceDictionary["descriptions"] as AnyObject?) {
                 case let .success(value): _result.descriptions = value
                 case let .failure(error): break
@@ -1545,15 +1591,19 @@ class Decoders {
         // Decoder for ConceptDescriptionCreate
         Decoders.addDecoder(clazz: ConceptDescriptionCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptDescriptionCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptDescriptionCreate() : instance as! ConceptDescriptionCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
-                case let .success(value): _result.locale = value
-                case let .failure(error): break
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptDescriptionCreate", actual: "\(descriptionSource)"))
                 }
+                guard let localeSource = sourceDictionary["locale"] as AnyObject? else {
+                    return .failure(.missingKey(key: "locale"))
+                }
+                guard let locale = Decoders.decode(clazz: String.self.self, source: localeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptDescriptionCreate", actual: "\(localeSource)"))
+                }
+                let _result = ConceptDescriptionCreate(description: description, locale: locale)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptDescriptionCreate", actual: "\(source)"))
@@ -1567,15 +1617,19 @@ class Decoders {
         // Decoder for ConceptDescriptionCreateFull
         Decoders.addDecoder(clazz: ConceptDescriptionCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptDescriptionCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptDescriptionCreateFull() : instance as! ConceptDescriptionCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
-                case let .success(value): _result.locale = value
-                case let .failure(error): break
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptDescriptionCreateFull", actual: "\(descriptionSource)"))
                 }
+                guard let localeSource = sourceDictionary["locale"] as AnyObject? else {
+                    return .failure(.missingKey(key: "locale"))
+                }
+                guard let locale = Decoders.decode(clazz: String.self.self, source: localeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptDescriptionCreateFull", actual: "\(localeSource)"))
+                }
+                let _result = ConceptDescriptionCreateFull(description: description, locale: locale)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptDescriptionCreateFull", actual: "\(source)"))
@@ -1589,7 +1643,7 @@ class Decoders {
         // Decoder for ConceptDescriptionGet
         Decoders.addDecoder(clazz: ConceptDescriptionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptDescriptionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptDescriptionGet() : instance as! ConceptDescriptionGet
+                let _result = ConceptDescriptionGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -1619,7 +1673,7 @@ class Decoders {
         // Decoder for ConceptDescriptionGetFull
         Decoders.addDecoder(clazz: ConceptDescriptionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptDescriptionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptDescriptionGetFull() : instance as! ConceptDescriptionGetFull
+                let _result = ConceptDescriptionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -1653,7 +1707,7 @@ class Decoders {
         // Decoder for ConceptDescriptionGetRef
         Decoders.addDecoder(clazz: ConceptDescriptionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptDescriptionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptDescriptionGetRef() : instance as! ConceptDescriptionGetRef
+                let _result = ConceptDescriptionGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -1675,15 +1729,19 @@ class Decoders {
         // Decoder for ConceptDescriptionUpdate
         Decoders.addDecoder(clazz: ConceptDescriptionUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptDescriptionUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptDescriptionUpdate() : instance as! ConceptDescriptionUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
-                case let .success(value): _result.locale = value
-                case let .failure(error): break
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptDescriptionUpdate", actual: "\(descriptionSource)"))
                 }
+                guard let localeSource = sourceDictionary["locale"] as AnyObject? else {
+                    return .failure(.missingKey(key: "locale"))
+                }
+                guard let locale = Decoders.decode(clazz: String.self.self, source: localeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptDescriptionUpdate", actual: "\(localeSource)"))
+                }
+                let _result = ConceptDescriptionUpdate(description: description, locale: locale)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptDescriptionUpdate", actual: "\(source)"))
@@ -1697,7 +1755,7 @@ class Decoders {
         // Decoder for ConceptGet
         Decoders.addDecoder(clazz: ConceptGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptGet() : instance as! ConceptGet
+                let _result = ConceptGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -1763,7 +1821,7 @@ class Decoders {
         // Decoder for ConceptGetFull
         Decoders.addDecoder(clazz: ConceptGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptGetFull() : instance as! ConceptGetFull
+                let _result = ConceptGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -1789,7 +1847,7 @@ class Decoders {
         // Decoder for ConceptGetRef
         Decoders.addDecoder(clazz: ConceptGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptGetRef() : instance as! ConceptGetRef
+                let _result = ConceptGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -1811,15 +1869,19 @@ class Decoders {
         // Decoder for ConceptMappingCreate
         Decoders.addDecoder(clazz: ConceptMappingCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptMappingCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptMappingCreate() : instance as! ConceptMappingCreate
-                switch Decoders.decodeOptional(clazz: ConceptreferencetermCreate.self, source: sourceDictionary["conceptReferenceTerm"] as AnyObject?) {
-                case let .success(value): _result.conceptReferenceTerm = value
-                case let .failure(error): break
+                guard let conceptReferenceTermSource = sourceDictionary["conceptReferenceTerm"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptReferenceTerm"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptmaptypeCreate.self, source: sourceDictionary["conceptMapType"] as AnyObject?) {
-                case let .success(value): _result.conceptMapType = value
-                case let .failure(error): break
+                guard let conceptReferenceTerm = Decoders.decode(clazz: ConceptreferencetermCreate.self.self, source: conceptReferenceTermSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptMappingCreate", actual: "\(conceptReferenceTermSource)"))
                 }
+                guard let conceptMapTypeSource = sourceDictionary["conceptMapType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptMapType"))
+                }
+                guard let conceptMapType = Decoders.decode(clazz: ConceptmaptypeCreate.self.self, source: conceptMapTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptMappingCreate", actual: "\(conceptMapTypeSource)"))
+                }
+                let _result = ConceptMappingCreate(conceptReferenceTerm: conceptReferenceTerm, conceptMapType: conceptMapType)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptMappingCreate", actual: "\(source)"))
@@ -1833,15 +1895,19 @@ class Decoders {
         // Decoder for ConceptMappingCreateFull
         Decoders.addDecoder(clazz: ConceptMappingCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptMappingCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptMappingCreateFull() : instance as! ConceptMappingCreateFull
-                switch Decoders.decodeOptional(clazz: ConceptreferencetermCreate.self, source: sourceDictionary["conceptReferenceTerm"] as AnyObject?) {
-                case let .success(value): _result.conceptReferenceTerm = value
-                case let .failure(error): break
+                guard let conceptReferenceTermSource = sourceDictionary["conceptReferenceTerm"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptReferenceTerm"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptmaptypeCreate.self, source: sourceDictionary["conceptMapType"] as AnyObject?) {
-                case let .success(value): _result.conceptMapType = value
-                case let .failure(error): break
+                guard let conceptReferenceTerm = Decoders.decode(clazz: ConceptreferencetermCreate.self.self, source: conceptReferenceTermSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptMappingCreateFull", actual: "\(conceptReferenceTermSource)"))
                 }
+                guard let conceptMapTypeSource = sourceDictionary["conceptMapType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptMapType"))
+                }
+                guard let conceptMapType = Decoders.decode(clazz: ConceptmaptypeCreate.self.self, source: conceptMapTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptMappingCreateFull", actual: "\(conceptMapTypeSource)"))
+                }
+                let _result = ConceptMappingCreateFull(conceptReferenceTerm: conceptReferenceTerm, conceptMapType: conceptMapType)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptMappingCreateFull", actual: "\(source)"))
@@ -1855,7 +1921,7 @@ class Decoders {
         // Decoder for ConceptMappingGet
         Decoders.addDecoder(clazz: ConceptMappingGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptMappingGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptMappingGet() : instance as! ConceptMappingGet
+                let _result = ConceptMappingGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -1885,7 +1951,7 @@ class Decoders {
         // Decoder for ConceptMappingGetFull
         Decoders.addDecoder(clazz: ConceptMappingGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptMappingGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptMappingGetFull() : instance as! ConceptMappingGetFull
+                let _result = ConceptMappingGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -1919,7 +1985,7 @@ class Decoders {
         // Decoder for ConceptMappingGetRef
         Decoders.addDecoder(clazz: ConceptMappingGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptMappingGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptMappingGetRef() : instance as! ConceptMappingGetRef
+                let _result = ConceptMappingGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptMappingGetRef", actual: "\(source)"))
@@ -1933,15 +1999,19 @@ class Decoders {
         // Decoder for ConceptMappingUpdate
         Decoders.addDecoder(clazz: ConceptMappingUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptMappingUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptMappingUpdate() : instance as! ConceptMappingUpdate
-                switch Decoders.decodeOptional(clazz: ConceptreferencetermCreate.self, source: sourceDictionary["conceptReferenceTerm"] as AnyObject?) {
-                case let .success(value): _result.conceptReferenceTerm = value
-                case let .failure(error): break
+                guard let conceptReferenceTermSource = sourceDictionary["conceptReferenceTerm"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptReferenceTerm"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptmaptypeCreate.self, source: sourceDictionary["conceptMapType"] as AnyObject?) {
-                case let .success(value): _result.conceptMapType = value
-                case let .failure(error): break
+                guard let conceptReferenceTerm = Decoders.decode(clazz: ConceptreferencetermCreate.self.self, source: conceptReferenceTermSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptMappingUpdate", actual: "\(conceptReferenceTermSource)"))
                 }
+                guard let conceptMapTypeSource = sourceDictionary["conceptMapType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptMapType"))
+                }
+                guard let conceptMapType = Decoders.decode(clazz: ConceptmaptypeCreate.self.self, source: conceptMapTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptMappingUpdate", actual: "\(conceptMapTypeSource)"))
+                }
+                let _result = ConceptMappingUpdate(conceptReferenceTerm: conceptReferenceTerm, conceptMapType: conceptMapType)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptMappingUpdate", actual: "\(source)"))
@@ -1955,15 +2025,19 @@ class Decoders {
         // Decoder for ConceptNameCreate
         Decoders.addDecoder(clazz: ConceptNameCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptNameCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptNameCreate() : instance as! ConceptNameCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
-                case let .success(value): _result.locale = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptNameCreate", actual: "\(nameSource)"))
                 }
+                guard let localeSource = sourceDictionary["locale"] as AnyObject? else {
+                    return .failure(.missingKey(key: "locale"))
+                }
+                guard let locale = Decoders.decode(clazz: String.self.self, source: localeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptNameCreate", actual: "\(localeSource)"))
+                }
+                let _result = ConceptNameCreate(name: name, locale: locale)
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["localePreferred"] as AnyObject?) {
                 case let .success(value): _result.localePreferred = value
                 case let .failure(error): break
@@ -1985,15 +2059,19 @@ class Decoders {
         // Decoder for ConceptNameCreateFull
         Decoders.addDecoder(clazz: ConceptNameCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptNameCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptNameCreateFull() : instance as! ConceptNameCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
-                case let .success(value): _result.locale = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptNameCreateFull", actual: "\(nameSource)"))
                 }
+                guard let localeSource = sourceDictionary["locale"] as AnyObject? else {
+                    return .failure(.missingKey(key: "locale"))
+                }
+                guard let locale = Decoders.decode(clazz: String.self.self, source: localeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptNameCreateFull", actual: "\(localeSource)"))
+                }
+                let _result = ConceptNameCreateFull(name: name, locale: locale)
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["localePreferred"] as AnyObject?) {
                 case let .success(value): _result.localePreferred = value
                 case let .failure(error): break
@@ -2015,7 +2093,7 @@ class Decoders {
         // Decoder for ConceptNameGet
         Decoders.addDecoder(clazz: ConceptNameGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptNameGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptNameGet() : instance as! ConceptNameGet
+                let _result = ConceptNameGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2053,7 +2131,7 @@ class Decoders {
         // Decoder for ConceptNameGetFull
         Decoders.addDecoder(clazz: ConceptNameGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptNameGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptNameGetFull() : instance as! ConceptNameGetFull
+                let _result = ConceptNameGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -2095,7 +2173,7 @@ class Decoders {
         // Decoder for ConceptNameGetRef
         Decoders.addDecoder(clazz: ConceptNameGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptNameGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptNameGetRef() : instance as! ConceptNameGetRef
+                let _result = ConceptNameGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2117,7 +2195,7 @@ class Decoders {
         // Decoder for ConceptNameUpdate
         Decoders.addDecoder(clazz: ConceptNameUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptNameUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptNameUpdate() : instance as! ConceptNameUpdate
+                let _result = ConceptNameUpdate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 case let .success(value): _result.name = value
                 case let .failure(error): break
@@ -2135,7 +2213,7 @@ class Decoders {
         // Decoder for ConceptUpdate
         Decoders.addDecoder(clazz: ConceptUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptUpdate() : instance as! ConceptUpdate
+                let _result = ConceptUpdate()
                 switch Decoders.decodeOptional(clazz: ConceptNameCreate.self, source: sourceDictionary["name"] as AnyObject?) {
                 case let .success(value): _result.name = value
                 case let .failure(error): break
@@ -2161,17 +2239,21 @@ class Decoders {
         // Decoder for ConceptattributetypeCreate
         Decoders.addDecoder(clazz: ConceptattributetypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptattributetypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptattributetypeCreate() : instance as! ConceptattributetypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptattributetypeCreate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptattributetypeCreate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = ConceptattributetypeCreate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -2207,17 +2289,21 @@ class Decoders {
         // Decoder for ConceptattributetypeCreateFull
         Decoders.addDecoder(clazz: ConceptattributetypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptattributetypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptattributetypeCreateFull() : instance as! ConceptattributetypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptattributetypeCreateFull", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptattributetypeCreateFull", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = ConceptattributetypeCreateFull(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -2253,7 +2339,7 @@ class Decoders {
         // Decoder for ConceptattributetypeGet
         Decoders.addDecoder(clazz: ConceptattributetypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptattributetypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptattributetypeGet() : instance as! ConceptattributetypeGet
+                let _result = ConceptattributetypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2291,7 +2377,7 @@ class Decoders {
         // Decoder for ConceptattributetypeGetFull
         Decoders.addDecoder(clazz: ConceptattributetypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptattributetypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptattributetypeGetFull() : instance as! ConceptattributetypeGetFull
+                let _result = ConceptattributetypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -2353,7 +2439,7 @@ class Decoders {
         // Decoder for ConceptattributetypeGetRef
         Decoders.addDecoder(clazz: ConceptattributetypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptattributetypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptattributetypeGetRef() : instance as! ConceptattributetypeGetRef
+                let _result = ConceptattributetypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2375,17 +2461,21 @@ class Decoders {
         // Decoder for ConceptattributetypeUpdate
         Decoders.addDecoder(clazz: ConceptattributetypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptattributetypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptattributetypeUpdate() : instance as! ConceptattributetypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptattributetypeUpdate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptattributetypeUpdate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = ConceptattributetypeUpdate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -2421,11 +2511,13 @@ class Decoders {
         // Decoder for ConceptclassCreate
         Decoders.addDecoder(clazz: ConceptclassCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptclassCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptclassCreate() : instance as! ConceptclassCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptclassCreate", actual: "\(nameSource)"))
+                }
+                let _result = ConceptclassCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -2443,11 +2535,13 @@ class Decoders {
         // Decoder for ConceptclassCreateFull
         Decoders.addDecoder(clazz: ConceptclassCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptclassCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptclassCreateFull() : instance as! ConceptclassCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptclassCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = ConceptclassCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -2465,7 +2559,7 @@ class Decoders {
         // Decoder for ConceptclassGet
         Decoders.addDecoder(clazz: ConceptclassGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptclassGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptclassGet() : instance as! ConceptclassGet
+                let _result = ConceptclassGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2487,7 +2581,7 @@ class Decoders {
         // Decoder for ConceptclassGetFull
         Decoders.addDecoder(clazz: ConceptclassGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptclassGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptclassGetFull() : instance as! ConceptclassGetFull
+                let _result = ConceptclassGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -2525,7 +2619,7 @@ class Decoders {
         // Decoder for ConceptclassGetRef
         Decoders.addDecoder(clazz: ConceptclassGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptclassGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptclassGetRef() : instance as! ConceptclassGetRef
+                let _result = ConceptclassGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2547,11 +2641,13 @@ class Decoders {
         // Decoder for ConceptclassUpdate
         Decoders.addDecoder(clazz: ConceptclassUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptclassUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptclassUpdate() : instance as! ConceptclassUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptclassUpdate", actual: "\(nameSource)"))
+                }
+                let _result = ConceptclassUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -2569,7 +2665,7 @@ class Decoders {
         // Decoder for ConceptdatatypeGet
         Decoders.addDecoder(clazz: ConceptdatatypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptdatatypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptdatatypeGet() : instance as! ConceptdatatypeGet
+                let _result = ConceptdatatypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2607,7 +2703,7 @@ class Decoders {
         // Decoder for ConceptdatatypeGetFull
         Decoders.addDecoder(clazz: ConceptdatatypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptdatatypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptdatatypeGetFull() : instance as! ConceptdatatypeGetFull
+                let _result = ConceptdatatypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -2649,7 +2745,7 @@ class Decoders {
         // Decoder for ConceptdatatypeGetRef
         Decoders.addDecoder(clazz: ConceptdatatypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptdatatypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptdatatypeGetRef() : instance as! ConceptdatatypeGetRef
+                let _result = ConceptdatatypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2671,11 +2767,13 @@ class Decoders {
         // Decoder for ConceptmaptypeCreate
         Decoders.addDecoder(clazz: ConceptmaptypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptmaptypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptmaptypeCreate() : instance as! ConceptmaptypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptmaptypeCreate", actual: "\(nameSource)"))
+                }
+                let _result = ConceptmaptypeCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -2697,11 +2795,13 @@ class Decoders {
         // Decoder for ConceptmaptypeCreateFull
         Decoders.addDecoder(clazz: ConceptmaptypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptmaptypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptmaptypeCreateFull() : instance as! ConceptmaptypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptmaptypeCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = ConceptmaptypeCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -2723,7 +2823,7 @@ class Decoders {
         // Decoder for ConceptmaptypeGet
         Decoders.addDecoder(clazz: ConceptmaptypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptmaptypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptmaptypeGet() : instance as! ConceptmaptypeGet
+                let _result = ConceptmaptypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2749,7 +2849,7 @@ class Decoders {
         // Decoder for ConceptmaptypeGetFull
         Decoders.addDecoder(clazz: ConceptmaptypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptmaptypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptmaptypeGetFull() : instance as! ConceptmaptypeGetFull
+                let _result = ConceptmaptypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -2791,7 +2891,7 @@ class Decoders {
         // Decoder for ConceptmaptypeGetRef
         Decoders.addDecoder(clazz: ConceptmaptypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptmaptypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptmaptypeGetRef() : instance as! ConceptmaptypeGetRef
+                let _result = ConceptmaptypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2813,11 +2913,13 @@ class Decoders {
         // Decoder for ConceptmaptypeUpdate
         Decoders.addDecoder(clazz: ConceptmaptypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptmaptypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptmaptypeUpdate() : instance as! ConceptmaptypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptmaptypeUpdate", actual: "\(nameSource)"))
+                }
+                let _result = ConceptmaptypeUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -2839,21 +2941,27 @@ class Decoders {
         // Decoder for ConceptreferencetermCreate
         Decoders.addDecoder(clazz: ConceptreferencetermCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermCreate() : instance as! ConceptreferencetermCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermCreate", actual: "\(nameSource)"))
+                }
+                guard let codeSource = sourceDictionary["code"] as AnyObject? else {
+                    return .failure(.missingKey(key: "code"))
+                }
+                guard let code = Decoders.decode(clazz: String.self.self, source: codeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermCreate", actual: "\(codeSource)"))
+                }
+                guard let conceptSourceSource = sourceDictionary["conceptSource"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptSource"))
+                }
+                guard let conceptSource = Decoders.decode(clazz: String.self.self, source: conceptSourceSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermCreate", actual: "\(conceptSourceSource)"))
+                }
+                let _result = ConceptreferencetermCreate(name: name, code: code, conceptSource: conceptSource)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?) {
-                case let .success(value): _result.code = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["conceptSource"] as AnyObject?) {
-                case let .success(value): _result.conceptSource = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["version"] as AnyObject?) {
@@ -2873,21 +2981,27 @@ class Decoders {
         // Decoder for ConceptreferencetermCreateFull
         Decoders.addDecoder(clazz: ConceptreferencetermCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermCreateFull() : instance as! ConceptreferencetermCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermCreateFull", actual: "\(nameSource)"))
+                }
+                guard let codeSource = sourceDictionary["code"] as AnyObject? else {
+                    return .failure(.missingKey(key: "code"))
+                }
+                guard let code = Decoders.decode(clazz: String.self.self, source: codeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermCreateFull", actual: "\(codeSource)"))
+                }
+                guard let conceptSourceSource = sourceDictionary["conceptSource"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptSource"))
+                }
+                guard let conceptSource = Decoders.decode(clazz: String.self.self, source: conceptSourceSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermCreateFull", actual: "\(conceptSourceSource)"))
+                }
+                let _result = ConceptreferencetermCreateFull(name: name, code: code, conceptSource: conceptSource)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?) {
-                case let .success(value): _result.code = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["conceptSource"] as AnyObject?) {
-                case let .success(value): _result.conceptSource = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["version"] as AnyObject?) {
@@ -2907,7 +3021,7 @@ class Decoders {
         // Decoder for ConceptreferencetermGet
         Decoders.addDecoder(clazz: ConceptreferencetermGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermGet() : instance as! ConceptreferencetermGet
+                let _result = ConceptreferencetermGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -2941,7 +3055,7 @@ class Decoders {
         // Decoder for ConceptreferencetermGetFull
         Decoders.addDecoder(clazz: ConceptreferencetermGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermGetFull() : instance as! ConceptreferencetermGetFull
+                let _result = ConceptreferencetermGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -2991,7 +3105,7 @@ class Decoders {
         // Decoder for ConceptreferencetermGetRef
         Decoders.addDecoder(clazz: ConceptreferencetermGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermGetRef() : instance as! ConceptreferencetermGetRef
+                let _result = ConceptreferencetermGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3013,7 +3127,7 @@ class Decoders {
         // Decoder for ConceptreferencetermUpdate
         Decoders.addDecoder(clazz: ConceptreferencetermUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermUpdate() : instance as! ConceptreferencetermUpdate
+                let _result = ConceptreferencetermUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptreferencetermUpdate", actual: "\(source)"))
@@ -3027,19 +3141,25 @@ class Decoders {
         // Decoder for ConceptreferencetermmapCreate
         Decoders.addDecoder(clazz: ConceptreferencetermmapCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermmapCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermmapCreate() : instance as! ConceptreferencetermmapCreate
-                switch Decoders.decodeOptional(clazz: ConceptreferencetermCreate.self, source: sourceDictionary["termA"] as AnyObject?) {
-                case let .success(value): _result.termA = value
-                case let .failure(error): break
+                guard let termASource = sourceDictionary["termA"] as AnyObject? else {
+                    return .failure(.missingKey(key: "termA"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptreferencetermCreate.self, source: sourceDictionary["termB"] as AnyObject?) {
-                case let .success(value): _result.termB = value
-                case let .failure(error): break
+                guard let termA = Decoders.decode(clazz: ConceptreferencetermCreate.self.self, source: termASource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreate", actual: "\(termASource)"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptmaptypeCreate.self, source: sourceDictionary["conceptMapType"] as AnyObject?) {
-                case let .success(value): _result.conceptMapType = value
-                case let .failure(error): break
+                guard let termBSource = sourceDictionary["termB"] as AnyObject? else {
+                    return .failure(.missingKey(key: "termB"))
                 }
+                guard let termB = Decoders.decode(clazz: ConceptreferencetermCreate.self.self, source: termBSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreate", actual: "\(termBSource)"))
+                }
+                guard let conceptMapTypeSource = sourceDictionary["conceptMapType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptMapType"))
+                }
+                guard let conceptMapType = Decoders.decode(clazz: ConceptmaptypeCreate.self.self, source: conceptMapTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreate", actual: "\(conceptMapTypeSource)"))
+                }
+                let _result = ConceptreferencetermmapCreate(termA: termA, termB: termB, conceptMapType: conceptMapType)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreate", actual: "\(source)"))
@@ -3053,19 +3173,25 @@ class Decoders {
         // Decoder for ConceptreferencetermmapCreateFull
         Decoders.addDecoder(clazz: ConceptreferencetermmapCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermmapCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermmapCreateFull() : instance as! ConceptreferencetermmapCreateFull
-                switch Decoders.decodeOptional(clazz: ConceptreferencetermCreate.self, source: sourceDictionary["termA"] as AnyObject?) {
-                case let .success(value): _result.termA = value
-                case let .failure(error): break
+                guard let termASource = sourceDictionary["termA"] as AnyObject? else {
+                    return .failure(.missingKey(key: "termA"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptreferencetermCreate.self, source: sourceDictionary["termB"] as AnyObject?) {
-                case let .success(value): _result.termB = value
-                case let .failure(error): break
+                guard let termA = Decoders.decode(clazz: ConceptreferencetermCreate.self.self, source: termASource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreateFull", actual: "\(termASource)"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptmaptypeCreate.self, source: sourceDictionary["conceptMapType"] as AnyObject?) {
-                case let .success(value): _result.conceptMapType = value
-                case let .failure(error): break
+                guard let termBSource = sourceDictionary["termB"] as AnyObject? else {
+                    return .failure(.missingKey(key: "termB"))
                 }
+                guard let termB = Decoders.decode(clazz: ConceptreferencetermCreate.self.self, source: termBSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreateFull", actual: "\(termBSource)"))
+                }
+                guard let conceptMapTypeSource = sourceDictionary["conceptMapType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "conceptMapType"))
+                }
+                guard let conceptMapType = Decoders.decode(clazz: ConceptmaptypeCreate.self.self, source: conceptMapTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreateFull", actual: "\(conceptMapTypeSource)"))
+                }
+                let _result = ConceptreferencetermmapCreateFull(termA: termA, termB: termB, conceptMapType: conceptMapType)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptreferencetermmapCreateFull", actual: "\(source)"))
@@ -3079,7 +3205,7 @@ class Decoders {
         // Decoder for ConceptreferencetermmapGet
         Decoders.addDecoder(clazz: ConceptreferencetermmapGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermmapGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermmapGet() : instance as! ConceptreferencetermmapGet
+                let _result = ConceptreferencetermmapGet()
                 switch Decoders.decodeOptional(clazz: ConceptreferencetermGetRef.self, source: sourceDictionary["termA"] as AnyObject?) {
                 case let .success(value): _result.termA = value
                 case let .failure(error): break
@@ -3105,7 +3231,7 @@ class Decoders {
         // Decoder for ConceptreferencetermmapGetFull
         Decoders.addDecoder(clazz: ConceptreferencetermmapGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermmapGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermmapGetFull() : instance as! ConceptreferencetermmapGetFull
+                let _result = ConceptreferencetermmapGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -3135,7 +3261,7 @@ class Decoders {
         // Decoder for ConceptreferencetermmapGetRef
         Decoders.addDecoder(clazz: ConceptreferencetermmapGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermmapGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermmapGetRef() : instance as! ConceptreferencetermmapGetRef
+                let _result = ConceptreferencetermmapGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptreferencetermmapGetRef", actual: "\(source)"))
@@ -3149,7 +3275,7 @@ class Decoders {
         // Decoder for ConceptreferencetermmapUpdate
         Decoders.addDecoder(clazz: ConceptreferencetermmapUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptreferencetermmapUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptreferencetermmapUpdate() : instance as! ConceptreferencetermmapUpdate
+                let _result = ConceptreferencetermmapUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ConceptreferencetermmapUpdate", actual: "\(source)"))
@@ -3163,15 +3289,19 @@ class Decoders {
         // Decoder for ConceptsourceCreate
         Decoders.addDecoder(clazz: ConceptsourceCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptsourceCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptsourceCreate() : instance as! ConceptsourceCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptsourceCreate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptsourceCreate", actual: "\(descriptionSource)"))
+                }
+                let _result = ConceptsourceCreate(name: name, description: description)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["hl7Code"] as AnyObject?) {
                 case let .success(value): _result.hl7Code = value
                 case let .failure(error): break
@@ -3193,15 +3323,19 @@ class Decoders {
         // Decoder for ConceptsourceCreateFull
         Decoders.addDecoder(clazz: ConceptsourceCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptsourceCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptsourceCreateFull() : instance as! ConceptsourceCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptsourceCreateFull", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptsourceCreateFull", actual: "\(descriptionSource)"))
+                }
+                let _result = ConceptsourceCreateFull(name: name, description: description)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["hl7Code"] as AnyObject?) {
                 case let .success(value): _result.hl7Code = value
                 case let .failure(error): break
@@ -3223,7 +3357,7 @@ class Decoders {
         // Decoder for ConceptsourceGet
         Decoders.addDecoder(clazz: ConceptsourceGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptsourceGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptsourceGet() : instance as! ConceptsourceGet
+                let _result = ConceptsourceGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3265,7 +3399,7 @@ class Decoders {
         // Decoder for ConceptsourceGetFull
         Decoders.addDecoder(clazz: ConceptsourceGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptsourceGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptsourceGetFull() : instance as! ConceptsourceGetFull
+                let _result = ConceptsourceGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -3311,7 +3445,7 @@ class Decoders {
         // Decoder for ConceptsourceGetRef
         Decoders.addDecoder(clazz: ConceptsourceGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptsourceGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptsourceGetRef() : instance as! ConceptsourceGetRef
+                let _result = ConceptsourceGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3349,15 +3483,19 @@ class Decoders {
         // Decoder for ConceptsourceUpdate
         Decoders.addDecoder(clazz: ConceptsourceUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptsourceUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptsourceUpdate() : instance as! ConceptsourceUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptsourceUpdate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptsourceUpdate", actual: "\(descriptionSource)"))
+                }
+                let _result = ConceptsourceUpdate(name: name, description: description)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["hl7Code"] as AnyObject?) {
                 case let .success(value): _result.hl7Code = value
                 case let .failure(error): break
@@ -3379,11 +3517,13 @@ class Decoders {
         // Decoder for ConceptstopwordCreate
         Decoders.addDecoder(clazz: ConceptstopwordCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptstopwordCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptstopwordCreate() : instance as! ConceptstopwordCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
                 }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptstopwordCreate", actual: "\(valueSource)"))
+                }
+                let _result = ConceptstopwordCreate(value: value)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
                 case let .success(value): _result.locale = value
                 case let .failure(error): break
@@ -3401,11 +3541,13 @@ class Decoders {
         // Decoder for ConceptstopwordCreateFull
         Decoders.addDecoder(clazz: ConceptstopwordCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptstopwordCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptstopwordCreateFull() : instance as! ConceptstopwordCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
                 }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptstopwordCreateFull", actual: "\(valueSource)"))
+                }
+                let _result = ConceptstopwordCreateFull(value: value)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
                 case let .success(value): _result.locale = value
                 case let .failure(error): break
@@ -3423,7 +3565,7 @@ class Decoders {
         // Decoder for ConceptstopwordGet
         Decoders.addDecoder(clazz: ConceptstopwordGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptstopwordGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptstopwordGet() : instance as! ConceptstopwordGet
+                let _result = ConceptstopwordGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3453,7 +3595,7 @@ class Decoders {
         // Decoder for ConceptstopwordGetFull
         Decoders.addDecoder(clazz: ConceptstopwordGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptstopwordGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptstopwordGetFull() : instance as! ConceptstopwordGetFull
+                let _result = ConceptstopwordGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -3487,7 +3629,7 @@ class Decoders {
         // Decoder for ConceptstopwordGetRef
         Decoders.addDecoder(clazz: ConceptstopwordGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptstopwordGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptstopwordGetRef() : instance as! ConceptstopwordGetRef
+                let _result = ConceptstopwordGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3509,11 +3651,13 @@ class Decoders {
         // Decoder for ConceptstopwordUpdate
         Decoders.addDecoder(clazz: ConceptstopwordUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ConceptstopwordUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ConceptstopwordUpdate() : instance as! ConceptstopwordUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
                 }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ConceptstopwordUpdate", actual: "\(valueSource)"))
+                }
+                let _result = ConceptstopwordUpdate(value: value)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["locale"] as AnyObject?) {
                 case let .success(value): _result.locale = value
                 case let .failure(error): break
@@ -3531,7 +3675,7 @@ class Decoders {
         // Decoder for CustomdatatypeGet
         Decoders.addDecoder(clazz: CustomdatatypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CustomdatatypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CustomdatatypeGet() : instance as! CustomdatatypeGet
+                let _result = CustomdatatypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3561,7 +3705,7 @@ class Decoders {
         // Decoder for CustomdatatypeGetFull
         Decoders.addDecoder(clazz: CustomdatatypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CustomdatatypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CustomdatatypeGetFull() : instance as! CustomdatatypeGetFull
+                let _result = CustomdatatypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -3595,7 +3739,7 @@ class Decoders {
         // Decoder for CustomdatatypeGetRef
         Decoders.addDecoder(clazz: CustomdatatypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CustomdatatypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CustomdatatypeGetRef() : instance as! CustomdatatypeGetRef
+                let _result = CustomdatatypeGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "CustomdatatypeGetRef", actual: "\(source)"))
@@ -3609,7 +3753,7 @@ class Decoders {
         // Decoder for CustomdatatypeHandlersGet
         Decoders.addDecoder(clazz: CustomdatatypeHandlersGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CustomdatatypeHandlersGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CustomdatatypeHandlersGet() : instance as! CustomdatatypeHandlersGet
+                let _result = CustomdatatypeHandlersGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3635,7 +3779,7 @@ class Decoders {
         // Decoder for CustomdatatypeHandlersGetFull
         Decoders.addDecoder(clazz: CustomdatatypeHandlersGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CustomdatatypeHandlersGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CustomdatatypeHandlersGetFull() : instance as! CustomdatatypeHandlersGetFull
+                let _result = CustomdatatypeHandlersGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -3665,7 +3809,7 @@ class Decoders {
         // Decoder for CustomdatatypeHandlersGetRef
         Decoders.addDecoder(clazz: CustomdatatypeHandlersGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CustomdatatypeHandlersGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? CustomdatatypeHandlersGetRef() : instance as! CustomdatatypeHandlersGetRef
+                let _result = CustomdatatypeHandlersGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "CustomdatatypeHandlersGetRef", actual: "\(source)"))
@@ -3679,21 +3823,27 @@ class Decoders {
         // Decoder for DrugCreate
         Decoders.addDecoder(clazz: DrugCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugCreate() : instance as! DrugCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugCreate", actual: "\(nameSource)"))
+                }
+                guard let combinationSource = sourceDictionary["combination"] as AnyObject? else {
+                    return .failure(.missingKey(key: "combination"))
+                }
+                guard let combination = Decoders.decode(clazz: Bool.self.self, source: combinationSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugCreate", actual: "\(combinationSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugCreate", actual: "\(conceptSource)"))
+                }
+                let _result = DrugCreate(name: name, combination: combination, concept: concept)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["combination"] as AnyObject?) {
-                case let .success(value): _result.combination = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["doseStrength"] as AnyObject?) {
@@ -3733,21 +3883,27 @@ class Decoders {
         // Decoder for DrugCreateFull
         Decoders.addDecoder(clazz: DrugCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugCreateFull() : instance as! DrugCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugCreateFull", actual: "\(nameSource)"))
+                }
+                guard let combinationSource = sourceDictionary["combination"] as AnyObject? else {
+                    return .failure(.missingKey(key: "combination"))
+                }
+                guard let combination = Decoders.decode(clazz: Bool.self.self, source: combinationSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugCreateFull", actual: "\(combinationSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: ConceptCreate.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugCreateFull", actual: "\(conceptSource)"))
+                }
+                let _result = DrugCreateFull(name: name, combination: combination, concept: concept)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["combination"] as AnyObject?) {
-                case let .success(value): _result.combination = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: ConceptCreate.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["doseStrength"] as AnyObject?) {
@@ -3787,7 +3943,7 @@ class Decoders {
         // Decoder for DrugGet
         Decoders.addDecoder(clazz: DrugGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugGet() : instance as! DrugGet
+                let _result = DrugGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3841,7 +3997,7 @@ class Decoders {
         // Decoder for DrugGetFull
         Decoders.addDecoder(clazz: DrugGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugGetFull() : instance as! DrugGetFull
+                let _result = DrugGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -3911,7 +4067,7 @@ class Decoders {
         // Decoder for DrugGetRef
         Decoders.addDecoder(clazz: DrugGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugGetRef() : instance as! DrugGetRef
+                let _result = DrugGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -3933,11 +4089,13 @@ class Decoders {
         // Decoder for DrugIngredientCreate
         Decoders.addDecoder(clazz: DrugIngredientCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugIngredientCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugIngredientCreate() : instance as! DrugIngredientCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ingredient"] as AnyObject?) {
-                case let .success(value): _result.ingredient = value
-                case let .failure(error): break
+                guard let ingredientSource = sourceDictionary["ingredient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "ingredient"))
                 }
+                guard let ingredient = Decoders.decode(clazz: String.self.self, source: ingredientSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugIngredientCreate", actual: "\(ingredientSource)"))
+                }
+                let _result = DrugIngredientCreate(ingredient: ingredient)
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["strength"] as AnyObject?) {
                 case let .success(value): _result.strength = value
                 case let .failure(error): break
@@ -3959,11 +4117,13 @@ class Decoders {
         // Decoder for DrugIngredientCreateFull
         Decoders.addDecoder(clazz: DrugIngredientCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugIngredientCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugIngredientCreateFull() : instance as! DrugIngredientCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ingredient"] as AnyObject?) {
-                case let .success(value): _result.ingredient = value
-                case let .failure(error): break
+                guard let ingredientSource = sourceDictionary["ingredient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "ingredient"))
                 }
+                guard let ingredient = Decoders.decode(clazz: String.self.self, source: ingredientSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugIngredientCreateFull", actual: "\(ingredientSource)"))
+                }
+                let _result = DrugIngredientCreateFull(ingredient: ingredient)
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["strength"] as AnyObject?) {
                 case let .success(value): _result.strength = value
                 case let .failure(error): break
@@ -3985,7 +4145,7 @@ class Decoders {
         // Decoder for DrugIngredientGet
         Decoders.addDecoder(clazz: DrugIngredientGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugIngredientGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugIngredientGet() : instance as! DrugIngredientGet
+                let _result = DrugIngredientGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4019,7 +4179,7 @@ class Decoders {
         // Decoder for DrugIngredientGetFull
         Decoders.addDecoder(clazz: DrugIngredientGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugIngredientGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugIngredientGetFull() : instance as! DrugIngredientGetFull
+                let _result = DrugIngredientGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -4057,7 +4217,7 @@ class Decoders {
         // Decoder for DrugIngredientGetRef
         Decoders.addDecoder(clazz: DrugIngredientGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugIngredientGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugIngredientGetRef() : instance as! DrugIngredientGetRef
+                let _result = DrugIngredientGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "DrugIngredientGetRef", actual: "\(source)"))
@@ -4071,11 +4231,13 @@ class Decoders {
         // Decoder for DrugIngredientUpdate
         Decoders.addDecoder(clazz: DrugIngredientUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugIngredientUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugIngredientUpdate() : instance as! DrugIngredientUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ingredient"] as AnyObject?) {
-                case let .success(value): _result.ingredient = value
-                case let .failure(error): break
+                guard let ingredientSource = sourceDictionary["ingredient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "ingredient"))
                 }
+                guard let ingredient = Decoders.decode(clazz: String.self.self, source: ingredientSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugIngredientUpdate", actual: "\(ingredientSource)"))
+                }
+                let _result = DrugIngredientUpdate(ingredient: ingredient)
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["strength"] as AnyObject?) {
                 case let .success(value): _result.strength = value
                 case let .failure(error): break
@@ -4097,21 +4259,27 @@ class Decoders {
         // Decoder for DrugUpdate
         Decoders.addDecoder(clazz: DrugUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DrugUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? DrugUpdate() : instance as! DrugUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugUpdate", actual: "\(nameSource)"))
+                }
+                guard let combinationSource = sourceDictionary["combination"] as AnyObject? else {
+                    return .failure(.missingKey(key: "combination"))
+                }
+                guard let combination = Decoders.decode(clazz: Bool.self.self, source: combinationSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugUpdate", actual: "\(combinationSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "DrugUpdate", actual: "\(conceptSource)"))
+                }
+                let _result = DrugUpdate(name: name, combination: combination, concept: concept)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["combination"] as AnyObject?) {
-                case let .success(value): _result.combination = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["doseStrength"] as AnyObject?) {
@@ -4151,15 +4319,19 @@ class Decoders {
         // Decoder for EncounterCreate
         Decoders.addDecoder(clazz: EncounterCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterCreate() : instance as! EncounterCreate
-                switch Decoders.decodeOptional(clazz: PatientCreate.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
                 }
-                switch Decoders.decodeOptional(clazz: EncountertypeCreate.self, source: sourceDictionary["encounterType"] as AnyObject?) {
-                case let .success(value): _result.encounterType = value
-                case let .failure(error): break
+                guard let patient = Decoders.decode(clazz: PatientCreate.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterCreate", actual: "\(patientSource)"))
                 }
+                guard let encounterTypeSource = sourceDictionary["encounterType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "encounterType"))
+                }
+                guard let encounterType = Decoders.decode(clazz: EncountertypeCreate.self.self, source: encounterTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterCreate", actual: "\(encounterTypeSource)"))
+                }
+                let _result = EncounterCreate(patient: patient, encounterType: encounterType)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["encounterDatetime"] as AnyObject?) {
                 case let .success(value): _result.encounterDatetime = value
                 case let .failure(error): break
@@ -4197,15 +4369,19 @@ class Decoders {
         // Decoder for EncounterCreateFull
         Decoders.addDecoder(clazz: EncounterCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterCreateFull() : instance as! EncounterCreateFull
-                switch Decoders.decodeOptional(clazz: PatientCreate.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
                 }
-                switch Decoders.decodeOptional(clazz: EncountertypeCreate.self, source: sourceDictionary["encounterType"] as AnyObject?) {
-                case let .success(value): _result.encounterType = value
-                case let .failure(error): break
+                guard let patient = Decoders.decode(clazz: PatientCreate.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterCreateFull", actual: "\(patientSource)"))
                 }
+                guard let encounterTypeSource = sourceDictionary["encounterType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "encounterType"))
+                }
+                guard let encounterType = Decoders.decode(clazz: EncountertypeCreate.self.self, source: encounterTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterCreateFull", actual: "\(encounterTypeSource)"))
+                }
+                let _result = EncounterCreateFull(patient: patient, encounterType: encounterType)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["encounterDatetime"] as AnyObject?) {
                 case let .success(value): _result.encounterDatetime = value
                 case let .failure(error): break
@@ -4243,7 +4419,7 @@ class Decoders {
         // Decoder for EncounterEncounterproviderCreate
         Decoders.addDecoder(clazz: EncounterEncounterproviderCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterEncounterproviderCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterEncounterproviderCreate() : instance as! EncounterEncounterproviderCreate
+                let _result = EncounterEncounterproviderCreate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["provider"] as AnyObject?) {
                 case let .success(value): _result.provider = value
                 case let .failure(error): break
@@ -4269,7 +4445,7 @@ class Decoders {
         // Decoder for EncounterEncounterproviderCreateFull
         Decoders.addDecoder(clazz: EncounterEncounterproviderCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterEncounterproviderCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterEncounterproviderCreateFull() : instance as! EncounterEncounterproviderCreateFull
+                let _result = EncounterEncounterproviderCreateFull()
                 switch Decoders.decodeOptional(clazz: ProviderCreate.self, source: sourceDictionary["provider"] as AnyObject?) {
                 case let .success(value): _result.provider = value
                 case let .failure(error): break
@@ -4295,7 +4471,7 @@ class Decoders {
         // Decoder for EncounterEncounterproviderGet
         Decoders.addDecoder(clazz: EncounterEncounterproviderGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterEncounterproviderGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterEncounterproviderGet() : instance as! EncounterEncounterproviderGet
+                let _result = EncounterEncounterproviderGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4325,7 +4501,7 @@ class Decoders {
         // Decoder for EncounterEncounterproviderGetFull
         Decoders.addDecoder(clazz: EncounterEncounterproviderGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterEncounterproviderGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterEncounterproviderGetFull() : instance as! EncounterEncounterproviderGetFull
+                let _result = EncounterEncounterproviderGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -4359,7 +4535,7 @@ class Decoders {
         // Decoder for EncounterEncounterproviderGetRef
         Decoders.addDecoder(clazz: EncounterEncounterproviderGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterEncounterproviderGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterEncounterproviderGetRef() : instance as! EncounterEncounterproviderGetRef
+                let _result = EncounterEncounterproviderGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "EncounterEncounterproviderGetRef", actual: "\(source)"))
@@ -4373,7 +4549,7 @@ class Decoders {
         // Decoder for EncounterEncounterproviderUpdate
         Decoders.addDecoder(clazz: EncounterEncounterproviderUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterEncounterproviderUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterEncounterproviderUpdate() : instance as! EncounterEncounterproviderUpdate
+                let _result = EncounterEncounterproviderUpdate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["encounterRole"] as AnyObject?) {
                 case let .success(value): _result.encounterRole = value
                 case let .failure(error): break
@@ -4399,7 +4575,7 @@ class Decoders {
         // Decoder for EncounterGet
         Decoders.addDecoder(clazz: EncounterGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterGet() : instance as! EncounterGet
+                let _result = EncounterGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4457,7 +4633,7 @@ class Decoders {
         // Decoder for EncounterGetFull
         Decoders.addDecoder(clazz: EncounterGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterGetFull() : instance as! EncounterGetFull
+                let _result = EncounterGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -4519,7 +4695,7 @@ class Decoders {
         // Decoder for EncounterGetRef
         Decoders.addDecoder(clazz: EncounterGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterGetRef() : instance as! EncounterGetRef
+                let _result = EncounterGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "EncounterGetRef", actual: "\(source)"))
@@ -4533,15 +4709,19 @@ class Decoders {
         // Decoder for EncounterUpdate
         Decoders.addDecoder(clazz: EncounterUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterUpdate() : instance as! EncounterUpdate
-                switch Decoders.decodeOptional(clazz: PatientCreate.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
                 }
-                switch Decoders.decodeOptional(clazz: EncountertypeCreate.self, source: sourceDictionary["encounterType"] as AnyObject?) {
-                case let .success(value): _result.encounterType = value
-                case let .failure(error): break
+                guard let patient = Decoders.decode(clazz: PatientCreate.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterUpdate", actual: "\(patientSource)"))
                 }
+                guard let encounterTypeSource = sourceDictionary["encounterType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "encounterType"))
+                }
+                guard let encounterType = Decoders.decode(clazz: EncountertypeCreate.self.self, source: encounterTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterUpdate", actual: "\(encounterTypeSource)"))
+                }
+                let _result = EncounterUpdate(patient: patient, encounterType: encounterType)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["encounterDatetime"] as AnyObject?) {
                 case let .success(value): _result.encounterDatetime = value
                 case let .failure(error): break
@@ -4579,11 +4759,13 @@ class Decoders {
         // Decoder for EncounterroleCreate
         Decoders.addDecoder(clazz: EncounterroleCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterroleCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterroleCreate() : instance as! EncounterroleCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterroleCreate", actual: "\(nameSource)"))
+                }
+                let _result = EncounterroleCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -4601,11 +4783,13 @@ class Decoders {
         // Decoder for EncounterroleCreateFull
         Decoders.addDecoder(clazz: EncounterroleCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterroleCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterroleCreateFull() : instance as! EncounterroleCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterroleCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = EncounterroleCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -4623,7 +4807,7 @@ class Decoders {
         // Decoder for EncounterroleGet
         Decoders.addDecoder(clazz: EncounterroleGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterroleGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterroleGet() : instance as! EncounterroleGet
+                let _result = EncounterroleGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4645,7 +4829,7 @@ class Decoders {
         // Decoder for EncounterroleGetFull
         Decoders.addDecoder(clazz: EncounterroleGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterroleGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterroleGetFull() : instance as! EncounterroleGetFull
+                let _result = EncounterroleGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -4683,7 +4867,7 @@ class Decoders {
         // Decoder for EncounterroleGetRef
         Decoders.addDecoder(clazz: EncounterroleGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterroleGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterroleGetRef() : instance as! EncounterroleGetRef
+                let _result = EncounterroleGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4705,11 +4889,13 @@ class Decoders {
         // Decoder for EncounterroleUpdate
         Decoders.addDecoder(clazz: EncounterroleUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncounterroleUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncounterroleUpdate() : instance as! EncounterroleUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "EncounterroleUpdate", actual: "\(nameSource)"))
+                }
+                let _result = EncounterroleUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -4727,15 +4913,19 @@ class Decoders {
         // Decoder for EncountertypeCreate
         Decoders.addDecoder(clazz: EncountertypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncountertypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncountertypeCreate() : instance as! EncountertypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "EncountertypeCreate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "EncountertypeCreate", actual: "\(descriptionSource)"))
+                }
+                let _result = EncountertypeCreate(name: name, description: description)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "EncountertypeCreate", actual: "\(source)"))
@@ -4749,15 +4939,19 @@ class Decoders {
         // Decoder for EncountertypeCreateFull
         Decoders.addDecoder(clazz: EncountertypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncountertypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncountertypeCreateFull() : instance as! EncountertypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "EncountertypeCreateFull", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "EncountertypeCreateFull", actual: "\(descriptionSource)"))
+                }
+                let _result = EncountertypeCreateFull(name: name, description: description)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "EncountertypeCreateFull", actual: "\(source)"))
@@ -4771,7 +4965,7 @@ class Decoders {
         // Decoder for EncountertypeGet
         Decoders.addDecoder(clazz: EncountertypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncountertypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncountertypeGet() : instance as! EncountertypeGet
+                let _result = EncountertypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4793,7 +4987,7 @@ class Decoders {
         // Decoder for EncountertypeGetFull
         Decoders.addDecoder(clazz: EncountertypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncountertypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncountertypeGetFull() : instance as! EncountertypeGetFull
+                let _result = EncountertypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -4831,7 +5025,7 @@ class Decoders {
         // Decoder for EncountertypeGetRef
         Decoders.addDecoder(clazz: EncountertypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncountertypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncountertypeGetRef() : instance as! EncountertypeGetRef
+                let _result = EncountertypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4853,15 +5047,19 @@ class Decoders {
         // Decoder for EncountertypeUpdate
         Decoders.addDecoder(clazz: EncountertypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<EncountertypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? EncountertypeUpdate() : instance as! EncountertypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "EncountertypeUpdate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "EncountertypeUpdate", actual: "\(descriptionSource)"))
+                }
+                let _result = EncountertypeUpdate(name: name, description: description)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "EncountertypeUpdate", actual: "\(source)"))
@@ -4875,7 +5073,7 @@ class Decoders {
         // Decoder for ExtensionGet
         Decoders.addDecoder(clazz: ExtensionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ExtensionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ExtensionGet() : instance as! ExtensionGet
+                let _result = ExtensionGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4949,7 +5147,7 @@ class Decoders {
         // Decoder for ExtensionGetFull
         Decoders.addDecoder(clazz: ExtensionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ExtensionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ExtensionGetFull() : instance as! ExtensionGetFull
+                let _result = ExtensionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -4975,7 +5173,7 @@ class Decoders {
         // Decoder for ExtensionGetRef
         Decoders.addDecoder(clazz: ExtensionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ExtensionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ExtensionGetRef() : instance as! ExtensionGetRef
+                let _result = ExtensionGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -4997,7 +5195,7 @@ class Decoders {
         // Decoder for FetchAll
         Decoders.addDecoder(clazz: FetchAll.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FetchAll> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FetchAll() : instance as! FetchAll
+                let _result = FetchAll()
                 switch Decoders.decodeOptional(clazz: [Any].self, source: sourceDictionary["results"] as AnyObject?) {
                 case let .success(value): _result.results = value
                 case let .failure(error): break
@@ -5015,15 +5213,19 @@ class Decoders {
         // Decoder for FieldAnswerCreate
         Decoders.addDecoder(clazz: FieldAnswerCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldAnswerCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldAnswerCreate() : instance as! FieldAnswerCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
-                case let .failure(error): break
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["field"] as AnyObject?) {
-                case let .success(value): _result.field = value
-                case let .failure(error): break
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldAnswerCreate", actual: "\(conceptSource)"))
                 }
+                guard let fieldSource = sourceDictionary["field"] as AnyObject? else {
+                    return .failure(.missingKey(key: "field"))
+                }
+                guard let field = Decoders.decode(clazz: String.self.self, source: fieldSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldAnswerCreate", actual: "\(fieldSource)"))
+                }
+                let _result = FieldAnswerCreate(concept: concept, field: field)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FieldAnswerCreate", actual: "\(source)"))
@@ -5037,15 +5239,19 @@ class Decoders {
         // Decoder for FieldAnswerCreateFull
         Decoders.addDecoder(clazz: FieldAnswerCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldAnswerCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldAnswerCreateFull() : instance as! FieldAnswerCreateFull
-                switch Decoders.decodeOptional(clazz: ConceptCreate.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
-                case let .failure(error): break
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
                 }
-                switch Decoders.decodeOptional(clazz: FieldCreate.self, source: sourceDictionary["field"] as AnyObject?) {
-                case let .success(value): _result.field = value
-                case let .failure(error): break
+                guard let concept = Decoders.decode(clazz: ConceptCreate.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldAnswerCreateFull", actual: "\(conceptSource)"))
                 }
+                guard let fieldSource = sourceDictionary["field"] as AnyObject? else {
+                    return .failure(.missingKey(key: "field"))
+                }
+                guard let field = Decoders.decode(clazz: FieldCreate.self.self, source: fieldSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldAnswerCreateFull", actual: "\(fieldSource)"))
+                }
+                let _result = FieldAnswerCreateFull(concept: concept, field: field)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FieldAnswerCreateFull", actual: "\(source)"))
@@ -5059,7 +5265,7 @@ class Decoders {
         // Decoder for FieldAnswerGet
         Decoders.addDecoder(clazz: FieldAnswerGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldAnswerGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldAnswerGet() : instance as! FieldAnswerGet
+                let _result = FieldAnswerGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -5089,7 +5295,7 @@ class Decoders {
         // Decoder for FieldAnswerGetFull
         Decoders.addDecoder(clazz: FieldAnswerGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldAnswerGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldAnswerGetFull() : instance as! FieldAnswerGetFull
+                let _result = FieldAnswerGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -5123,7 +5329,7 @@ class Decoders {
         // Decoder for FieldAnswerGetRef
         Decoders.addDecoder(clazz: FieldAnswerGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldAnswerGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldAnswerGetRef() : instance as! FieldAnswerGetRef
+                let _result = FieldAnswerGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FieldAnswerGetRef", actual: "\(source)"))
@@ -5137,15 +5343,19 @@ class Decoders {
         // Decoder for FieldAnswerUpdate
         Decoders.addDecoder(clazz: FieldAnswerUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldAnswerUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldAnswerUpdate() : instance as! FieldAnswerUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
-                case let .failure(error): break
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["field"] as AnyObject?) {
-                case let .success(value): _result.field = value
-                case let .failure(error): break
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldAnswerUpdate", actual: "\(conceptSource)"))
                 }
+                guard let fieldSource = sourceDictionary["field"] as AnyObject? else {
+                    return .failure(.missingKey(key: "field"))
+                }
+                guard let field = Decoders.decode(clazz: String.self.self, source: fieldSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldAnswerUpdate", actual: "\(fieldSource)"))
+                }
+                let _result = FieldAnswerUpdate(concept: concept, field: field)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FieldAnswerUpdate", actual: "\(source)"))
@@ -5159,21 +5369,27 @@ class Decoders {
         // Decoder for FieldCreate
         Decoders.addDecoder(clazz: FieldCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldCreate() : instance as! FieldCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldCreate", actual: "\(nameSource)"))
+                }
+                guard let fieldTypeSource = sourceDictionary["fieldType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "fieldType"))
+                }
+                guard let fieldType = Decoders.decode(clazz: FieldtypeCreate.self.self, source: fieldTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldCreate", actual: "\(fieldTypeSource)"))
+                }
+                guard let selectMultipleSource = sourceDictionary["selectMultiple"] as AnyObject? else {
+                    return .failure(.missingKey(key: "selectMultiple"))
+                }
+                guard let selectMultiple = Decoders.decode(clazz: Bool.self.self, source: selectMultipleSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldCreate", actual: "\(selectMultipleSource)"))
+                }
+                let _result = FieldCreate(name: name, fieldType: fieldType, selectMultiple: selectMultiple)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: FieldtypeCreate.self, source: sourceDictionary["fieldType"] as AnyObject?) {
-                case let .success(value): _result.fieldType = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["selectMultiple"] as AnyObject?) {
-                case let .success(value): _result.selectMultiple = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: ConceptCreate.self, source: sourceDictionary["concept"] as AnyObject?) {
@@ -5205,21 +5421,27 @@ class Decoders {
         // Decoder for FieldCreateFull
         Decoders.addDecoder(clazz: FieldCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldCreateFull() : instance as! FieldCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldCreateFull", actual: "\(nameSource)"))
+                }
+                guard let fieldTypeSource = sourceDictionary["fieldType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "fieldType"))
+                }
+                guard let fieldType = Decoders.decode(clazz: FieldtypeCreate.self.self, source: fieldTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldCreateFull", actual: "\(fieldTypeSource)"))
+                }
+                guard let selectMultipleSource = sourceDictionary["selectMultiple"] as AnyObject? else {
+                    return .failure(.missingKey(key: "selectMultiple"))
+                }
+                guard let selectMultiple = Decoders.decode(clazz: Bool.self.self, source: selectMultipleSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldCreateFull", actual: "\(selectMultipleSource)"))
+                }
+                let _result = FieldCreateFull(name: name, fieldType: fieldType, selectMultiple: selectMultiple)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: FieldtypeCreate.self, source: sourceDictionary["fieldType"] as AnyObject?) {
-                case let .success(value): _result.fieldType = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["selectMultiple"] as AnyObject?) {
-                case let .success(value): _result.selectMultiple = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: ConceptCreate.self, source: sourceDictionary["concept"] as AnyObject?) {
@@ -5251,7 +5473,7 @@ class Decoders {
         // Decoder for FieldGet
         Decoders.addDecoder(clazz: FieldGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldGet() : instance as! FieldGet
+                let _result = FieldGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -5297,7 +5519,7 @@ class Decoders {
         // Decoder for FieldGetFull
         Decoders.addDecoder(clazz: FieldGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldGetFull() : instance as! FieldGetFull
+                let _result = FieldGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -5359,7 +5581,7 @@ class Decoders {
         // Decoder for FieldGetRef
         Decoders.addDecoder(clazz: FieldGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldGetRef() : instance as! FieldGetRef
+                let _result = FieldGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -5381,7 +5603,7 @@ class Decoders {
         // Decoder for FieldUpdate
         Decoders.addDecoder(clazz: FieldUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldUpdate() : instance as! FieldUpdate
+                let _result = FieldUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FieldUpdate", actual: "\(source)"))
@@ -5395,11 +5617,13 @@ class Decoders {
         // Decoder for FieldtypeCreate
         Decoders.addDecoder(clazz: FieldtypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldtypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldtypeCreate() : instance as! FieldtypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldtypeCreate", actual: "\(nameSource)"))
+                }
+                let _result = FieldtypeCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -5417,11 +5641,13 @@ class Decoders {
         // Decoder for FieldtypeCreateFull
         Decoders.addDecoder(clazz: FieldtypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldtypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldtypeCreateFull() : instance as! FieldtypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "FieldtypeCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = FieldtypeCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -5439,7 +5665,7 @@ class Decoders {
         // Decoder for FieldtypeGet
         Decoders.addDecoder(clazz: FieldtypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldtypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldtypeGet() : instance as! FieldtypeGet
+                let _result = FieldtypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -5465,7 +5691,7 @@ class Decoders {
         // Decoder for FieldtypeGetFull
         Decoders.addDecoder(clazz: FieldtypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldtypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldtypeGetFull() : instance as! FieldtypeGetFull
+                let _result = FieldtypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -5507,7 +5733,7 @@ class Decoders {
         // Decoder for FieldtypeGetRef
         Decoders.addDecoder(clazz: FieldtypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldtypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldtypeGetRef() : instance as! FieldtypeGetRef
+                let _result = FieldtypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -5529,7 +5755,7 @@ class Decoders {
         // Decoder for FieldtypeUpdate
         Decoders.addDecoder(clazz: FieldtypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FieldtypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FieldtypeUpdate() : instance as! FieldtypeUpdate
+                let _result = FieldtypeUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FieldtypeUpdate", actual: "\(source)"))
@@ -5543,17 +5769,21 @@ class Decoders {
         // Decoder for FormCreate
         Decoders.addDecoder(clazz: FormCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormCreate() : instance as! FormCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "FormCreate", actual: "\(nameSource)"))
+                }
+                guard let versionSource = sourceDictionary["version"] as AnyObject? else {
+                    return .failure(.missingKey(key: "version"))
+                }
+                guard let version = Decoders.decode(clazz: String.self.self, source: versionSource).value else {
+                    return .failure(.typeMismatch(expected: "FormCreate", actual: "\(versionSource)"))
+                }
+                let _result = FormCreate(name: name, version: version)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["version"] as AnyObject?) {
-                case let .success(value): _result.version = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["encounterType"] as AnyObject?) {
@@ -5593,17 +5823,21 @@ class Decoders {
         // Decoder for FormCreateFull
         Decoders.addDecoder(clazz: FormCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormCreateFull() : instance as! FormCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "FormCreateFull", actual: "\(nameSource)"))
+                }
+                guard let versionSource = sourceDictionary["version"] as AnyObject? else {
+                    return .failure(.missingKey(key: "version"))
+                }
+                guard let version = Decoders.decode(clazz: String.self.self, source: versionSource).value else {
+                    return .failure(.typeMismatch(expected: "FormCreateFull", actual: "\(versionSource)"))
+                }
+                let _result = FormCreateFull(name: name, version: version)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["version"] as AnyObject?) {
-                case let .success(value): _result.version = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: EncountertypeCreate.self, source: sourceDictionary["encounterType"] as AnyObject?) {
@@ -5643,19 +5877,25 @@ class Decoders {
         // Decoder for FormFormfieldCreate
         Decoders.addDecoder(clazz: FormFormfieldCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormFormfieldCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormFormfieldCreate() : instance as! FormFormfieldCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["form"] as AnyObject?) {
-                case let .success(value): _result.form = value
-                case let .failure(error): break
+                guard let formSource = sourceDictionary["form"] as AnyObject? else {
+                    return .failure(.missingKey(key: "form"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["field"] as AnyObject?) {
-                case let .success(value): _result.field = value
-                case let .failure(error): break
+                guard let form = Decoders.decode(clazz: String.self.self, source: formSource).value else {
+                    return .failure(.typeMismatch(expected: "FormFormfieldCreate", actual: "\(formSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?) {
-                case let .success(value): _result._required = value
-                case let .failure(error): break
+                guard let fieldSource = sourceDictionary["field"] as AnyObject? else {
+                    return .failure(.missingKey(key: "field"))
                 }
+                guard let field = Decoders.decode(clazz: String.self.self, source: fieldSource).value else {
+                    return .failure(.typeMismatch(expected: "FormFormfieldCreate", actual: "\(fieldSource)"))
+                }
+                guard let _requiredSource = sourceDictionary["required"] as AnyObject? else {
+                    return .failure(.missingKey(key: "required"))
+                }
+                guard let _required = Decoders.decode(clazz: Bool.self.self, source: _requiredSource).value else {
+                    return .failure(.typeMismatch(expected: "FormFormfieldCreate", actual: "\(_requiredSource)"))
+                }
+                let _result = FormFormfieldCreate(form: form, field: field, _required: _required)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?) {
                 case let .success(value): _result.parent = value
                 case let .failure(error): break
@@ -5697,19 +5937,25 @@ class Decoders {
         // Decoder for FormFormfieldCreateFull
         Decoders.addDecoder(clazz: FormFormfieldCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormFormfieldCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormFormfieldCreateFull() : instance as! FormFormfieldCreateFull
-                switch Decoders.decodeOptional(clazz: FormCreate.self, source: sourceDictionary["form"] as AnyObject?) {
-                case let .success(value): _result.form = value
-                case let .failure(error): break
+                guard let formSource = sourceDictionary["form"] as AnyObject? else {
+                    return .failure(.missingKey(key: "form"))
                 }
-                switch Decoders.decodeOptional(clazz: FieldCreate.self, source: sourceDictionary["field"] as AnyObject?) {
-                case let .success(value): _result.field = value
-                case let .failure(error): break
+                guard let form = Decoders.decode(clazz: FormCreate.self.self, source: formSource).value else {
+                    return .failure(.typeMismatch(expected: "FormFormfieldCreateFull", actual: "\(formSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?) {
-                case let .success(value): _result._required = value
-                case let .failure(error): break
+                guard let fieldSource = sourceDictionary["field"] as AnyObject? else {
+                    return .failure(.missingKey(key: "field"))
                 }
+                guard let field = Decoders.decode(clazz: FieldCreate.self.self, source: fieldSource).value else {
+                    return .failure(.typeMismatch(expected: "FormFormfieldCreateFull", actual: "\(fieldSource)"))
+                }
+                guard let _requiredSource = sourceDictionary["required"] as AnyObject? else {
+                    return .failure(.missingKey(key: "required"))
+                }
+                guard let _required = Decoders.decode(clazz: Bool.self.self, source: _requiredSource).value else {
+                    return .failure(.typeMismatch(expected: "FormFormfieldCreateFull", actual: "\(_requiredSource)"))
+                }
+                let _result = FormFormfieldCreateFull(form: form, field: field, _required: _required)
                 switch Decoders.decodeOptional(clazz: FormFormfieldCreate.self, source: sourceDictionary["parent"] as AnyObject?) {
                 case let .success(value): _result.parent = value
                 case let .failure(error): break
@@ -5751,7 +5997,7 @@ class Decoders {
         // Decoder for FormFormfieldGet
         Decoders.addDecoder(clazz: FormFormfieldGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormFormfieldGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormFormfieldGet() : instance as! FormFormfieldGet
+                let _result = FormFormfieldGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -5817,7 +6063,7 @@ class Decoders {
         // Decoder for FormFormfieldGetFull
         Decoders.addDecoder(clazz: FormFormfieldGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormFormfieldGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormFormfieldGetFull() : instance as! FormFormfieldGetFull
+                let _result = FormFormfieldGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -5887,7 +6133,7 @@ class Decoders {
         // Decoder for FormFormfieldGetRef
         Decoders.addDecoder(clazz: FormFormfieldGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormFormfieldGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormFormfieldGetRef() : instance as! FormFormfieldGetRef
+                let _result = FormFormfieldGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FormFormfieldGetRef", actual: "\(source)"))
@@ -5901,7 +6147,7 @@ class Decoders {
         // Decoder for FormFormfieldUpdate
         Decoders.addDecoder(clazz: FormFormfieldUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormFormfieldUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormFormfieldUpdate() : instance as! FormFormfieldUpdate
+                let _result = FormFormfieldUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "FormFormfieldUpdate", actual: "\(source)"))
@@ -5915,7 +6161,7 @@ class Decoders {
         // Decoder for FormGet
         Decoders.addDecoder(clazz: FormGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormGet() : instance as! FormGet
+                let _result = FormGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -5969,7 +6215,7 @@ class Decoders {
         // Decoder for FormGetFull
         Decoders.addDecoder(clazz: FormGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormGetFull() : instance as! FormGetFull
+                let _result = FormGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -6027,7 +6273,7 @@ class Decoders {
         // Decoder for FormGetRef
         Decoders.addDecoder(clazz: FormGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormGetRef() : instance as! FormGetRef
+                let _result = FormGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -6049,7 +6295,7 @@ class Decoders {
         // Decoder for FormResourceCreate
         Decoders.addDecoder(clazz: FormResourceCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormResourceCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormResourceCreate() : instance as! FormResourceCreate
+                let _result = FormResourceCreate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["form"] as AnyObject?) {
                 case let .success(value): _result.form = value
                 case let .failure(error): break
@@ -6091,7 +6337,7 @@ class Decoders {
         // Decoder for FormResourceCreateFull
         Decoders.addDecoder(clazz: FormResourceCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormResourceCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormResourceCreateFull() : instance as! FormResourceCreateFull
+                let _result = FormResourceCreateFull()
                 switch Decoders.decodeOptional(clazz: FormCreate.self, source: sourceDictionary["form"] as AnyObject?) {
                 case let .success(value): _result.form = value
                 case let .failure(error): break
@@ -6133,7 +6379,7 @@ class Decoders {
         // Decoder for FormResourceGet
         Decoders.addDecoder(clazz: FormResourceGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormResourceGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormResourceGet() : instance as! FormResourceGet
+                let _result = FormResourceGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -6163,7 +6409,7 @@ class Decoders {
         // Decoder for FormResourceGetFull
         Decoders.addDecoder(clazz: FormResourceGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormResourceGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormResourceGetFull() : instance as! FormResourceGetFull
+                let _result = FormResourceGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -6209,7 +6455,7 @@ class Decoders {
         // Decoder for FormResourceGetRef
         Decoders.addDecoder(clazz: FormResourceGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormResourceGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormResourceGetRef() : instance as! FormResourceGetRef
+                let _result = FormResourceGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -6231,7 +6477,7 @@ class Decoders {
         // Decoder for FormResourceUpdate
         Decoders.addDecoder(clazz: FormResourceUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormResourceUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormResourceUpdate() : instance as! FormResourceUpdate
+                let _result = FormResourceUpdate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["form"] as AnyObject?) {
                 case let .success(value): _result.form = value
                 case let .failure(error): break
@@ -6273,17 +6519,21 @@ class Decoders {
         // Decoder for FormUpdate
         Decoders.addDecoder(clazz: FormUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FormUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? FormUpdate() : instance as! FormUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "FormUpdate", actual: "\(nameSource)"))
+                }
+                guard let versionSource = sourceDictionary["version"] as AnyObject? else {
+                    return .failure(.missingKey(key: "version"))
+                }
+                guard let version = Decoders.decode(clazz: String.self.self, source: versionSource).value else {
+                    return .failure(.typeMismatch(expected: "FormUpdate", actual: "\(versionSource)"))
+                }
+                let _result = FormUpdate(name: name, version: version)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["version"] as AnyObject?) {
-                case let .success(value): _result.version = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["encounterType"] as AnyObject?) {
@@ -6323,11 +6573,13 @@ class Decoders {
         // Decoder for Hl7Create
         Decoders.addDecoder(clazz: Hl7Create.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7Create> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7Create() : instance as! Hl7Create
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["hl7"] as AnyObject?) {
-                case let .success(value): _result.hl7 = value
-                case let .failure(error): break
+                guard let hl7Source = sourceDictionary["hl7"] as AnyObject? else {
+                    return .failure(.missingKey(key: "hl7"))
                 }
+                guard let hl7 = Decoders.decode(clazz: String.self.self, source: hl7Source).value else {
+                    return .failure(.typeMismatch(expected: "Hl7Create", actual: "\(hl7Source)"))
+                }
+                let _result = Hl7Create(hl7: hl7)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "Hl7Create", actual: "\(source)"))
@@ -6341,11 +6593,13 @@ class Decoders {
         // Decoder for Hl7CreateFull
         Decoders.addDecoder(clazz: Hl7CreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7CreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7CreateFull() : instance as! Hl7CreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["hl7"] as AnyObject?) {
-                case let .success(value): _result.hl7 = value
-                case let .failure(error): break
+                guard let hl7Source = sourceDictionary["hl7"] as AnyObject? else {
+                    return .failure(.missingKey(key: "hl7"))
                 }
+                guard let hl7 = Decoders.decode(clazz: String.self.self, source: hl7Source).value else {
+                    return .failure(.typeMismatch(expected: "Hl7CreateFull", actual: "\(hl7Source)"))
+                }
+                let _result = Hl7CreateFull(hl7: hl7)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "Hl7CreateFull", actual: "\(source)"))
@@ -6359,15 +6613,19 @@ class Decoders {
         // Decoder for Hl7sourceCreate
         Decoders.addDecoder(clazz: Hl7sourceCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7sourceCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7sourceCreate() : instance as! Hl7sourceCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "Hl7sourceCreate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "Hl7sourceCreate", actual: "\(descriptionSource)"))
+                }
+                let _result = Hl7sourceCreate(name: name, description: description)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "Hl7sourceCreate", actual: "\(source)"))
@@ -6381,15 +6639,19 @@ class Decoders {
         // Decoder for Hl7sourceCreateFull
         Decoders.addDecoder(clazz: Hl7sourceCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7sourceCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7sourceCreateFull() : instance as! Hl7sourceCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "Hl7sourceCreateFull", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "Hl7sourceCreateFull", actual: "\(descriptionSource)"))
+                }
+                let _result = Hl7sourceCreateFull(name: name, description: description)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "Hl7sourceCreateFull", actual: "\(source)"))
@@ -6403,7 +6665,7 @@ class Decoders {
         // Decoder for Hl7sourceGet
         Decoders.addDecoder(clazz: Hl7sourceGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7sourceGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7sourceGet() : instance as! Hl7sourceGet
+                let _result = Hl7sourceGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -6425,7 +6687,7 @@ class Decoders {
         // Decoder for Hl7sourceGetFull
         Decoders.addDecoder(clazz: Hl7sourceGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7sourceGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7sourceGetFull() : instance as! Hl7sourceGetFull
+                let _result = Hl7sourceGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -6463,7 +6725,7 @@ class Decoders {
         // Decoder for Hl7sourceGetRef
         Decoders.addDecoder(clazz: Hl7sourceGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7sourceGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7sourceGetRef() : instance as! Hl7sourceGetRef
+                let _result = Hl7sourceGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -6485,15 +6747,19 @@ class Decoders {
         // Decoder for Hl7sourceUpdate
         Decoders.addDecoder(clazz: Hl7sourceUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Hl7sourceUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? Hl7sourceUpdate() : instance as! Hl7sourceUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "Hl7sourceUpdate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "Hl7sourceUpdate", actual: "\(descriptionSource)"))
+                }
+                let _result = Hl7sourceUpdate(name: name, description: description)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "Hl7sourceUpdate", actual: "\(source)"))
@@ -6507,7 +6773,7 @@ class Decoders {
         // Decoder for IdgenAutogenerationoptionGet
         Decoders.addDecoder(clazz: IdgenAutogenerationoptionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenAutogenerationoptionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenAutogenerationoptionGet() : instance as! IdgenAutogenerationoptionGet
+                let _result = IdgenAutogenerationoptionGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "IdgenAutogenerationoptionGet", actual: "\(source)"))
@@ -6521,7 +6787,7 @@ class Decoders {
         // Decoder for IdgenAutogenerationoptionGetFull
         Decoders.addDecoder(clazz: IdgenAutogenerationoptionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenAutogenerationoptionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenAutogenerationoptionGetFull() : instance as! IdgenAutogenerationoptionGetFull
+                let _result = IdgenAutogenerationoptionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -6539,7 +6805,7 @@ class Decoders {
         // Decoder for IdgenAutogenerationoptionGetRef
         Decoders.addDecoder(clazz: IdgenAutogenerationoptionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenAutogenerationoptionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenAutogenerationoptionGetRef() : instance as! IdgenAutogenerationoptionGetRef
+                let _result = IdgenAutogenerationoptionGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "IdgenAutogenerationoptionGetRef", actual: "\(source)"))
@@ -6553,7 +6819,7 @@ class Decoders {
         // Decoder for IdgenIdentifiersourceGet
         Decoders.addDecoder(clazz: IdgenIdentifiersourceGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenIdentifiersourceGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenIdentifiersourceGet() : instance as! IdgenIdentifiersourceGet
+                let _result = IdgenIdentifiersourceGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "IdgenIdentifiersourceGet", actual: "\(source)"))
@@ -6567,7 +6833,7 @@ class Decoders {
         // Decoder for IdgenIdentifiersourceGetFull
         Decoders.addDecoder(clazz: IdgenIdentifiersourceGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenIdentifiersourceGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenIdentifiersourceGetFull() : instance as! IdgenIdentifiersourceGetFull
+                let _result = IdgenIdentifiersourceGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -6585,7 +6851,7 @@ class Decoders {
         // Decoder for IdgenIdentifiersourceGetRef
         Decoders.addDecoder(clazz: IdgenIdentifiersourceGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenIdentifiersourceGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenIdentifiersourceGetRef() : instance as! IdgenIdentifiersourceGetRef
+                let _result = IdgenIdentifiersourceGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "IdgenIdentifiersourceGetRef", actual: "\(source)"))
@@ -6599,7 +6865,7 @@ class Decoders {
         // Decoder for IdgenLogentryGet
         Decoders.addDecoder(clazz: IdgenLogentryGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenLogentryGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenLogentryGet() : instance as! IdgenLogentryGet
+                let _result = IdgenLogentryGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "IdgenLogentryGet", actual: "\(source)"))
@@ -6613,7 +6879,7 @@ class Decoders {
         // Decoder for IdgenLogentryGetFull
         Decoders.addDecoder(clazz: IdgenLogentryGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenLogentryGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenLogentryGetFull() : instance as! IdgenLogentryGetFull
+                let _result = IdgenLogentryGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -6631,7 +6897,7 @@ class Decoders {
         // Decoder for IdgenLogentryGetRef
         Decoders.addDecoder(clazz: IdgenLogentryGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdgenLogentryGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? IdgenLogentryGetRef() : instance as! IdgenLogentryGetRef
+                let _result = IdgenLogentryGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "IdgenLogentryGetRef", actual: "\(source)"))
@@ -6645,15 +6911,19 @@ class Decoders {
         // Decoder for LocationAttributeCreate
         Decoders.addDecoder(clazz: LocationAttributeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationAttributeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationAttributeCreate() : instance as! LocationAttributeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationAttributeCreate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationAttributeCreate", actual: "\(valueSource)"))
+                }
+                let _result = LocationAttributeCreate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "LocationAttributeCreate", actual: "\(source)"))
@@ -6667,15 +6937,19 @@ class Decoders {
         // Decoder for LocationAttributeCreateFull
         Decoders.addDecoder(clazz: LocationAttributeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationAttributeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationAttributeCreateFull() : instance as! LocationAttributeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationAttributeCreateFull", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationAttributeCreateFull", actual: "\(valueSource)"))
+                }
+                let _result = LocationAttributeCreateFull(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "LocationAttributeCreateFull", actual: "\(source)"))
@@ -6689,7 +6963,7 @@ class Decoders {
         // Decoder for LocationAttributeGet
         Decoders.addDecoder(clazz: LocationAttributeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationAttributeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationAttributeGet() : instance as! LocationAttributeGet
+                let _result = LocationAttributeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -6723,7 +6997,7 @@ class Decoders {
         // Decoder for LocationAttributeGetFull
         Decoders.addDecoder(clazz: LocationAttributeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationAttributeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationAttributeGetFull() : instance as! LocationAttributeGetFull
+                let _result = LocationAttributeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -6761,7 +7035,7 @@ class Decoders {
         // Decoder for LocationAttributeGetRef
         Decoders.addDecoder(clazz: LocationAttributeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationAttributeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationAttributeGetRef() : instance as! LocationAttributeGetRef
+                let _result = LocationAttributeGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "LocationAttributeGetRef", actual: "\(source)"))
@@ -6775,15 +7049,19 @@ class Decoders {
         // Decoder for LocationAttributeUpdate
         Decoders.addDecoder(clazz: LocationAttributeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationAttributeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationAttributeUpdate() : instance as! LocationAttributeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationAttributeUpdate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationAttributeUpdate", actual: "\(valueSource)"))
+                }
+                let _result = LocationAttributeUpdate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "LocationAttributeUpdate", actual: "\(source)"))
@@ -6797,11 +7075,13 @@ class Decoders {
         // Decoder for LocationCreate
         Decoders.addDecoder(clazz: LocationCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationCreate() : instance as! LocationCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationCreate", actual: "\(nameSource)"))
+                }
+                let _result = LocationCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -6883,11 +7163,13 @@ class Decoders {
         // Decoder for LocationCreateFull
         Decoders.addDecoder(clazz: LocationCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationCreateFull() : instance as! LocationCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = LocationCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -6969,7 +7251,7 @@ class Decoders {
         // Decoder for LocationGet
         Decoders.addDecoder(clazz: LocationGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationGet() : instance as! LocationGet
+                let _result = LocationGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7055,7 +7337,7 @@ class Decoders {
         // Decoder for LocationGetFull
         Decoders.addDecoder(clazz: LocationGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationGetFull() : instance as! LocationGetFull
+                let _result = LocationGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -7157,7 +7439,7 @@ class Decoders {
         // Decoder for LocationGetRef
         Decoders.addDecoder(clazz: LocationGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationGetRef() : instance as! LocationGetRef
+                let _result = LocationGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7179,11 +7461,13 @@ class Decoders {
         // Decoder for LocationUpdate
         Decoders.addDecoder(clazz: LocationUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationUpdate() : instance as! LocationUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationUpdate", actual: "\(nameSource)"))
+                }
+                let _result = LocationUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -7265,17 +7549,21 @@ class Decoders {
         // Decoder for LocationattributetypeCreate
         Decoders.addDecoder(clazz: LocationattributetypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationattributetypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationattributetypeCreate() : instance as! LocationattributetypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationattributetypeCreate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationattributetypeCreate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = LocationattributetypeCreate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -7311,17 +7599,21 @@ class Decoders {
         // Decoder for LocationattributetypeCreateFull
         Decoders.addDecoder(clazz: LocationattributetypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationattributetypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationattributetypeCreateFull() : instance as! LocationattributetypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationattributetypeCreateFull", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationattributetypeCreateFull", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = LocationattributetypeCreateFull(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -7357,7 +7649,7 @@ class Decoders {
         // Decoder for LocationattributetypeGet
         Decoders.addDecoder(clazz: LocationattributetypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationattributetypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationattributetypeGet() : instance as! LocationattributetypeGet
+                let _result = LocationattributetypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7395,7 +7687,7 @@ class Decoders {
         // Decoder for LocationattributetypeGetFull
         Decoders.addDecoder(clazz: LocationattributetypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationattributetypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationattributetypeGetFull() : instance as! LocationattributetypeGetFull
+                let _result = LocationattributetypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -7457,7 +7749,7 @@ class Decoders {
         // Decoder for LocationattributetypeGetRef
         Decoders.addDecoder(clazz: LocationattributetypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationattributetypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationattributetypeGetRef() : instance as! LocationattributetypeGetRef
+                let _result = LocationattributetypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7479,17 +7771,21 @@ class Decoders {
         // Decoder for LocationattributetypeUpdate
         Decoders.addDecoder(clazz: LocationattributetypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationattributetypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationattributetypeUpdate() : instance as! LocationattributetypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationattributetypeUpdate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationattributetypeUpdate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = LocationattributetypeUpdate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -7525,11 +7821,13 @@ class Decoders {
         // Decoder for LocationtagCreate
         Decoders.addDecoder(clazz: LocationtagCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationtagCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationtagCreate() : instance as! LocationtagCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationtagCreate", actual: "\(nameSource)"))
+                }
+                let _result = LocationtagCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -7555,11 +7853,13 @@ class Decoders {
         // Decoder for LocationtagCreateFull
         Decoders.addDecoder(clazz: LocationtagCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationtagCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationtagCreateFull() : instance as! LocationtagCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationtagCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = LocationtagCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -7585,7 +7885,7 @@ class Decoders {
         // Decoder for LocationtagGet
         Decoders.addDecoder(clazz: LocationtagGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationtagGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationtagGet() : instance as! LocationtagGet
+                let _result = LocationtagGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7607,7 +7907,7 @@ class Decoders {
         // Decoder for LocationtagGetFull
         Decoders.addDecoder(clazz: LocationtagGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationtagGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationtagGetFull() : instance as! LocationtagGetFull
+                let _result = LocationtagGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -7645,7 +7945,7 @@ class Decoders {
         // Decoder for LocationtagGetRef
         Decoders.addDecoder(clazz: LocationtagGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationtagGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationtagGetRef() : instance as! LocationtagGetRef
+                let _result = LocationtagGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7667,11 +7967,13 @@ class Decoders {
         // Decoder for LocationtagUpdate
         Decoders.addDecoder(clazz: LocationtagUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<LocationtagUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? LocationtagUpdate() : instance as! LocationtagUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "LocationtagUpdate", actual: "\(nameSource)"))
+                }
+                let _result = LocationtagUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -7697,7 +7999,7 @@ class Decoders {
         // Decoder for ModuleGet
         Decoders.addDecoder(clazz: ModuleGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ModuleGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ModuleGet() : instance as! ModuleGet
+                let _result = ModuleGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7735,7 +8037,7 @@ class Decoders {
         // Decoder for ModuleGetFull
         Decoders.addDecoder(clazz: ModuleGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ModuleGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ModuleGetFull() : instance as! ModuleGetFull
+                let _result = ModuleGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -7801,7 +8103,7 @@ class Decoders {
         // Decoder for ModuleGetRef
         Decoders.addDecoder(clazz: ModuleGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ModuleGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ModuleGetRef() : instance as! ModuleGetRef
+                let _result = ModuleGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -7823,17 +8125,19 @@ class Decoders {
         // Decoder for ModuleactionCreate
         Decoders.addDecoder(clazz: ModuleactionCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ModuleactionCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ModuleactionCreate() : instance as! ModuleactionCreate
+                guard let actionSource = sourceDictionary["action"] as AnyObject? else {
+                    return .failure(.missingKey(key: "action"))
+                }
+                guard let action = Decoders.decode(clazz: ModuleactionCreate.Action.self.self, source: actionSource).value else {
+                    return .failure(.typeMismatch(expected: "ModuleactionCreate", actual: "\(actionSource)"))
+                }
+                let _result = ModuleactionCreate(action: action)
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["modules"] as AnyObject?) {
                 case let .success(value): _result.modules = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["allModules"] as AnyObject?) {
                 case let .success(value): _result.allModules = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: ModuleactionCreate.Action.self, source: sourceDictionary["action"] as AnyObject?) {
-                case let .success(value): _result.action = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["installUri"] as AnyObject?) {
@@ -7853,17 +8157,19 @@ class Decoders {
         // Decoder for ModuleactionCreateFull
         Decoders.addDecoder(clazz: ModuleactionCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ModuleactionCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ModuleactionCreateFull() : instance as! ModuleactionCreateFull
+                guard let actionSource = sourceDictionary["action"] as AnyObject? else {
+                    return .failure(.missingKey(key: "action"))
+                }
+                guard let action = Decoders.decode(clazz: ModuleactionCreateFull.Action.self.self, source: actionSource).value else {
+                    return .failure(.typeMismatch(expected: "ModuleactionCreateFull", actual: "\(actionSource)"))
+                }
+                let _result = ModuleactionCreateFull(action: action)
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["modules"] as AnyObject?) {
                 case let .success(value): _result.modules = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["allModules"] as AnyObject?) {
                 case let .success(value): _result.allModules = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: ModuleactionCreateFull.Action.self, source: sourceDictionary["action"] as AnyObject?) {
-                case let .success(value): _result.action = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["installUri"] as AnyObject?) {
@@ -7883,19 +8189,25 @@ class Decoders {
         // Decoder for ObsCreate
         Decoders.addDecoder(clazz: ObsCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ObsCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ObsCreate() : instance as! ObsCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
                 }
-                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["obsDatetime"] as AnyObject?) {
-                case let .success(value): _result.obsDatetime = value
-                case let .failure(error): break
+                guard let person = Decoders.decode(clazz: String.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "ObsCreate", actual: "\(personSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
-                case let .failure(error): break
+                guard let obsDatetimeSource = sourceDictionary["obsDatetime"] as AnyObject? else {
+                    return .failure(.missingKey(key: "obsDatetime"))
                 }
+                guard let obsDatetime = Decoders.decode(clazz: Date.self.self, source: obsDatetimeSource).value else {
+                    return .failure(.typeMismatch(expected: "ObsCreate", actual: "\(obsDatetimeSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "ObsCreate", actual: "\(conceptSource)"))
+                }
+                let _result = ObsCreate(person: person, obsDatetime: obsDatetime, concept: concept)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?) {
                 case let .success(value): _result.location = value
                 case let .failure(error): break
@@ -7965,19 +8277,25 @@ class Decoders {
         // Decoder for ObsCreateFull
         Decoders.addDecoder(clazz: ObsCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ObsCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ObsCreateFull() : instance as! ObsCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
                 }
-                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["obsDatetime"] as AnyObject?) {
-                case let .success(value): _result.obsDatetime = value
-                case let .failure(error): break
+                guard let person = Decoders.decode(clazz: String.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "ObsCreateFull", actual: "\(personSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
-                case let .failure(error): break
+                guard let obsDatetimeSource = sourceDictionary["obsDatetime"] as AnyObject? else {
+                    return .failure(.missingKey(key: "obsDatetime"))
                 }
+                guard let obsDatetime = Decoders.decode(clazz: Date.self.self, source: obsDatetimeSource).value else {
+                    return .failure(.typeMismatch(expected: "ObsCreateFull", actual: "\(obsDatetimeSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "ObsCreateFull", actual: "\(conceptSource)"))
+                }
+                let _result = ObsCreateFull(person: person, obsDatetime: obsDatetime, concept: concept)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?) {
                 case let .success(value): _result.location = value
                 case let .failure(error): break
@@ -8047,7 +8365,7 @@ class Decoders {
         // Decoder for ObsGet
         Decoders.addDecoder(clazz: ObsGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ObsGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ObsGet() : instance as! ObsGet
+                let _result = ObsGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -8141,7 +8459,7 @@ class Decoders {
         // Decoder for ObsGetFull
         Decoders.addDecoder(clazz: ObsGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ObsGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ObsGetFull() : instance as! ObsGetFull
+                let _result = ObsGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -8239,7 +8557,7 @@ class Decoders {
         // Decoder for ObsGetRef
         Decoders.addDecoder(clazz: ObsGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ObsGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ObsGetRef() : instance as! ObsGetRef
+                let _result = ObsGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["formFieldPath"] as AnyObject?) {
                 case let .success(value): _result.formFieldPath = value
                 case let .failure(error): break
@@ -8269,7 +8587,7 @@ class Decoders {
         // Decoder for ObsUpdate
         Decoders.addDecoder(clazz: ObsUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ObsUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ObsUpdate() : instance as! ObsUpdate
+                let _result = ObsUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ObsUpdate", actual: "\(source)"))
@@ -8283,13 +8601,27 @@ class Decoders {
         // Decoder for OrderCreate
         Decoders.addDecoder(clazz: OrderCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderCreate() : instance as! OrderCreate
+                guard let orderTypeSource = sourceDictionary["orderType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "orderType"))
+                }
+                guard let orderType = Decoders.decode(clazz: String.self.self, source: orderTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "OrderCreate", actual: "\(orderTypeSource)"))
+                }
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
+                }
+                guard let patient = Decoders.decode(clazz: String.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "OrderCreate", actual: "\(patientSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "OrderCreate", actual: "\(conceptSource)"))
+                }
+                let _result = OrderCreate(orderType: orderType, patient: patient, concept: concept)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["encounter"] as AnyObject?) {
                 case let .success(value): _result.encounter = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["orderType"] as AnyObject?) {
-                case let .success(value): _result.orderType = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: OrderCreate.Action.self, source: sourceDictionary["action"] as AnyObject?) {
@@ -8306,14 +8638,6 @@ class Decoders {
                 }
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["scheduledDate"] as AnyObject?) {
                 case let .success(value): _result.scheduledDate = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["careSetting"] as AnyObject?) {
@@ -8369,13 +8693,27 @@ class Decoders {
         // Decoder for OrderCreateFull
         Decoders.addDecoder(clazz: OrderCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderCreateFull() : instance as! OrderCreateFull
+                guard let orderTypeSource = sourceDictionary["orderType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "orderType"))
+                }
+                guard let orderType = Decoders.decode(clazz: String.self.self, source: orderTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "OrderCreateFull", actual: "\(orderTypeSource)"))
+                }
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
+                }
+                guard let patient = Decoders.decode(clazz: PatientCreate.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "OrderCreateFull", actual: "\(patientSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: ConceptCreate.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "OrderCreateFull", actual: "\(conceptSource)"))
+                }
+                let _result = OrderCreateFull(orderType: orderType, patient: patient, concept: concept)
                 switch Decoders.decodeOptional(clazz: EncounterCreate.self, source: sourceDictionary["encounter"] as AnyObject?) {
                 case let .success(value): _result.encounter = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["orderType"] as AnyObject?) {
-                case let .success(value): _result.orderType = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: OrderCreateFull.Action.self, source: sourceDictionary["action"] as AnyObject?) {
@@ -8392,14 +8730,6 @@ class Decoders {
                 }
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["scheduledDate"] as AnyObject?) {
                 case let .success(value): _result.scheduledDate = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: PatientCreate.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: ConceptCreate.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["careSetting"] as AnyObject?) {
@@ -8455,7 +8785,7 @@ class Decoders {
         // Decoder for OrderGet
         Decoders.addDecoder(clazz: OrderGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderGet() : instance as! OrderGet
+                let _result = OrderGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -8533,7 +8863,7 @@ class Decoders {
         // Decoder for OrderGetFull
         Decoders.addDecoder(clazz: OrderGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderGetFull() : instance as! OrderGetFull
+                let _result = OrderGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -8615,7 +8945,7 @@ class Decoders {
         // Decoder for OrderGetRef
         Decoders.addDecoder(clazz: OrderGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderGetRef() : instance as! OrderGetRef
+                let _result = OrderGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "OrderGetRef", actual: "\(source)"))
@@ -8629,7 +8959,7 @@ class Decoders {
         // Decoder for OrderfrequencyGet
         Decoders.addDecoder(clazz: OrderfrequencyGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderfrequencyGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderfrequencyGet() : instance as! OrderfrequencyGet
+                let _result = OrderfrequencyGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -8651,7 +8981,7 @@ class Decoders {
         // Decoder for OrderfrequencyGetFull
         Decoders.addDecoder(clazz: OrderfrequencyGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderfrequencyGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderfrequencyGetFull() : instance as! OrderfrequencyGetFull
+                let _result = OrderfrequencyGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -8689,7 +9019,7 @@ class Decoders {
         // Decoder for OrderfrequencyGetRef
         Decoders.addDecoder(clazz: OrderfrequencyGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderfrequencyGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderfrequencyGetRef() : instance as! OrderfrequencyGetRef
+                let _result = OrderfrequencyGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -8711,11 +9041,13 @@ class Decoders {
         // Decoder for OrderfrequencyUpdate
         Decoders.addDecoder(clazz: OrderfrequencyUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrderfrequencyUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrderfrequencyUpdate() : instance as! OrderfrequencyUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "OrderfrequencyUpdate", actual: "\(nameSource)"))
+                }
+                let _result = OrderfrequencyUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -8733,7 +9065,7 @@ class Decoders {
         // Decoder for OrdersetCreate
         Decoders.addDecoder(clazz: OrdersetCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetCreate() : instance as! OrdersetCreate
+                let _result = OrdersetCreate()
                 switch Decoders.decodeOptional(clazz: OrdersetCreate.Operator.self, source: sourceDictionary["operator"] as AnyObject?) {
                 case let .success(value): _result._operator = value
                 case let .failure(error): break
@@ -8755,7 +9087,7 @@ class Decoders {
         // Decoder for OrdersetCreateFull
         Decoders.addDecoder(clazz: OrdersetCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetCreateFull() : instance as! OrdersetCreateFull
+                let _result = OrdersetCreateFull()
                 switch Decoders.decodeOptional(clazz: OrdersetCreateFull.Operator.self, source: sourceDictionary["operator"] as AnyObject?) {
                 case let .success(value): _result._operator = value
                 case let .failure(error): break
@@ -8777,7 +9109,7 @@ class Decoders {
         // Decoder for OrdersetGet
         Decoders.addDecoder(clazz: OrdersetGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetGet() : instance as! OrdersetGet
+                let _result = OrdersetGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -8807,7 +9139,7 @@ class Decoders {
         // Decoder for OrdersetGetFull
         Decoders.addDecoder(clazz: OrdersetGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetGetFull() : instance as! OrdersetGetFull
+                let _result = OrdersetGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -8853,7 +9185,7 @@ class Decoders {
         // Decoder for OrdersetGetRef
         Decoders.addDecoder(clazz: OrdersetGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetGetRef() : instance as! OrdersetGetRef
+                let _result = OrdersetGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -8875,7 +9207,7 @@ class Decoders {
         // Decoder for OrdersetOrdersetmemberCreate
         Decoders.addDecoder(clazz: OrdersetOrdersetmemberCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetOrdersetmemberCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetOrdersetmemberCreate() : instance as! OrdersetOrdersetmemberCreate
+                let _result = OrdersetOrdersetmemberCreate()
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["orderType"] as AnyObject?) {
                 case let .success(value): _result.orderType = value
                 case let .failure(error): break
@@ -8905,7 +9237,7 @@ class Decoders {
         // Decoder for OrdersetOrdersetmemberCreateFull
         Decoders.addDecoder(clazz: OrdersetOrdersetmemberCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetOrdersetmemberCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetOrdersetmemberCreateFull() : instance as! OrdersetOrdersetmemberCreateFull
+                let _result = OrdersetOrdersetmemberCreateFull()
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["orderType"] as AnyObject?) {
                 case let .success(value): _result.orderType = value
                 case let .failure(error): break
@@ -8935,7 +9267,7 @@ class Decoders {
         // Decoder for OrdersetOrdersetmemberGet
         Decoders.addDecoder(clazz: OrdersetOrdersetmemberGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetOrdersetmemberGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetOrdersetmemberGet() : instance as! OrdersetOrdersetmemberGet
+                let _result = OrdersetOrdersetmemberGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -8977,7 +9309,7 @@ class Decoders {
         // Decoder for OrdersetOrdersetmemberGetFull
         Decoders.addDecoder(clazz: OrdersetOrdersetmemberGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetOrdersetmemberGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetOrdersetmemberGetFull() : instance as! OrdersetOrdersetmemberGetFull
+                let _result = OrdersetOrdersetmemberGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -9023,7 +9355,7 @@ class Decoders {
         // Decoder for OrdersetOrdersetmemberGetRef
         Decoders.addDecoder(clazz: OrdersetOrdersetmemberGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetOrdersetmemberGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetOrdersetmemberGetRef() : instance as! OrdersetOrdersetmemberGetRef
+                let _result = OrdersetOrdersetmemberGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "OrdersetOrdersetmemberGetRef", actual: "\(source)"))
@@ -9037,7 +9369,7 @@ class Decoders {
         // Decoder for OrdersetOrdersetmemberUpdate
         Decoders.addDecoder(clazz: OrdersetOrdersetmemberUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetOrdersetmemberUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetOrdersetmemberUpdate() : instance as! OrdersetOrdersetmemberUpdate
+                let _result = OrdersetOrdersetmemberUpdate()
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["orderType"] as AnyObject?) {
                 case let .success(value): _result.orderType = value
                 case let .failure(error): break
@@ -9067,7 +9399,7 @@ class Decoders {
         // Decoder for OrdersetUpdate
         Decoders.addDecoder(clazz: OrdersetUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdersetUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdersetUpdate() : instance as! OrdersetUpdate
+                let _result = OrdersetUpdate()
                 switch Decoders.decodeOptional(clazz: OrdersetUpdate.Operator.self, source: sourceDictionary["operator"] as AnyObject?) {
                 case let .success(value): _result._operator = value
                 case let .failure(error): break
@@ -9089,17 +9421,21 @@ class Decoders {
         // Decoder for OrdertypeCreate
         Decoders.addDecoder(clazz: OrdertypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdertypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdertypeCreate() : instance as! OrdertypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "OrdertypeCreate", actual: "\(nameSource)"))
+                }
+                guard let javaClassNameSource = sourceDictionary["javaClassName"] as AnyObject? else {
+                    return .failure(.missingKey(key: "javaClassName"))
+                }
+                guard let javaClassName = Decoders.decode(clazz: String.self.self, source: javaClassNameSource).value else {
+                    return .failure(.typeMismatch(expected: "OrdertypeCreate", actual: "\(javaClassNameSource)"))
+                }
+                let _result = OrdertypeCreate(name: name, javaClassName: javaClassName)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["javaClassName"] as AnyObject?) {
-                case let .success(value): _result.javaClassName = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?) {
@@ -9123,17 +9459,21 @@ class Decoders {
         // Decoder for OrdertypeCreateFull
         Decoders.addDecoder(clazz: OrdertypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdertypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdertypeCreateFull() : instance as! OrdertypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "OrdertypeCreateFull", actual: "\(nameSource)"))
+                }
+                guard let javaClassNameSource = sourceDictionary["javaClassName"] as AnyObject? else {
+                    return .failure(.missingKey(key: "javaClassName"))
+                }
+                guard let javaClassName = Decoders.decode(clazz: String.self.self, source: javaClassNameSource).value else {
+                    return .failure(.typeMismatch(expected: "OrdertypeCreateFull", actual: "\(javaClassNameSource)"))
+                }
+                let _result = OrdertypeCreateFull(name: name, javaClassName: javaClassName)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["javaClassName"] as AnyObject?) {
-                case let .success(value): _result.javaClassName = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?) {
@@ -9157,7 +9497,7 @@ class Decoders {
         // Decoder for OrdertypeGet
         Decoders.addDecoder(clazz: OrdertypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdertypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdertypeGet() : instance as! OrdertypeGet
+                let _result = OrdertypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -9191,7 +9531,7 @@ class Decoders {
         // Decoder for OrdertypeGetFull
         Decoders.addDecoder(clazz: OrdertypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdertypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdertypeGetFull() : instance as! OrdertypeGetFull
+                let _result = OrdertypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -9241,7 +9581,7 @@ class Decoders {
         // Decoder for OrdertypeGetRef
         Decoders.addDecoder(clazz: OrdertypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdertypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdertypeGetRef() : instance as! OrdertypeGetRef
+                let _result = OrdertypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -9263,17 +9603,21 @@ class Decoders {
         // Decoder for OrdertypeUpdate
         Decoders.addDecoder(clazz: OrdertypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OrdertypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? OrdertypeUpdate() : instance as! OrdertypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "OrdertypeUpdate", actual: "\(nameSource)"))
+                }
+                guard let javaClassNameSource = sourceDictionary["javaClassName"] as AnyObject? else {
+                    return .failure(.missingKey(key: "javaClassName"))
+                }
+                guard let javaClassName = Decoders.decode(clazz: String.self.self, source: javaClassNameSource).value else {
+                    return .failure(.typeMismatch(expected: "OrdertypeUpdate", actual: "\(javaClassNameSource)"))
+                }
+                let _result = OrdertypeUpdate(name: name, javaClassName: javaClassName)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["javaClassName"] as AnyObject?) {
-                case let .success(value): _result.javaClassName = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?) {
@@ -9297,11 +9641,13 @@ class Decoders {
         // Decoder for PatientAllergyCreate
         Decoders.addDecoder(clazz: PatientAllergyCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientAllergyCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientAllergyCreate() : instance as! PatientAllergyCreate
-                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["allergen"] as AnyObject?) {
-                case let .success(value): _result.allergen = value
-                case let .failure(error): break
+                guard let allergenSource = sourceDictionary["allergen"] as AnyObject? else {
+                    return .failure(.missingKey(key: "allergen"))
                 }
+                guard let allergen = Decoders.decode(clazz: Any.self.self, source: allergenSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientAllergyCreate", actual: "\(allergenSource)"))
+                }
+                let _result = PatientAllergyCreate(allergen: allergen)
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["severity"] as AnyObject?) {
                 case let .success(value): _result.severity = value
                 case let .failure(error): break
@@ -9327,11 +9673,13 @@ class Decoders {
         // Decoder for PatientAllergyCreateFull
         Decoders.addDecoder(clazz: PatientAllergyCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientAllergyCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientAllergyCreateFull() : instance as! PatientAllergyCreateFull
-                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["allergen"] as AnyObject?) {
-                case let .success(value): _result.allergen = value
-                case let .failure(error): break
+                guard let allergenSource = sourceDictionary["allergen"] as AnyObject? else {
+                    return .failure(.missingKey(key: "allergen"))
                 }
+                guard let allergen = Decoders.decode(clazz: Any.self.self, source: allergenSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientAllergyCreateFull", actual: "\(allergenSource)"))
+                }
+                let _result = PatientAllergyCreateFull(allergen: allergen)
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["severity"] as AnyObject?) {
                 case let .success(value): _result.severity = value
                 case let .failure(error): break
@@ -9357,7 +9705,7 @@ class Decoders {
         // Decoder for PatientAllergyGet
         Decoders.addDecoder(clazz: PatientAllergyGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientAllergyGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientAllergyGet() : instance as! PatientAllergyGet
+                let _result = PatientAllergyGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -9399,7 +9747,7 @@ class Decoders {
         // Decoder for PatientAllergyGetFull
         Decoders.addDecoder(clazz: PatientAllergyGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientAllergyGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientAllergyGetFull() : instance as! PatientAllergyGetFull
+                let _result = PatientAllergyGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -9445,7 +9793,7 @@ class Decoders {
         // Decoder for PatientAllergyGetRef
         Decoders.addDecoder(clazz: PatientAllergyGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientAllergyGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientAllergyGetRef() : instance as! PatientAllergyGetRef
+                let _result = PatientAllergyGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PatientAllergyGetRef", actual: "\(source)"))
@@ -9459,11 +9807,13 @@ class Decoders {
         // Decoder for PatientAllergyUpdate
         Decoders.addDecoder(clazz: PatientAllergyUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientAllergyUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientAllergyUpdate() : instance as! PatientAllergyUpdate
-                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["allergen"] as AnyObject?) {
-                case let .success(value): _result.allergen = value
-                case let .failure(error): break
+                guard let allergenSource = sourceDictionary["allergen"] as AnyObject? else {
+                    return .failure(.missingKey(key: "allergen"))
                 }
+                guard let allergen = Decoders.decode(clazz: Any.self.self, source: allergenSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientAllergyUpdate", actual: "\(allergenSource)"))
+                }
+                let _result = PatientAllergyUpdate(allergen: allergen)
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["severity"] as AnyObject?) {
                 case let .success(value): _result.severity = value
                 case let .failure(error): break
@@ -9489,15 +9839,19 @@ class Decoders {
         // Decoder for PatientCreate
         Decoders.addDecoder(clazz: PatientCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientCreate() : instance as! PatientCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
                 }
-                switch Decoders.decodeOptional(clazz: [PatientIdentifierCreate].self, source: sourceDictionary["identifiers"] as AnyObject?) {
-                case let .success(value): _result.identifiers = value
-                case let .failure(error): break
+                guard let person = Decoders.decode(clazz: String.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientCreate", actual: "\(personSource)"))
                 }
+                guard let identifiersSource = sourceDictionary["identifiers"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifiers"))
+                }
+                guard let identifiers = Decoders.decode(clazz: [PatientIdentifierCreate].self.self, source: identifiersSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientCreate", actual: "\(identifiersSource)"))
+                }
+                let _result = PatientCreate(person: person, identifiers: identifiers)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PatientCreate", actual: "\(source)"))
@@ -9511,15 +9865,19 @@ class Decoders {
         // Decoder for PatientCreateFull
         Decoders.addDecoder(clazz: PatientCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientCreateFull() : instance as! PatientCreateFull
-                switch Decoders.decodeOptional(clazz: PersonCreate.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
                 }
-                switch Decoders.decodeOptional(clazz: [PatientIdentifierCreate].self, source: sourceDictionary["identifiers"] as AnyObject?) {
-                case let .success(value): _result.identifiers = value
-                case let .failure(error): break
+                guard let person = Decoders.decode(clazz: PersonCreate.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientCreateFull", actual: "\(personSource)"))
                 }
+                guard let identifiersSource = sourceDictionary["identifiers"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifiers"))
+                }
+                guard let identifiers = Decoders.decode(clazz: [PatientIdentifierCreate].self.self, source: identifiersSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientCreateFull", actual: "\(identifiersSource)"))
+                }
+                let _result = PatientCreateFull(person: person, identifiers: identifiers)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PatientCreateFull", actual: "\(source)"))
@@ -9533,7 +9891,7 @@ class Decoders {
         // Decoder for PatientGet
         Decoders.addDecoder(clazz: PatientGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientGet() : instance as! PatientGet
+                let _result = PatientGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -9571,7 +9929,7 @@ class Decoders {
         // Decoder for PatientGetFull
         Decoders.addDecoder(clazz: PatientGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientGetFull() : instance as! PatientGetFull
+                let _result = PatientGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -9613,7 +9971,7 @@ class Decoders {
         // Decoder for PatientGetRef
         Decoders.addDecoder(clazz: PatientGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientGetRef() : instance as! PatientGetRef
+                let _result = PatientGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PatientGetRef", actual: "\(source)"))
@@ -9627,15 +9985,19 @@ class Decoders {
         // Decoder for PatientIdentifierCreate
         Decoders.addDecoder(clazz: PatientIdentifierCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientIdentifierCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientIdentifierCreate() : instance as! PatientIdentifierCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifier"] as AnyObject?) {
-                case let .success(value): _result.identifier = value
-                case let .failure(error): break
+                guard let identifierSource = sourceDictionary["identifier"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifier"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifierType"] as AnyObject?) {
-                case let .success(value): _result.identifierType = value
-                case let .failure(error): break
+                guard let identifier = Decoders.decode(clazz: String.self.self, source: identifierSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientIdentifierCreate", actual: "\(identifierSource)"))
                 }
+                guard let identifierTypeSource = sourceDictionary["identifierType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifierType"))
+                }
+                guard let identifierType = Decoders.decode(clazz: String.self.self, source: identifierTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientIdentifierCreate", actual: "\(identifierTypeSource)"))
+                }
+                let _result = PatientIdentifierCreate(identifier: identifier, identifierType: identifierType)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?) {
                 case let .success(value): _result.location = value
                 case let .failure(error): break
@@ -9657,15 +10019,19 @@ class Decoders {
         // Decoder for PatientIdentifierCreateFull
         Decoders.addDecoder(clazz: PatientIdentifierCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientIdentifierCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientIdentifierCreateFull() : instance as! PatientIdentifierCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifier"] as AnyObject?) {
-                case let .success(value): _result.identifier = value
-                case let .failure(error): break
+                guard let identifierSource = sourceDictionary["identifier"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifier"))
                 }
-                switch Decoders.decodeOptional(clazz: PatientidentifiertypeCreate.self, source: sourceDictionary["identifierType"] as AnyObject?) {
-                case let .success(value): _result.identifierType = value
-                case let .failure(error): break
+                guard let identifier = Decoders.decode(clazz: String.self.self, source: identifierSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientIdentifierCreateFull", actual: "\(identifierSource)"))
                 }
+                guard let identifierTypeSource = sourceDictionary["identifierType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifierType"))
+                }
+                guard let identifierType = Decoders.decode(clazz: PatientidentifiertypeCreate.self.self, source: identifierTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientIdentifierCreateFull", actual: "\(identifierTypeSource)"))
+                }
+                let _result = PatientIdentifierCreateFull(identifier: identifier, identifierType: identifierType)
                 switch Decoders.decodeOptional(clazz: LocationCreate.self, source: sourceDictionary["location"] as AnyObject?) {
                 case let .success(value): _result.location = value
                 case let .failure(error): break
@@ -9687,7 +10053,7 @@ class Decoders {
         // Decoder for PatientIdentifierGet
         Decoders.addDecoder(clazz: PatientIdentifierGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientIdentifierGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientIdentifierGet() : instance as! PatientIdentifierGet
+                let _result = PatientIdentifierGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -9729,7 +10095,7 @@ class Decoders {
         // Decoder for PatientIdentifierGetFull
         Decoders.addDecoder(clazz: PatientIdentifierGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientIdentifierGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientIdentifierGetFull() : instance as! PatientIdentifierGetFull
+                let _result = PatientIdentifierGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -9775,7 +10141,7 @@ class Decoders {
         // Decoder for PatientIdentifierGetRef
         Decoders.addDecoder(clazz: PatientIdentifierGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientIdentifierGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientIdentifierGetRef() : instance as! PatientIdentifierGetRef
+                let _result = PatientIdentifierGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PatientIdentifierGetRef", actual: "\(source)"))
@@ -9789,15 +10155,19 @@ class Decoders {
         // Decoder for PatientIdentifierUpdate
         Decoders.addDecoder(clazz: PatientIdentifierUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientIdentifierUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientIdentifierUpdate() : instance as! PatientIdentifierUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifier"] as AnyObject?) {
-                case let .success(value): _result.identifier = value
-                case let .failure(error): break
+                guard let identifierSource = sourceDictionary["identifier"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifier"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifierType"] as AnyObject?) {
-                case let .success(value): _result.identifierType = value
-                case let .failure(error): break
+                guard let identifier = Decoders.decode(clazz: String.self.self, source: identifierSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientIdentifierUpdate", actual: "\(identifierSource)"))
                 }
+                guard let identifierTypeSource = sourceDictionary["identifierType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifierType"))
+                }
+                guard let identifierType = Decoders.decode(clazz: String.self.self, source: identifierTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientIdentifierUpdate", actual: "\(identifierTypeSource)"))
+                }
+                let _result = PatientIdentifierUpdate(identifier: identifier, identifierType: identifierType)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?) {
                 case let .success(value): _result.location = value
                 case let .failure(error): break
@@ -9819,11 +10189,13 @@ class Decoders {
         // Decoder for PatientUpdate
         Decoders.addDecoder(clazz: PatientUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientUpdate() : instance as! PatientUpdate
-                switch Decoders.decodeOptional(clazz: PersonGet.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
                 }
+                guard let person = Decoders.decode(clazz: PersonGet.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientUpdate", actual: "\(personSource)"))
+                }
+                let _result = PatientUpdate(person: person)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PatientUpdate", actual: "\(source)"))
@@ -9837,11 +10209,13 @@ class Decoders {
         // Decoder for PatientidentifiertypeCreate
         Decoders.addDecoder(clazz: PatientidentifiertypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientidentifiertypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientidentifiertypeCreate() : instance as! PatientidentifiertypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientidentifiertypeCreate", actual: "\(nameSource)"))
+                }
+                let _result = PatientidentifiertypeCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -9887,11 +10261,13 @@ class Decoders {
         // Decoder for PatientidentifiertypeCreateFull
         Decoders.addDecoder(clazz: PatientidentifiertypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientidentifiertypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientidentifiertypeCreateFull() : instance as! PatientidentifiertypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientidentifiertypeCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = PatientidentifiertypeCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -9937,7 +10313,7 @@ class Decoders {
         // Decoder for PatientidentifiertypeGet
         Decoders.addDecoder(clazz: PatientidentifiertypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientidentifiertypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientidentifiertypeGet() : instance as! PatientidentifiertypeGet
+                let _result = PatientidentifiertypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -9987,7 +10363,7 @@ class Decoders {
         // Decoder for PatientidentifiertypeGetFull
         Decoders.addDecoder(clazz: PatientidentifiertypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientidentifiertypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientidentifiertypeGetFull() : instance as! PatientidentifiertypeGetFull
+                let _result = PatientidentifiertypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -10053,7 +10429,7 @@ class Decoders {
         // Decoder for PatientidentifiertypeGetRef
         Decoders.addDecoder(clazz: PatientidentifiertypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientidentifiertypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientidentifiertypeGetRef() : instance as! PatientidentifiertypeGetRef
+                let _result = PatientidentifiertypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -10075,11 +10451,13 @@ class Decoders {
         // Decoder for PatientidentifiertypeUpdate
         Decoders.addDecoder(clazz: PatientidentifiertypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientidentifiertypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PatientidentifiertypeUpdate() : instance as! PatientidentifiertypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PatientidentifiertypeUpdate", actual: "\(nameSource)"))
+                }
+                let _result = PatientidentifiertypeUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -10125,7 +10503,7 @@ class Decoders {
         // Decoder for PersonAddressCreate
         Decoders.addDecoder(clazz: PersonAddressCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAddressCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAddressCreate() : instance as! PersonAddressCreate
+                let _result = PersonAddressCreate()
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["preferred"] as AnyObject?) {
                 case let .success(value): _result.preferred = value
                 case let .failure(error): break
@@ -10203,7 +10581,7 @@ class Decoders {
         // Decoder for PersonAddressCreateFull
         Decoders.addDecoder(clazz: PersonAddressCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAddressCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAddressCreateFull() : instance as! PersonAddressCreateFull
+                let _result = PersonAddressCreateFull()
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["preferred"] as AnyObject?) {
                 case let .success(value): _result.preferred = value
                 case let .failure(error): break
@@ -10281,7 +10659,7 @@ class Decoders {
         // Decoder for PersonAddressGet
         Decoders.addDecoder(clazz: PersonAddressGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAddressGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAddressGet() : instance as! PersonAddressGet
+                let _result = PersonAddressGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -10371,7 +10749,7 @@ class Decoders {
         // Decoder for PersonAddressGetFull
         Decoders.addDecoder(clazz: PersonAddressGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAddressGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAddressGetFull() : instance as! PersonAddressGetFull
+                let _result = PersonAddressGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -10465,7 +10843,7 @@ class Decoders {
         // Decoder for PersonAddressGetRef
         Decoders.addDecoder(clazz: PersonAddressGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAddressGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAddressGetRef() : instance as! PersonAddressGetRef
+                let _result = PersonAddressGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -10487,7 +10865,7 @@ class Decoders {
         // Decoder for PersonAddressUpdate
         Decoders.addDecoder(clazz: PersonAddressUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAddressUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAddressUpdate() : instance as! PersonAddressUpdate
+                let _result = PersonAddressUpdate()
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["preferred"] as AnyObject?) {
                 case let .success(value): _result.preferred = value
                 case let .failure(error): break
@@ -10565,11 +10943,13 @@ class Decoders {
         // Decoder for PersonAttributeCreate
         Decoders.addDecoder(clazz: PersonAttributeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAttributeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAttributeCreate() : instance as! PersonAttributeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonAttributeCreate", actual: "\(attributeTypeSource)"))
+                }
+                let _result = PersonAttributeCreate(attributeType: attributeType)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
                 case let .success(value): _result.value = value
                 case let .failure(error): break
@@ -10591,11 +10971,13 @@ class Decoders {
         // Decoder for PersonAttributeCreateFull
         Decoders.addDecoder(clazz: PersonAttributeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAttributeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAttributeCreateFull() : instance as! PersonAttributeCreateFull
-                switch Decoders.decodeOptional(clazz: PersonattributetypeCreate.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
+                guard let attributeType = Decoders.decode(clazz: PersonattributetypeCreate.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonAttributeCreateFull", actual: "\(attributeTypeSource)"))
+                }
+                let _result = PersonAttributeCreateFull(attributeType: attributeType)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
                 case let .success(value): _result.value = value
                 case let .failure(error): break
@@ -10617,7 +10999,7 @@ class Decoders {
         // Decoder for PersonAttributeGet
         Decoders.addDecoder(clazz: PersonAttributeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAttributeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAttributeGet() : instance as! PersonAttributeGet
+                let _result = PersonAttributeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -10651,7 +11033,7 @@ class Decoders {
         // Decoder for PersonAttributeGetFull
         Decoders.addDecoder(clazz: PersonAttributeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAttributeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAttributeGetFull() : instance as! PersonAttributeGetFull
+                let _result = PersonAttributeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -10693,7 +11075,7 @@ class Decoders {
         // Decoder for PersonAttributeGetRef
         Decoders.addDecoder(clazz: PersonAttributeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAttributeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAttributeGetRef() : instance as! PersonAttributeGetRef
+                let _result = PersonAttributeGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PersonAttributeGetRef", actual: "\(source)"))
@@ -10707,11 +11089,13 @@ class Decoders {
         // Decoder for PersonAttributeUpdate
         Decoders.addDecoder(clazz: PersonAttributeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonAttributeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonAttributeUpdate() : instance as! PersonAttributeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonAttributeUpdate", actual: "\(attributeTypeSource)"))
+                }
+                let _result = PersonAttributeUpdate(attributeType: attributeType)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
                 case let .success(value): _result.value = value
                 case let .failure(error): break
@@ -10733,15 +11117,19 @@ class Decoders {
         // Decoder for PersonCreate
         Decoders.addDecoder(clazz: PersonCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonCreate() : instance as! PersonCreate
-                switch Decoders.decodeOptional(clazz: [PersonNameCreate].self, source: sourceDictionary["names"] as AnyObject?) {
-                case let .success(value): _result.names = value
-                case let .failure(error): break
+                guard let namesSource = sourceDictionary["names"] as AnyObject? else {
+                    return .failure(.missingKey(key: "names"))
                 }
-                switch Decoders.decodeOptional(clazz: PersonCreate.Gender.self, source: sourceDictionary["gender"] as AnyObject?) {
-                case let .success(value): _result.gender = value
-                case let .failure(error): break
+                guard let names = Decoders.decode(clazz: [PersonNameCreate].self.self, source: namesSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonCreate", actual: "\(namesSource)"))
                 }
+                guard let genderSource = sourceDictionary["gender"] as AnyObject? else {
+                    return .failure(.missingKey(key: "gender"))
+                }
+                guard let gender = Decoders.decode(clazz: PersonCreate.Gender.self.self, source: genderSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonCreate", actual: "\(genderSource)"))
+                }
+                let _result = PersonCreate(names: names, gender: gender)
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["age"] as AnyObject?) {
                 case let .success(value): _result.age = value
                 case let .failure(error): break
@@ -10795,15 +11183,19 @@ class Decoders {
         // Decoder for PersonCreateFull
         Decoders.addDecoder(clazz: PersonCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonCreateFull() : instance as! PersonCreateFull
-                switch Decoders.decodeOptional(clazz: [PersonNameCreate].self, source: sourceDictionary["names"] as AnyObject?) {
-                case let .success(value): _result.names = value
-                case let .failure(error): break
+                guard let namesSource = sourceDictionary["names"] as AnyObject? else {
+                    return .failure(.missingKey(key: "names"))
                 }
-                switch Decoders.decodeOptional(clazz: PersonCreateFull.Gender.self, source: sourceDictionary["gender"] as AnyObject?) {
-                case let .success(value): _result.gender = value
-                case let .failure(error): break
+                guard let names = Decoders.decode(clazz: [PersonNameCreate].self.self, source: namesSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonCreateFull", actual: "\(namesSource)"))
                 }
+                guard let genderSource = sourceDictionary["gender"] as AnyObject? else {
+                    return .failure(.missingKey(key: "gender"))
+                }
+                guard let gender = Decoders.decode(clazz: PersonCreateFull.Gender.self.self, source: genderSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonCreateFull", actual: "\(genderSource)"))
+                }
+                let _result = PersonCreateFull(names: names, gender: gender)
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["age"] as AnyObject?) {
                 case let .success(value): _result.age = value
                 case let .failure(error): break
@@ -10857,7 +11249,7 @@ class Decoders {
         // Decoder for PersonGet
         Decoders.addDecoder(clazz: PersonGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonGet() : instance as! PersonGet
+                let _result = PersonGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -10931,7 +11323,7 @@ class Decoders {
         // Decoder for PersonGetFull
         Decoders.addDecoder(clazz: PersonGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonGetFull() : instance as! PersonGetFull
+                let _result = PersonGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -11017,7 +11409,7 @@ class Decoders {
         // Decoder for PersonGetRef
         Decoders.addDecoder(clazz: PersonGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonGetRef() : instance as! PersonGetRef
+                let _result = PersonGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PersonGetRef", actual: "\(source)"))
@@ -11031,11 +11423,13 @@ class Decoders {
         // Decoder for PersonNameCreate
         Decoders.addDecoder(clazz: PersonNameCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonNameCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonNameCreate() : instance as! PersonNameCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["givenName"] as AnyObject?) {
-                case let .success(value): _result.givenName = value
-                case let .failure(error): break
+                guard let givenNameSource = sourceDictionary["givenName"] as AnyObject? else {
+                    return .failure(.missingKey(key: "givenName"))
                 }
+                guard let givenName = Decoders.decode(clazz: String.self.self, source: givenNameSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonNameCreate", actual: "\(givenNameSource)"))
+                }
+                let _result = PersonNameCreate(givenName: givenName)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["middleName"] as AnyObject?) {
                 case let .success(value): _result.middleName = value
                 case let .failure(error): break
@@ -11081,11 +11475,13 @@ class Decoders {
         // Decoder for PersonNameCreateFull
         Decoders.addDecoder(clazz: PersonNameCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonNameCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonNameCreateFull() : instance as! PersonNameCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["givenName"] as AnyObject?) {
-                case let .success(value): _result.givenName = value
-                case let .failure(error): break
+                guard let givenNameSource = sourceDictionary["givenName"] as AnyObject? else {
+                    return .failure(.missingKey(key: "givenName"))
                 }
+                guard let givenName = Decoders.decode(clazz: String.self.self, source: givenNameSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonNameCreateFull", actual: "\(givenNameSource)"))
+                }
+                let _result = PersonNameCreateFull(givenName: givenName)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["middleName"] as AnyObject?) {
                 case let .success(value): _result.middleName = value
                 case let .failure(error): break
@@ -11131,7 +11527,7 @@ class Decoders {
         // Decoder for PersonNameGet
         Decoders.addDecoder(clazz: PersonNameGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonNameGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonNameGet() : instance as! PersonNameGet
+                let _result = PersonNameGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -11173,7 +11569,7 @@ class Decoders {
         // Decoder for PersonNameGetFull
         Decoders.addDecoder(clazz: PersonNameGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonNameGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonNameGetFull() : instance as! PersonNameGetFull
+                let _result = PersonNameGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -11239,7 +11635,7 @@ class Decoders {
         // Decoder for PersonNameGetRef
         Decoders.addDecoder(clazz: PersonNameGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonNameGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonNameGetRef() : instance as! PersonNameGetRef
+                let _result = PersonNameGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PersonNameGetRef", actual: "\(source)"))
@@ -11253,11 +11649,13 @@ class Decoders {
         // Decoder for PersonNameUpdate
         Decoders.addDecoder(clazz: PersonNameUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonNameUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonNameUpdate() : instance as! PersonNameUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["givenName"] as AnyObject?) {
-                case let .success(value): _result.givenName = value
-                case let .failure(error): break
+                guard let givenNameSource = sourceDictionary["givenName"] as AnyObject? else {
+                    return .failure(.missingKey(key: "givenName"))
                 }
+                guard let givenName = Decoders.decode(clazz: String.self.self, source: givenNameSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonNameUpdate", actual: "\(givenNameSource)"))
+                }
+                let _result = PersonNameUpdate(givenName: givenName)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["middleName"] as AnyObject?) {
                 case let .success(value): _result.middleName = value
                 case let .failure(error): break
@@ -11303,15 +11701,19 @@ class Decoders {
         // Decoder for PersonUpdate
         Decoders.addDecoder(clazz: PersonUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonUpdate() : instance as! PersonUpdate
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["dead"] as AnyObject?) {
-                case let .success(value): _result.dead = value
-                case let .failure(error): break
+                guard let deadSource = sourceDictionary["dead"] as AnyObject? else {
+                    return .failure(.missingKey(key: "dead"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["causeOfDeath"] as AnyObject?) {
-                case let .success(value): _result.causeOfDeath = value
-                case let .failure(error): break
+                guard let dead = Decoders.decode(clazz: Bool.self.self, source: deadSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonUpdate", actual: "\(deadSource)"))
                 }
+                guard let causeOfDeathSource = sourceDictionary["causeOfDeath"] as AnyObject? else {
+                    return .failure(.missingKey(key: "causeOfDeath"))
+                }
+                guard let causeOfDeath = Decoders.decode(clazz: String.self.self, source: causeOfDeathSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonUpdate", actual: "\(causeOfDeathSource)"))
+                }
+                let _result = PersonUpdate(dead: dead, causeOfDeath: causeOfDeath)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["deathDate"] as AnyObject?) {
                 case let .success(value): _result.deathDate = value
                 case let .failure(error): break
@@ -11365,15 +11767,19 @@ class Decoders {
         // Decoder for PersonattributetypeCreate
         Decoders.addDecoder(clazz: PersonattributetypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonattributetypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonattributetypeCreate() : instance as! PersonattributetypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonattributetypeCreate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonattributetypeCreate", actual: "\(descriptionSource)"))
+                }
+                let _result = PersonattributetypeCreate(name: name, description: description)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["format"] as AnyObject?) {
                 case let .success(value): _result.format = value
                 case let .failure(error): break
@@ -11407,15 +11813,19 @@ class Decoders {
         // Decoder for PersonattributetypeCreateFull
         Decoders.addDecoder(clazz: PersonattributetypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonattributetypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonattributetypeCreateFull() : instance as! PersonattributetypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonattributetypeCreateFull", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonattributetypeCreateFull", actual: "\(descriptionSource)"))
+                }
+                let _result = PersonattributetypeCreateFull(name: name, description: description)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["format"] as AnyObject?) {
                 case let .success(value): _result.format = value
                 case let .failure(error): break
@@ -11449,7 +11859,7 @@ class Decoders {
         // Decoder for PersonattributetypeGet
         Decoders.addDecoder(clazz: PersonattributetypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonattributetypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonattributetypeGet() : instance as! PersonattributetypeGet
+                let _result = PersonattributetypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -11491,7 +11901,7 @@ class Decoders {
         // Decoder for PersonattributetypeGetFull
         Decoders.addDecoder(clazz: PersonattributetypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonattributetypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonattributetypeGetFull() : instance as! PersonattributetypeGetFull
+                let _result = PersonattributetypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -11553,7 +11963,7 @@ class Decoders {
         // Decoder for PersonattributetypeGetRef
         Decoders.addDecoder(clazz: PersonattributetypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonattributetypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonattributetypeGetRef() : instance as! PersonattributetypeGetRef
+                let _result = PersonattributetypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -11575,15 +11985,19 @@ class Decoders {
         // Decoder for PersonattributetypeUpdate
         Decoders.addDecoder(clazz: PersonattributetypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonattributetypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonattributetypeUpdate() : instance as! PersonattributetypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonattributetypeUpdate", actual: "\(nameSource)"))
                 }
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
+                }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "PersonattributetypeUpdate", actual: "\(descriptionSource)"))
+                }
+                let _result = PersonattributetypeUpdate(name: name, description: description)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["format"] as AnyObject?) {
                 case let .success(value): _result.format = value
                 case let .failure(error): break
@@ -11617,7 +12031,7 @@ class Decoders {
         // Decoder for PersonimageGet
         Decoders.addDecoder(clazz: PersonimageGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonimageGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonimageGet() : instance as! PersonimageGet
+                let _result = PersonimageGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PersonimageGet", actual: "\(source)"))
@@ -11631,7 +12045,7 @@ class Decoders {
         // Decoder for PersonimageGetFull
         Decoders.addDecoder(clazz: PersonimageGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonimageGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonimageGetFull() : instance as! PersonimageGetFull
+                let _result = PersonimageGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -11649,7 +12063,7 @@ class Decoders {
         // Decoder for PersonimageGetRef
         Decoders.addDecoder(clazz: PersonimageGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonimageGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PersonimageGetRef() : instance as! PersonimageGetRef
+                let _result = PersonimageGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PersonimageGetRef", actual: "\(source)"))
@@ -11663,11 +12077,13 @@ class Decoders {
         // Decoder for PrivilegeCreate
         Decoders.addDecoder(clazz: PrivilegeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PrivilegeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PrivilegeCreate() : instance as! PrivilegeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PrivilegeCreate", actual: "\(nameSource)"))
+                }
+                let _result = PrivilegeCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -11685,11 +12101,13 @@ class Decoders {
         // Decoder for PrivilegeCreateFull
         Decoders.addDecoder(clazz: PrivilegeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PrivilegeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PrivilegeCreateFull() : instance as! PrivilegeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "PrivilegeCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = PrivilegeCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -11707,7 +12125,7 @@ class Decoders {
         // Decoder for PrivilegeGet
         Decoders.addDecoder(clazz: PrivilegeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PrivilegeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PrivilegeGet() : instance as! PrivilegeGet
+                let _result = PrivilegeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -11729,7 +12147,7 @@ class Decoders {
         // Decoder for PrivilegeGetFull
         Decoders.addDecoder(clazz: PrivilegeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PrivilegeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PrivilegeGetFull() : instance as! PrivilegeGetFull
+                let _result = PrivilegeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -11767,7 +12185,7 @@ class Decoders {
         // Decoder for PrivilegeGetRef
         Decoders.addDecoder(clazz: PrivilegeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PrivilegeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PrivilegeGetRef() : instance as! PrivilegeGetRef
+                let _result = PrivilegeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -11789,7 +12207,7 @@ class Decoders {
         // Decoder for PrivilegeUpdate
         Decoders.addDecoder(clazz: PrivilegeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PrivilegeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? PrivilegeUpdate() : instance as! PrivilegeUpdate
+                let _result = PrivilegeUpdate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -11807,19 +12225,25 @@ class Decoders {
         // Decoder for ProgramCreate
         Decoders.addDecoder(clazz: ProgramCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramCreate() : instance as! ProgramCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramCreate", actual: "\(nameSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
-                case let .failure(error): break
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
                 }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramCreate", actual: "\(descriptionSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: String.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramCreate", actual: "\(conceptSource)"))
+                }
+                let _result = ProgramCreate(name: name, description: description, concept: concept)
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["retired"] as AnyObject?) {
                 case let .success(value): _result.retired = value
                 case let .failure(error): break
@@ -11841,19 +12265,25 @@ class Decoders {
         // Decoder for ProgramCreateFull
         Decoders.addDecoder(clazz: ProgramCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramCreateFull() : instance as! ProgramCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
-                case let .success(value): _result.description = value
-                case let .failure(error): break
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramCreateFull", actual: "\(nameSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: ConceptCreate.self, source: sourceDictionary["concept"] as AnyObject?) {
-                case let .success(value): _result.concept = value
-                case let .failure(error): break
+                guard let descriptionSource = sourceDictionary["description"] as AnyObject? else {
+                    return .failure(.missingKey(key: "description"))
                 }
+                guard let description = Decoders.decode(clazz: String.self.self, source: descriptionSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramCreateFull", actual: "\(descriptionSource)"))
+                }
+                guard let conceptSource = sourceDictionary["concept"] as AnyObject? else {
+                    return .failure(.missingKey(key: "concept"))
+                }
+                guard let concept = Decoders.decode(clazz: ConceptCreate.self.self, source: conceptSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramCreateFull", actual: "\(conceptSource)"))
+                }
+                let _result = ProgramCreateFull(name: name, description: description, concept: concept)
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["retired"] as AnyObject?) {
                 case let .success(value): _result.retired = value
                 case let .failure(error): break
@@ -11875,7 +12305,7 @@ class Decoders {
         // Decoder for ProgramGet
         Decoders.addDecoder(clazz: ProgramGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramGet() : instance as! ProgramGet
+                let _result = ProgramGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -11905,7 +12335,7 @@ class Decoders {
         // Decoder for ProgramGetFull
         Decoders.addDecoder(clazz: ProgramGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramGetFull() : instance as! ProgramGetFull
+                let _result = ProgramGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -11951,7 +12381,7 @@ class Decoders {
         // Decoder for ProgramGetRef
         Decoders.addDecoder(clazz: ProgramGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramGetRef() : instance as! ProgramGetRef
+                let _result = ProgramGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -11977,7 +12407,7 @@ class Decoders {
         // Decoder for ProgramUpdate
         Decoders.addDecoder(clazz: ProgramUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramUpdate() : instance as! ProgramUpdate
+                let _result = ProgramUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProgramUpdate", actual: "\(source)"))
@@ -11991,19 +12421,25 @@ class Decoders {
         // Decoder for ProgramenrollmentCreate
         Decoders.addDecoder(clazz: ProgramenrollmentCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentCreate() : instance as! ProgramenrollmentCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["program"] as AnyObject?) {
-                case let .success(value): _result.program = value
-                case let .failure(error): break
+                guard let patient = Decoders.decode(clazz: String.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentCreate", actual: "\(patientSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["dateEnrolled"] as AnyObject?) {
-                case let .success(value): _result.dateEnrolled = value
-                case let .failure(error): break
+                guard let programSource = sourceDictionary["program"] as AnyObject? else {
+                    return .failure(.missingKey(key: "program"))
                 }
+                guard let program = Decoders.decode(clazz: String.self.self, source: programSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentCreate", actual: "\(programSource)"))
+                }
+                guard let dateEnrolledSource = sourceDictionary["dateEnrolled"] as AnyObject? else {
+                    return .failure(.missingKey(key: "dateEnrolled"))
+                }
+                guard let dateEnrolled = Decoders.decode(clazz: ISOFullDate.self.self, source: dateEnrolledSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentCreate", actual: "\(dateEnrolledSource)"))
+                }
+                let _result = ProgramenrollmentCreate(patient: patient, program: program, dateEnrolled: dateEnrolled)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["dateCompleted"] as AnyObject?) {
                 case let .success(value): _result.dateCompleted = value
                 case let .failure(error): break
@@ -12037,19 +12473,25 @@ class Decoders {
         // Decoder for ProgramenrollmentCreateFull
         Decoders.addDecoder(clazz: ProgramenrollmentCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentCreateFull() : instance as! ProgramenrollmentCreateFull
-                switch Decoders.decodeOptional(clazz: PatientCreate.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
                 }
-                switch Decoders.decodeOptional(clazz: ProgramCreate.self, source: sourceDictionary["program"] as AnyObject?) {
-                case let .success(value): _result.program = value
-                case let .failure(error): break
+                guard let patient = Decoders.decode(clazz: PatientCreate.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentCreateFull", actual: "\(patientSource)"))
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["dateEnrolled"] as AnyObject?) {
-                case let .success(value): _result.dateEnrolled = value
-                case let .failure(error): break
+                guard let programSource = sourceDictionary["program"] as AnyObject? else {
+                    return .failure(.missingKey(key: "program"))
                 }
+                guard let program = Decoders.decode(clazz: ProgramCreate.self.self, source: programSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentCreateFull", actual: "\(programSource)"))
+                }
+                guard let dateEnrolledSource = sourceDictionary["dateEnrolled"] as AnyObject? else {
+                    return .failure(.missingKey(key: "dateEnrolled"))
+                }
+                guard let dateEnrolled = Decoders.decode(clazz: ISOFullDate.self.self, source: dateEnrolledSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentCreateFull", actual: "\(dateEnrolledSource)"))
+                }
+                let _result = ProgramenrollmentCreateFull(patient: patient, program: program, dateEnrolled: dateEnrolled)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["dateCompleted"] as AnyObject?) {
                 case let .success(value): _result.dateCompleted = value
                 case let .failure(error): break
@@ -12083,7 +12525,7 @@ class Decoders {
         // Decoder for ProgramenrollmentGet
         Decoders.addDecoder(clazz: ProgramenrollmentGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentGet() : instance as! ProgramenrollmentGet
+                let _result = ProgramenrollmentGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -12129,7 +12571,7 @@ class Decoders {
         // Decoder for ProgramenrollmentGetFull
         Decoders.addDecoder(clazz: ProgramenrollmentGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentGetFull() : instance as! ProgramenrollmentGetFull
+                let _result = ProgramenrollmentGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -12179,7 +12621,7 @@ class Decoders {
         // Decoder for ProgramenrollmentGetRef
         Decoders.addDecoder(clazz: ProgramenrollmentGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentGetRef() : instance as! ProgramenrollmentGetRef
+                let _result = ProgramenrollmentGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProgramenrollmentGetRef", actual: "\(source)"))
@@ -12193,11 +12635,13 @@ class Decoders {
         // Decoder for ProgramenrollmentStateCreate
         Decoders.addDecoder(clazz: ProgramenrollmentStateCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentStateCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentStateCreate() : instance as! ProgramenrollmentStateCreate
-                switch Decoders.decodeOptional(clazz: WorkflowStateCreate.self, source: sourceDictionary["state"] as AnyObject?) {
-                case let .success(value): _result.state = value
-                case let .failure(error): break
+                guard let stateSource = sourceDictionary["state"] as AnyObject? else {
+                    return .failure(.missingKey(key: "state"))
                 }
+                guard let state = Decoders.decode(clazz: WorkflowStateCreate.self.self, source: stateSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentStateCreate", actual: "\(stateSource)"))
+                }
+                let _result = ProgramenrollmentStateCreate(state: state)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProgramenrollmentStateCreate", actual: "\(source)"))
@@ -12211,11 +12655,13 @@ class Decoders {
         // Decoder for ProgramenrollmentStateCreateFull
         Decoders.addDecoder(clazz: ProgramenrollmentStateCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentStateCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentStateCreateFull() : instance as! ProgramenrollmentStateCreateFull
-                switch Decoders.decodeOptional(clazz: WorkflowStateCreate.self, source: sourceDictionary["state"] as AnyObject?) {
-                case let .success(value): _result.state = value
-                case let .failure(error): break
+                guard let stateSource = sourceDictionary["state"] as AnyObject? else {
+                    return .failure(.missingKey(key: "state"))
                 }
+                guard let state = Decoders.decode(clazz: WorkflowStateCreate.self.self, source: stateSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentStateCreateFull", actual: "\(stateSource)"))
+                }
+                let _result = ProgramenrollmentStateCreateFull(state: state)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProgramenrollmentStateCreateFull", actual: "\(source)"))
@@ -12229,7 +12675,7 @@ class Decoders {
         // Decoder for ProgramenrollmentStateGet
         Decoders.addDecoder(clazz: ProgramenrollmentStateGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentStateGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentStateGet() : instance as! ProgramenrollmentStateGet
+                let _result = ProgramenrollmentStateGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -12263,7 +12709,7 @@ class Decoders {
         // Decoder for ProgramenrollmentStateGetFull
         Decoders.addDecoder(clazz: ProgramenrollmentStateGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentStateGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentStateGetFull() : instance as! ProgramenrollmentStateGetFull
+                let _result = ProgramenrollmentStateGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -12305,7 +12751,7 @@ class Decoders {
         // Decoder for ProgramenrollmentStateGetRef
         Decoders.addDecoder(clazz: ProgramenrollmentStateGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentStateGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentStateGetRef() : instance as! ProgramenrollmentStateGetRef
+                let _result = ProgramenrollmentStateGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -12343,7 +12789,7 @@ class Decoders {
         // Decoder for ProgramenrollmentStateUpdate
         Decoders.addDecoder(clazz: ProgramenrollmentStateUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentStateUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentStateUpdate() : instance as! ProgramenrollmentStateUpdate
+                let _result = ProgramenrollmentStateUpdate()
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
@@ -12369,11 +12815,13 @@ class Decoders {
         // Decoder for ProgramenrollmentUpdate
         Decoders.addDecoder(clazz: ProgramenrollmentUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProgramenrollmentUpdate() : instance as! ProgramenrollmentUpdate
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["dateEnrolled"] as AnyObject?) {
-                case let .success(value): _result.dateEnrolled = value
-                case let .failure(error): break
+                guard let dateEnrolledSource = sourceDictionary["dateEnrolled"] as AnyObject? else {
+                    return .failure(.missingKey(key: "dateEnrolled"))
                 }
+                guard let dateEnrolled = Decoders.decode(clazz: ISOFullDate.self.self, source: dateEnrolledSource).value else {
+                    return .failure(.typeMismatch(expected: "ProgramenrollmentUpdate", actual: "\(dateEnrolledSource)"))
+                }
+                let _result = ProgramenrollmentUpdate(dateEnrolled: dateEnrolled)
                 switch Decoders.decodeOptional(clazz: [ProgramenrollmentStateCreate].self, source: sourceDictionary["states"] as AnyObject?) {
                 case let .success(value): _result.states = value
                 case let .failure(error): break
@@ -12407,15 +12855,19 @@ class Decoders {
         // Decoder for ProviderAttributeCreate
         Decoders.addDecoder(clazz: ProviderAttributeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderAttributeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderAttributeCreate() : instance as! ProviderAttributeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderAttributeCreate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderAttributeCreate", actual: "\(valueSource)"))
+                }
+                let _result = ProviderAttributeCreate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProviderAttributeCreate", actual: "\(source)"))
@@ -12429,15 +12881,19 @@ class Decoders {
         // Decoder for ProviderAttributeCreateFull
         Decoders.addDecoder(clazz: ProviderAttributeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderAttributeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderAttributeCreateFull() : instance as! ProviderAttributeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderAttributeCreateFull", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderAttributeCreateFull", actual: "\(valueSource)"))
+                }
+                let _result = ProviderAttributeCreateFull(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProviderAttributeCreateFull", actual: "\(source)"))
@@ -12451,7 +12907,7 @@ class Decoders {
         // Decoder for ProviderAttributeGet
         Decoders.addDecoder(clazz: ProviderAttributeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderAttributeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderAttributeGet() : instance as! ProviderAttributeGet
+                let _result = ProviderAttributeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -12485,7 +12941,7 @@ class Decoders {
         // Decoder for ProviderAttributeGetFull
         Decoders.addDecoder(clazz: ProviderAttributeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderAttributeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderAttributeGetFull() : instance as! ProviderAttributeGetFull
+                let _result = ProviderAttributeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -12523,7 +12979,7 @@ class Decoders {
         // Decoder for ProviderAttributeGetRef
         Decoders.addDecoder(clazz: ProviderAttributeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderAttributeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderAttributeGetRef() : instance as! ProviderAttributeGetRef
+                let _result = ProviderAttributeGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProviderAttributeGetRef", actual: "\(source)"))
@@ -12537,15 +12993,19 @@ class Decoders {
         // Decoder for ProviderAttributeUpdate
         Decoders.addDecoder(clazz: ProviderAttributeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderAttributeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderAttributeUpdate() : instance as! ProviderAttributeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderAttributeUpdate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderAttributeUpdate", actual: "\(valueSource)"))
+                }
+                let _result = ProviderAttributeUpdate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ProviderAttributeUpdate", actual: "\(source)"))
@@ -12559,21 +13019,27 @@ class Decoders {
         // Decoder for ProviderCreate
         Decoders.addDecoder(clazz: ProviderCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderCreate() : instance as! ProviderCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderCreate", actual: "\(nameSource)"))
+                }
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
+                }
+                guard let person = Decoders.decode(clazz: String.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderCreate", actual: "\(personSource)"))
+                }
+                guard let identifierSource = sourceDictionary["identifier"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifier"))
+                }
+                guard let identifier = Decoders.decode(clazz: String.self.self, source: identifierSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderCreate", actual: "\(identifierSource)"))
+                }
+                let _result = ProviderCreate(name: name, person: person, identifier: identifier)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifier"] as AnyObject?) {
-                case let .success(value): _result.identifier = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: [ProviderAttributeCreate].self, source: sourceDictionary["attributes"] as AnyObject?) {
@@ -12597,21 +13063,27 @@ class Decoders {
         // Decoder for ProviderCreateFull
         Decoders.addDecoder(clazz: ProviderCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderCreateFull() : instance as! ProviderCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderCreateFull", actual: "\(nameSource)"))
+                }
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
+                }
+                guard let person = Decoders.decode(clazz: PersonCreate.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderCreateFull", actual: "\(personSource)"))
+                }
+                guard let identifierSource = sourceDictionary["identifier"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifier"))
+                }
+                guard let identifier = Decoders.decode(clazz: String.self.self, source: identifierSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderCreateFull", actual: "\(identifierSource)"))
+                }
+                let _result = ProviderCreateFull(name: name, person: person, identifier: identifier)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: PersonCreate.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifier"] as AnyObject?) {
-                case let .success(value): _result.identifier = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: [ProviderAttributeCreate].self, source: sourceDictionary["attributes"] as AnyObject?) {
@@ -12635,7 +13107,7 @@ class Decoders {
         // Decoder for ProviderGet
         Decoders.addDecoder(clazz: ProviderGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderGet() : instance as! ProviderGet
+                let _result = ProviderGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -12673,7 +13145,7 @@ class Decoders {
         // Decoder for ProviderGetFull
         Decoders.addDecoder(clazz: ProviderGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderGetFull() : instance as! ProviderGetFull
+                let _result = ProviderGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -12727,7 +13199,7 @@ class Decoders {
         // Decoder for ProviderGetRef
         Decoders.addDecoder(clazz: ProviderGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderGetRef() : instance as! ProviderGetRef
+                let _result = ProviderGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -12749,21 +13221,27 @@ class Decoders {
         // Decoder for ProviderUpdate
         Decoders.addDecoder(clazz: ProviderUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderUpdate() : instance as! ProviderUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderUpdate", actual: "\(nameSource)"))
+                }
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
+                }
+                guard let person = Decoders.decode(clazz: String.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderUpdate", actual: "\(personSource)"))
+                }
+                guard let identifierSource = sourceDictionary["identifier"] as AnyObject? else {
+                    return .failure(.missingKey(key: "identifier"))
+                }
+                guard let identifier = Decoders.decode(clazz: String.self.self, source: identifierSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderUpdate", actual: "\(identifierSource)"))
+                }
+                let _result = ProviderUpdate(name: name, person: person, identifier: identifier)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["identifier"] as AnyObject?) {
-                case let .success(value): _result.identifier = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: [ProviderAttributeCreate].self, source: sourceDictionary["attributes"] as AnyObject?) {
@@ -12787,17 +13265,21 @@ class Decoders {
         // Decoder for ProviderattributetypeCreate
         Decoders.addDecoder(clazz: ProviderattributetypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderattributetypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderattributetypeCreate() : instance as! ProviderattributetypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderattributetypeCreate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderattributetypeCreate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = ProviderattributetypeCreate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -12833,17 +13315,21 @@ class Decoders {
         // Decoder for ProviderattributetypeCreateFull
         Decoders.addDecoder(clazz: ProviderattributetypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderattributetypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderattributetypeCreateFull() : instance as! ProviderattributetypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderattributetypeCreateFull", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderattributetypeCreateFull", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = ProviderattributetypeCreateFull(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -12879,7 +13365,7 @@ class Decoders {
         // Decoder for ProviderattributetypeGet
         Decoders.addDecoder(clazz: ProviderattributetypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderattributetypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderattributetypeGet() : instance as! ProviderattributetypeGet
+                let _result = ProviderattributetypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -12917,7 +13403,7 @@ class Decoders {
         // Decoder for ProviderattributetypeGetFull
         Decoders.addDecoder(clazz: ProviderattributetypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderattributetypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderattributetypeGetFull() : instance as! ProviderattributetypeGetFull
+                let _result = ProviderattributetypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -12979,7 +13465,7 @@ class Decoders {
         // Decoder for ProviderattributetypeGetRef
         Decoders.addDecoder(clazz: ProviderattributetypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderattributetypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderattributetypeGetRef() : instance as! ProviderattributetypeGetRef
+                let _result = ProviderattributetypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13001,17 +13487,21 @@ class Decoders {
         // Decoder for ProviderattributetypeUpdate
         Decoders.addDecoder(clazz: ProviderattributetypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProviderattributetypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ProviderattributetypeUpdate() : instance as! ProviderattributetypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderattributetypeUpdate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "ProviderattributetypeUpdate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = ProviderattributetypeUpdate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -13047,19 +13537,25 @@ class Decoders {
         // Decoder for RelationshipCreate
         Decoders.addDecoder(clazz: RelationshipCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshipCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshipCreate() : instance as! RelationshipCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["personA"] as AnyObject?) {
-                case let .success(value): _result.personA = value
-                case let .failure(error): break
+                guard let personASource = sourceDictionary["personA"] as AnyObject? else {
+                    return .failure(.missingKey(key: "personA"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["relationshipType"] as AnyObject?) {
-                case let .success(value): _result.relationshipType = value
-                case let .failure(error): break
+                guard let personA = Decoders.decode(clazz: String.self.self, source: personASource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshipCreate", actual: "\(personASource)"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["personB"] as AnyObject?) {
-                case let .success(value): _result.personB = value
-                case let .failure(error): break
+                guard let relationshipTypeSource = sourceDictionary["relationshipType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "relationshipType"))
                 }
+                guard let relationshipType = Decoders.decode(clazz: String.self.self, source: relationshipTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshipCreate", actual: "\(relationshipTypeSource)"))
+                }
+                guard let personBSource = sourceDictionary["personB"] as AnyObject? else {
+                    return .failure(.missingKey(key: "personB"))
+                }
+                guard let personB = Decoders.decode(clazz: String.self.self, source: personBSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshipCreate", actual: "\(personBSource)"))
+                }
+                let _result = RelationshipCreate(personA: personA, relationshipType: relationshipType, personB: personB)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
@@ -13081,19 +13577,25 @@ class Decoders {
         // Decoder for RelationshipCreateFull
         Decoders.addDecoder(clazz: RelationshipCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshipCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshipCreateFull() : instance as! RelationshipCreateFull
-                switch Decoders.decodeOptional(clazz: PersonCreate.self, source: sourceDictionary["personA"] as AnyObject?) {
-                case let .success(value): _result.personA = value
-                case let .failure(error): break
+                guard let personASource = sourceDictionary["personA"] as AnyObject? else {
+                    return .failure(.missingKey(key: "personA"))
                 }
-                switch Decoders.decodeOptional(clazz: RelationshiptypeCreate.self, source: sourceDictionary["relationshipType"] as AnyObject?) {
-                case let .success(value): _result.relationshipType = value
-                case let .failure(error): break
+                guard let personA = Decoders.decode(clazz: PersonCreate.self.self, source: personASource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshipCreateFull", actual: "\(personASource)"))
                 }
-                switch Decoders.decodeOptional(clazz: PersonCreate.self, source: sourceDictionary["personB"] as AnyObject?) {
-                case let .success(value): _result.personB = value
-                case let .failure(error): break
+                guard let relationshipTypeSource = sourceDictionary["relationshipType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "relationshipType"))
                 }
+                guard let relationshipType = Decoders.decode(clazz: RelationshiptypeCreate.self.self, source: relationshipTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshipCreateFull", actual: "\(relationshipTypeSource)"))
+                }
+                guard let personBSource = sourceDictionary["personB"] as AnyObject? else {
+                    return .failure(.missingKey(key: "personB"))
+                }
+                guard let personB = Decoders.decode(clazz: PersonCreate.self.self, source: personBSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshipCreateFull", actual: "\(personBSource)"))
+                }
+                let _result = RelationshipCreateFull(personA: personA, relationshipType: relationshipType, personB: personB)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
@@ -13115,7 +13617,7 @@ class Decoders {
         // Decoder for RelationshipGet
         Decoders.addDecoder(clazz: RelationshipGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshipGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshipGet() : instance as! RelationshipGet
+                let _result = RelationshipGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13153,7 +13655,7 @@ class Decoders {
         // Decoder for RelationshipGetFull
         Decoders.addDecoder(clazz: RelationshipGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshipGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshipGetFull() : instance as! RelationshipGetFull
+                let _result = RelationshipGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13195,7 +13697,7 @@ class Decoders {
         // Decoder for RelationshipGetRef
         Decoders.addDecoder(clazz: RelationshipGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshipGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshipGetRef() : instance as! RelationshipGetRef
+                let _result = RelationshipGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "RelationshipGetRef", actual: "\(source)"))
@@ -13209,7 +13711,7 @@ class Decoders {
         // Decoder for RelationshipUpdate
         Decoders.addDecoder(clazz: RelationshipUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshipUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshipUpdate() : instance as! RelationshipUpdate
+                let _result = RelationshipUpdate()
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
                 case let .success(value): _result.voided = value
                 case let .failure(error): break
@@ -13227,21 +13729,27 @@ class Decoders {
         // Decoder for RelationshiptypeCreate
         Decoders.addDecoder(clazz: RelationshiptypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshiptypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshiptypeCreate() : instance as! RelationshiptypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshiptypeCreate", actual: "\(nameSource)"))
+                }
+                guard let aIsToBSource = sourceDictionary["aIsToB"] as AnyObject? else {
+                    return .failure(.missingKey(key: "aIsToB"))
+                }
+                guard let aIsToB = Decoders.decode(clazz: String.self.self, source: aIsToBSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshiptypeCreate", actual: "\(aIsToBSource)"))
+                }
+                guard let bIsToASource = sourceDictionary["bIsToA"] as AnyObject? else {
+                    return .failure(.missingKey(key: "bIsToA"))
+                }
+                guard let bIsToA = Decoders.decode(clazz: String.self.self, source: bIsToASource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshiptypeCreate", actual: "\(bIsToASource)"))
+                }
+                let _result = RelationshiptypeCreate(name: name, aIsToB: aIsToB, bIsToA: bIsToA)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["aIsToB"] as AnyObject?) {
-                case let .success(value): _result.aIsToB = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bIsToA"] as AnyObject?) {
-                case let .success(value): _result.bIsToA = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["weight"] as AnyObject?) {
@@ -13261,21 +13769,27 @@ class Decoders {
         // Decoder for RelationshiptypeCreateFull
         Decoders.addDecoder(clazz: RelationshiptypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshiptypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshiptypeCreateFull() : instance as! RelationshiptypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshiptypeCreateFull", actual: "\(nameSource)"))
+                }
+                guard let aIsToBSource = sourceDictionary["aIsToB"] as AnyObject? else {
+                    return .failure(.missingKey(key: "aIsToB"))
+                }
+                guard let aIsToB = Decoders.decode(clazz: String.self.self, source: aIsToBSource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshiptypeCreateFull", actual: "\(aIsToBSource)"))
+                }
+                guard let bIsToASource = sourceDictionary["bIsToA"] as AnyObject? else {
+                    return .failure(.missingKey(key: "bIsToA"))
+                }
+                guard let bIsToA = Decoders.decode(clazz: String.self.self, source: bIsToASource).value else {
+                    return .failure(.typeMismatch(expected: "RelationshiptypeCreateFull", actual: "\(bIsToASource)"))
+                }
+                let _result = RelationshiptypeCreateFull(name: name, aIsToB: aIsToB, bIsToA: bIsToA)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["aIsToB"] as AnyObject?) {
-                case let .success(value): _result.aIsToB = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bIsToA"] as AnyObject?) {
-                case let .success(value): _result.bIsToA = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["weight"] as AnyObject?) {
@@ -13295,7 +13809,7 @@ class Decoders {
         // Decoder for RelationshiptypeGet
         Decoders.addDecoder(clazz: RelationshiptypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshiptypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshiptypeGet() : instance as! RelationshiptypeGet
+                let _result = RelationshiptypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13325,7 +13839,7 @@ class Decoders {
         // Decoder for RelationshiptypeGetFull
         Decoders.addDecoder(clazz: RelationshiptypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshiptypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshiptypeGetFull() : instance as! RelationshiptypeGetFull
+                let _result = RelationshiptypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13375,7 +13889,7 @@ class Decoders {
         // Decoder for RelationshiptypeGetRef
         Decoders.addDecoder(clazz: RelationshiptypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshiptypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshiptypeGetRef() : instance as! RelationshiptypeGetRef
+                let _result = RelationshiptypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13397,7 +13911,7 @@ class Decoders {
         // Decoder for RelationshiptypeUpdate
         Decoders.addDecoder(clazz: RelationshiptypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RelationshiptypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RelationshiptypeUpdate() : instance as! RelationshiptypeUpdate
+                let _result = RelationshiptypeUpdate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "RelationshiptypeUpdate", actual: "\(source)"))
@@ -13411,11 +13925,13 @@ class Decoders {
         // Decoder for ReportingrestCohortDefinitionCreate
         Decoders.addDecoder(clazz: ReportingrestCohortDefinitionCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortDefinitionCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortDefinitionCreate() : instance as! ReportingrestCohortDefinitionCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestCohortDefinitionCreate", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestCohortDefinitionCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13433,11 +13949,13 @@ class Decoders {
         // Decoder for ReportingrestCohortDefinitionCreateFull
         Decoders.addDecoder(clazz: ReportingrestCohortDefinitionCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortDefinitionCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortDefinitionCreateFull() : instance as! ReportingrestCohortDefinitionCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestCohortDefinitionCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestCohortDefinitionCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13455,7 +13973,7 @@ class Decoders {
         // Decoder for ReportingrestCohortDefinitionGet
         Decoders.addDecoder(clazz: ReportingrestCohortDefinitionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortDefinitionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortDefinitionGet() : instance as! ReportingrestCohortDefinitionGet
+                let _result = ReportingrestCohortDefinitionGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13477,7 +13995,7 @@ class Decoders {
         // Decoder for ReportingrestCohortDefinitionGetFull
         Decoders.addDecoder(clazz: ReportingrestCohortDefinitionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortDefinitionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortDefinitionGetFull() : instance as! ReportingrestCohortDefinitionGetFull
+                let _result = ReportingrestCohortDefinitionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13515,7 +14033,7 @@ class Decoders {
         // Decoder for ReportingrestCohortDefinitionGetRef
         Decoders.addDecoder(clazz: ReportingrestCohortDefinitionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortDefinitionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortDefinitionGetRef() : instance as! ReportingrestCohortDefinitionGetRef
+                let _result = ReportingrestCohortDefinitionGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13537,11 +14055,13 @@ class Decoders {
         // Decoder for ReportingrestCohortDefinitionUpdate
         Decoders.addDecoder(clazz: ReportingrestCohortDefinitionUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortDefinitionUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortDefinitionUpdate() : instance as! ReportingrestCohortDefinitionUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestCohortDefinitionUpdate", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestCohortDefinitionUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13559,7 +14079,7 @@ class Decoders {
         // Decoder for ReportingrestCohortGet
         Decoders.addDecoder(clazz: ReportingrestCohortGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortGet() : instance as! ReportingrestCohortGet
+                let _result = ReportingrestCohortGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestCohortGet", actual: "\(source)"))
@@ -13573,7 +14093,7 @@ class Decoders {
         // Decoder for ReportingrestCohortGetFull
         Decoders.addDecoder(clazz: ReportingrestCohortGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortGetFull() : instance as! ReportingrestCohortGetFull
+                let _result = ReportingrestCohortGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13591,7 +14111,7 @@ class Decoders {
         // Decoder for ReportingrestCohortGetRef
         Decoders.addDecoder(clazz: ReportingrestCohortGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestCohortGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestCohortGetRef() : instance as! ReportingrestCohortGetRef
+                let _result = ReportingrestCohortGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestCohortGetRef", actual: "\(source)"))
@@ -13605,11 +14125,13 @@ class Decoders {
         // Decoder for ReportingrestDataSetDefinitionCreate
         Decoders.addDecoder(clazz: ReportingrestDataSetDefinitionCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetDefinitionCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetDefinitionCreate() : instance as! ReportingrestDataSetDefinitionCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestDataSetDefinitionCreate", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestDataSetDefinitionCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13627,11 +14149,13 @@ class Decoders {
         // Decoder for ReportingrestDataSetDefinitionCreateFull
         Decoders.addDecoder(clazz: ReportingrestDataSetDefinitionCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetDefinitionCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetDefinitionCreateFull() : instance as! ReportingrestDataSetDefinitionCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestDataSetDefinitionCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestDataSetDefinitionCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13649,7 +14173,7 @@ class Decoders {
         // Decoder for ReportingrestDataSetDefinitionGet
         Decoders.addDecoder(clazz: ReportingrestDataSetDefinitionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetDefinitionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetDefinitionGet() : instance as! ReportingrestDataSetDefinitionGet
+                let _result = ReportingrestDataSetDefinitionGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13671,7 +14195,7 @@ class Decoders {
         // Decoder for ReportingrestDataSetDefinitionGetFull
         Decoders.addDecoder(clazz: ReportingrestDataSetDefinitionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetDefinitionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetDefinitionGetFull() : instance as! ReportingrestDataSetDefinitionGetFull
+                let _result = ReportingrestDataSetDefinitionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13709,7 +14233,7 @@ class Decoders {
         // Decoder for ReportingrestDataSetDefinitionGetRef
         Decoders.addDecoder(clazz: ReportingrestDataSetDefinitionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetDefinitionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetDefinitionGetRef() : instance as! ReportingrestDataSetDefinitionGetRef
+                let _result = ReportingrestDataSetDefinitionGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13731,11 +14255,13 @@ class Decoders {
         // Decoder for ReportingrestDataSetDefinitionUpdate
         Decoders.addDecoder(clazz: ReportingrestDataSetDefinitionUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetDefinitionUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetDefinitionUpdate() : instance as! ReportingrestDataSetDefinitionUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestDataSetDefinitionUpdate", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestDataSetDefinitionUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13753,7 +14279,7 @@ class Decoders {
         // Decoder for ReportingrestDataSetGet
         Decoders.addDecoder(clazz: ReportingrestDataSetGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetGet() : instance as! ReportingrestDataSetGet
+                let _result = ReportingrestDataSetGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestDataSetGet", actual: "\(source)"))
@@ -13767,7 +14293,7 @@ class Decoders {
         // Decoder for ReportingrestDataSetGetFull
         Decoders.addDecoder(clazz: ReportingrestDataSetGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetGetFull() : instance as! ReportingrestDataSetGetFull
+                let _result = ReportingrestDataSetGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13785,7 +14311,7 @@ class Decoders {
         // Decoder for ReportingrestDataSetGetRef
         Decoders.addDecoder(clazz: ReportingrestDataSetGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestDataSetGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestDataSetGetRef() : instance as! ReportingrestDataSetGetRef
+                let _result = ReportingrestDataSetGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestDataSetGetRef", actual: "\(source)"))
@@ -13799,11 +14325,13 @@ class Decoders {
         // Decoder for ReportingrestReportDefinitionCreate
         Decoders.addDecoder(clazz: ReportingrestReportDefinitionCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportDefinitionCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportDefinitionCreate() : instance as! ReportingrestReportDefinitionCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestReportDefinitionCreate", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestReportDefinitionCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13821,11 +14349,13 @@ class Decoders {
         // Decoder for ReportingrestReportDefinitionCreateFull
         Decoders.addDecoder(clazz: ReportingrestReportDefinitionCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportDefinitionCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportDefinitionCreateFull() : instance as! ReportingrestReportDefinitionCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestReportDefinitionCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestReportDefinitionCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13843,7 +14373,7 @@ class Decoders {
         // Decoder for ReportingrestReportDefinitionGet
         Decoders.addDecoder(clazz: ReportingrestReportDefinitionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportDefinitionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportDefinitionGet() : instance as! ReportingrestReportDefinitionGet
+                let _result = ReportingrestReportDefinitionGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13865,7 +14395,7 @@ class Decoders {
         // Decoder for ReportingrestReportDefinitionGetFull
         Decoders.addDecoder(clazz: ReportingrestReportDefinitionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportDefinitionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportDefinitionGetFull() : instance as! ReportingrestReportDefinitionGetFull
+                let _result = ReportingrestReportDefinitionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13903,7 +14433,7 @@ class Decoders {
         // Decoder for ReportingrestReportDefinitionGetRef
         Decoders.addDecoder(clazz: ReportingrestReportDefinitionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportDefinitionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportDefinitionGetRef() : instance as! ReportingrestReportDefinitionGetRef
+                let _result = ReportingrestReportDefinitionGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -13925,11 +14455,13 @@ class Decoders {
         // Decoder for ReportingrestReportDefinitionUpdate
         Decoders.addDecoder(clazz: ReportingrestReportDefinitionUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportDefinitionUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportDefinitionUpdate() : instance as! ReportingrestReportDefinitionUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "ReportingrestReportDefinitionUpdate", actual: "\(nameSource)"))
+                }
+                let _result = ReportingrestReportDefinitionUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -13947,7 +14479,7 @@ class Decoders {
         // Decoder for ReportingrestReportRequestGet
         Decoders.addDecoder(clazz: ReportingrestReportRequestGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportRequestGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportRequestGet() : instance as! ReportingrestReportRequestGet
+                let _result = ReportingrestReportRequestGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestReportRequestGet", actual: "\(source)"))
@@ -13961,7 +14493,7 @@ class Decoders {
         // Decoder for ReportingrestReportRequestGetFull
         Decoders.addDecoder(clazz: ReportingrestReportRequestGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportRequestGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportRequestGetFull() : instance as! ReportingrestReportRequestGetFull
+                let _result = ReportingrestReportRequestGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -13979,7 +14511,7 @@ class Decoders {
         // Decoder for ReportingrestReportRequestGetRef
         Decoders.addDecoder(clazz: ReportingrestReportRequestGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportRequestGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportRequestGetRef() : instance as! ReportingrestReportRequestGetRef
+                let _result = ReportingrestReportRequestGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestReportRequestGetRef", actual: "\(source)"))
@@ -13993,7 +14525,7 @@ class Decoders {
         // Decoder for ReportingrestReportdataGet
         Decoders.addDecoder(clazz: ReportingrestReportdataGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportdataGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportdataGet() : instance as! ReportingrestReportdataGet
+                let _result = ReportingrestReportdataGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestReportdataGet", actual: "\(source)"))
@@ -14007,7 +14539,7 @@ class Decoders {
         // Decoder for ReportingrestReportdataGetFull
         Decoders.addDecoder(clazz: ReportingrestReportdataGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportdataGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportdataGetFull() : instance as! ReportingrestReportdataGetFull
+                let _result = ReportingrestReportdataGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -14025,7 +14557,7 @@ class Decoders {
         // Decoder for ReportingrestReportdataGetRef
         Decoders.addDecoder(clazz: ReportingrestReportdataGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ReportingrestReportdataGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ReportingrestReportdataGetRef() : instance as! ReportingrestReportdataGetRef
+                let _result = ReportingrestReportdataGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "ReportingrestReportdataGetRef", actual: "\(source)"))
@@ -14039,11 +14571,13 @@ class Decoders {
         // Decoder for RoleCreate
         Decoders.addDecoder(clazz: RoleCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RoleCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RoleCreate() : instance as! RoleCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "RoleCreate", actual: "\(nameSource)"))
+                }
+                let _result = RoleCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14069,11 +14603,13 @@ class Decoders {
         // Decoder for RoleCreateFull
         Decoders.addDecoder(clazz: RoleCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RoleCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RoleCreateFull() : instance as! RoleCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "RoleCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = RoleCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14099,7 +14635,7 @@ class Decoders {
         // Decoder for RoleGet
         Decoders.addDecoder(clazz: RoleGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RoleGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RoleGet() : instance as! RoleGet
+                let _result = RoleGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -14129,7 +14665,7 @@ class Decoders {
         // Decoder for RoleGetFull
         Decoders.addDecoder(clazz: RoleGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RoleGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RoleGetFull() : instance as! RoleGetFull
+                let _result = RoleGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -14179,7 +14715,7 @@ class Decoders {
         // Decoder for RoleGetRef
         Decoders.addDecoder(clazz: RoleGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RoleGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RoleGetRef() : instance as! RoleGetRef
+                let _result = RoleGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -14201,7 +14737,7 @@ class Decoders {
         // Decoder for RoleUpdate
         Decoders.addDecoder(clazz: RoleUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<RoleUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? RoleUpdate() : instance as! RoleUpdate
+                let _result = RoleUpdate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14227,7 +14763,7 @@ class Decoders {
         // Decoder for ServerlogGet
         Decoders.addDecoder(clazz: ServerlogGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ServerlogGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ServerlogGet() : instance as! ServerlogGet
+                let _result = ServerlogGet()
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["serverLog"] as AnyObject?) {
                 case let .success(value): _result.serverLog = value
                 case let .failure(error): break
@@ -14245,7 +14781,7 @@ class Decoders {
         // Decoder for ServerlogGetFull
         Decoders.addDecoder(clazz: ServerlogGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ServerlogGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ServerlogGetFull() : instance as! ServerlogGetFull
+                let _result = ServerlogGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -14267,7 +14803,7 @@ class Decoders {
         // Decoder for ServerlogGetRef
         Decoders.addDecoder(clazz: ServerlogGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ServerlogGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? ServerlogGetRef() : instance as! ServerlogGetRef
+                let _result = ServerlogGetRef()
                 switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["serverLog"] as AnyObject?) {
                 case let .success(value): _result.serverLog = value
                 case let .failure(error): break
@@ -14285,11 +14821,13 @@ class Decoders {
         // Decoder for SystemsettingCreate
         Decoders.addDecoder(clazz: SystemsettingCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<SystemsettingCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? SystemsettingCreate() : instance as! SystemsettingCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["property"] as AnyObject?) {
-                case let .success(value): _result.property = value
-                case let .failure(error): break
+                guard let propertySource = sourceDictionary["property"] as AnyObject? else {
+                    return .failure(.missingKey(key: "property"))
                 }
+                guard let property = Decoders.decode(clazz: String.self.self, source: propertySource).value else {
+                    return .failure(.typeMismatch(expected: "SystemsettingCreate", actual: "\(propertySource)"))
+                }
+                let _result = SystemsettingCreate(property: property)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14327,11 +14865,13 @@ class Decoders {
         // Decoder for SystemsettingCreateFull
         Decoders.addDecoder(clazz: SystemsettingCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<SystemsettingCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? SystemsettingCreateFull() : instance as! SystemsettingCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["property"] as AnyObject?) {
-                case let .success(value): _result.property = value
-                case let .failure(error): break
+                guard let propertySource = sourceDictionary["property"] as AnyObject? else {
+                    return .failure(.missingKey(key: "property"))
                 }
+                guard let property = Decoders.decode(clazz: String.self.self, source: propertySource).value else {
+                    return .failure(.typeMismatch(expected: "SystemsettingCreateFull", actual: "\(propertySource)"))
+                }
+                let _result = SystemsettingCreateFull(property: property)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14369,7 +14909,7 @@ class Decoders {
         // Decoder for SystemsettingGet
         Decoders.addDecoder(clazz: SystemsettingGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<SystemsettingGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? SystemsettingGet() : instance as! SystemsettingGet
+                let _result = SystemsettingGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -14403,7 +14943,7 @@ class Decoders {
         // Decoder for SystemsettingGetFull
         Decoders.addDecoder(clazz: SystemsettingGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<SystemsettingGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? SystemsettingGetFull() : instance as! SystemsettingGetFull
+                let _result = SystemsettingGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -14457,7 +14997,7 @@ class Decoders {
         // Decoder for SystemsettingGetRef
         Decoders.addDecoder(clazz: SystemsettingGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<SystemsettingGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? SystemsettingGetRef() : instance as! SystemsettingGetRef
+                let _result = SystemsettingGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "SystemsettingGetRef", actual: "\(source)"))
@@ -14471,7 +15011,7 @@ class Decoders {
         // Decoder for SystemsettingUpdate
         Decoders.addDecoder(clazz: SystemsettingUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<SystemsettingUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? SystemsettingUpdate() : instance as! SystemsettingUpdate
+                let _result = SystemsettingUpdate()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14509,17 +15049,19 @@ class Decoders {
         // Decoder for TaskactionCreate
         Decoders.addDecoder(clazz: TaskactionCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskactionCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskactionCreate() : instance as! TaskactionCreate
+                guard let actionSource = sourceDictionary["action"] as AnyObject? else {
+                    return .failure(.missingKey(key: "action"))
+                }
+                guard let action = Decoders.decode(clazz: TaskactionCreate.Action.self.self, source: actionSource).value else {
+                    return .failure(.typeMismatch(expected: "TaskactionCreate", actual: "\(actionSource)"))
+                }
+                let _result = TaskactionCreate(action: action)
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["tasks"] as AnyObject?) {
                 case let .success(value): _result.tasks = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["allTasks"] as AnyObject?) {
                 case let .success(value): _result.allTasks = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: TaskactionCreate.Action.self, source: sourceDictionary["action"] as AnyObject?) {
-                case let .success(value): _result.action = value
                 case let .failure(error): break
                 }
                 return .success(_result)
@@ -14535,17 +15077,19 @@ class Decoders {
         // Decoder for TaskactionCreateFull
         Decoders.addDecoder(clazz: TaskactionCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskactionCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskactionCreateFull() : instance as! TaskactionCreateFull
+                guard let actionSource = sourceDictionary["action"] as AnyObject? else {
+                    return .failure(.missingKey(key: "action"))
+                }
+                guard let action = Decoders.decode(clazz: TaskactionCreateFull.Action.self.self, source: actionSource).value else {
+                    return .failure(.typeMismatch(expected: "TaskactionCreateFull", actual: "\(actionSource)"))
+                }
+                let _result = TaskactionCreateFull(action: action)
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["tasks"] as AnyObject?) {
                 case let .success(value): _result.tasks = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["allTasks"] as AnyObject?) {
                 case let .success(value): _result.allTasks = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: TaskactionCreateFull.Action.self, source: sourceDictionary["action"] as AnyObject?) {
-                case let .success(value): _result.action = value
                 case let .failure(error): break
                 }
                 return .success(_result)
@@ -14561,7 +15105,7 @@ class Decoders {
         // Decoder for TaskactionGet
         Decoders.addDecoder(clazz: TaskactionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskactionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskactionGet() : instance as! TaskactionGet
+                let _result = TaskactionGet()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "TaskactionGet", actual: "\(source)"))
@@ -14575,7 +15119,7 @@ class Decoders {
         // Decoder for TaskactionGetFull
         Decoders.addDecoder(clazz: TaskactionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskactionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskactionGetFull() : instance as! TaskactionGetFull
+                let _result = TaskactionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -14593,7 +15137,7 @@ class Decoders {
         // Decoder for TaskactionGetRef
         Decoders.addDecoder(clazz: TaskactionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskactionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskactionGetRef() : instance as! TaskactionGetRef
+                let _result = TaskactionGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "TaskactionGetRef", actual: "\(source)"))
@@ -14607,11 +15151,13 @@ class Decoders {
         // Decoder for TaskdefinitionCreate
         Decoders.addDecoder(clazz: TaskdefinitionCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskdefinitionCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskdefinitionCreate() : instance as! TaskdefinitionCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "TaskdefinitionCreate", actual: "\(nameSource)"))
+                }
+                let _result = TaskdefinitionCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14629,11 +15175,13 @@ class Decoders {
         // Decoder for TaskdefinitionCreateFull
         Decoders.addDecoder(clazz: TaskdefinitionCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskdefinitionCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskdefinitionCreateFull() : instance as! TaskdefinitionCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "TaskdefinitionCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = TaskdefinitionCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14651,7 +15199,7 @@ class Decoders {
         // Decoder for TaskdefinitionGet
         Decoders.addDecoder(clazz: TaskdefinitionGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskdefinitionGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskdefinitionGet() : instance as! TaskdefinitionGet
+                let _result = TaskdefinitionGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -14673,7 +15221,7 @@ class Decoders {
         // Decoder for TaskdefinitionGetFull
         Decoders.addDecoder(clazz: TaskdefinitionGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskdefinitionGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskdefinitionGetFull() : instance as! TaskdefinitionGetFull
+                let _result = TaskdefinitionGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -14711,7 +15259,7 @@ class Decoders {
         // Decoder for TaskdefinitionGetRef
         Decoders.addDecoder(clazz: TaskdefinitionGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskdefinitionGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskdefinitionGetRef() : instance as! TaskdefinitionGetRef
+                let _result = TaskdefinitionGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -14733,11 +15281,13 @@ class Decoders {
         // Decoder for TaskdefinitionUpdate
         Decoders.addDecoder(clazz: TaskdefinitionUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TaskdefinitionUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? TaskdefinitionUpdate() : instance as! TaskdefinitionUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "TaskdefinitionUpdate", actual: "\(nameSource)"))
+                }
+                let _result = TaskdefinitionUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -14755,25 +15305,33 @@ class Decoders {
         // Decoder for UserCreate
         Decoders.addDecoder(clazz: UserCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? UserCreate() : instance as! UserCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreate", actual: "\(nameSource)"))
+                }
+                guard let usernameSource = sourceDictionary["username"] as AnyObject? else {
+                    return .failure(.missingKey(key: "username"))
+                }
+                guard let username = Decoders.decode(clazz: String.self.self, source: usernameSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreate", actual: "\(usernameSource)"))
+                }
+                guard let passwordSource = sourceDictionary["password"] as AnyObject? else {
+                    return .failure(.missingKey(key: "password"))
+                }
+                guard let password = Decoders.decode(clazz: String.self.self, source: passwordSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreate", actual: "\(passwordSource)"))
+                }
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
+                }
+                guard let person = Decoders.decode(clazz: PersonCreate.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreate", actual: "\(personSource)"))
+                }
+                let _result = UserCreate(name: name, username: username, password: password, person: person)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?) {
-                case let .success(value): _result.username = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?) {
-                case let .success(value): _result.password = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: PersonCreate.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["systemId"] as AnyObject?) {
@@ -14809,25 +15367,33 @@ class Decoders {
         // Decoder for UserCreateFull
         Decoders.addDecoder(clazz: UserCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? UserCreateFull() : instance as! UserCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreateFull", actual: "\(nameSource)"))
+                }
+                guard let usernameSource = sourceDictionary["username"] as AnyObject? else {
+                    return .failure(.missingKey(key: "username"))
+                }
+                guard let username = Decoders.decode(clazz: String.self.self, source: usernameSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreateFull", actual: "\(usernameSource)"))
+                }
+                guard let passwordSource = sourceDictionary["password"] as AnyObject? else {
+                    return .failure(.missingKey(key: "password"))
+                }
+                guard let password = Decoders.decode(clazz: String.self.self, source: passwordSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreateFull", actual: "\(passwordSource)"))
+                }
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
+                }
+                guard let person = Decoders.decode(clazz: PersonCreate.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "UserCreateFull", actual: "\(personSource)"))
+                }
+                let _result = UserCreateFull(name: name, username: username, password: password, person: person)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?) {
-                case let .success(value): _result.username = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?) {
-                case let .success(value): _result.password = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: PersonCreate.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["systemId"] as AnyObject?) {
@@ -14863,7 +15429,7 @@ class Decoders {
         // Decoder for UserGet
         Decoders.addDecoder(clazz: UserGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? UserGet() : instance as! UserGet
+                let _result = UserGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -14909,7 +15475,7 @@ class Decoders {
         // Decoder for UserGetFull
         Decoders.addDecoder(clazz: UserGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? UserGetFull() : instance as! UserGetFull
+                let _result = UserGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -14983,7 +15549,7 @@ class Decoders {
         // Decoder for UserGetRef
         Decoders.addDecoder(clazz: UserGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? UserGetRef() : instance as! UserGetRef
+                let _result = UserGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -15005,25 +15571,33 @@ class Decoders {
         // Decoder for UserUpdate
         Decoders.addDecoder(clazz: UserUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? UserUpdate() : instance as! UserUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "UserUpdate", actual: "\(nameSource)"))
+                }
+                guard let usernameSource = sourceDictionary["username"] as AnyObject? else {
+                    return .failure(.missingKey(key: "username"))
+                }
+                guard let username = Decoders.decode(clazz: String.self.self, source: usernameSource).value else {
+                    return .failure(.typeMismatch(expected: "UserUpdate", actual: "\(usernameSource)"))
+                }
+                guard let passwordSource = sourceDictionary["password"] as AnyObject? else {
+                    return .failure(.missingKey(key: "password"))
+                }
+                guard let password = Decoders.decode(clazz: String.self.self, source: passwordSource).value else {
+                    return .failure(.typeMismatch(expected: "UserUpdate", actual: "\(passwordSource)"))
+                }
+                guard let personSource = sourceDictionary["person"] as AnyObject? else {
+                    return .failure(.missingKey(key: "person"))
+                }
+                guard let person = Decoders.decode(clazz: PersonCreate.self.self, source: personSource).value else {
+                    return .failure(.typeMismatch(expected: "UserUpdate", actual: "\(personSource)"))
+                }
+                let _result = UserUpdate(name: name, username: username, password: password, person: person)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?) {
-                case let .success(value): _result.username = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?) {
-                case let .success(value): _result.password = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: PersonCreate.self, source: sourceDictionary["person"] as AnyObject?) {
-                case let .success(value): _result.person = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["systemId"] as AnyObject?) {
@@ -15059,15 +15633,19 @@ class Decoders {
         // Decoder for VisitAttributeCreate
         Decoders.addDecoder(clazz: VisitAttributeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitAttributeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitAttributeCreate() : instance as! VisitAttributeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitAttributeCreate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitAttributeCreate", actual: "\(valueSource)"))
+                }
+                let _result = VisitAttributeCreate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "VisitAttributeCreate", actual: "\(source)"))
@@ -15081,15 +15659,19 @@ class Decoders {
         // Decoder for VisitAttributeCreateFull
         Decoders.addDecoder(clazz: VisitAttributeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitAttributeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitAttributeCreateFull() : instance as! VisitAttributeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitAttributeCreateFull", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitAttributeCreateFull", actual: "\(valueSource)"))
+                }
+                let _result = VisitAttributeCreateFull(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "VisitAttributeCreateFull", actual: "\(source)"))
@@ -15103,7 +15685,7 @@ class Decoders {
         // Decoder for VisitAttributeGet
         Decoders.addDecoder(clazz: VisitAttributeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitAttributeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitAttributeGet() : instance as! VisitAttributeGet
+                let _result = VisitAttributeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
@@ -15137,7 +15719,7 @@ class Decoders {
         // Decoder for VisitAttributeGetFull
         Decoders.addDecoder(clazz: VisitAttributeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitAttributeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitAttributeGetFull() : instance as! VisitAttributeGetFull
+                let _result = VisitAttributeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -15175,7 +15757,7 @@ class Decoders {
         // Decoder for VisitAttributeGetRef
         Decoders.addDecoder(clazz: VisitAttributeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitAttributeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitAttributeGetRef() : instance as! VisitAttributeGetRef
+                let _result = VisitAttributeGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "VisitAttributeGetRef", actual: "\(source)"))
@@ -15189,15 +15771,19 @@ class Decoders {
         // Decoder for VisitAttributeUpdate
         Decoders.addDecoder(clazz: VisitAttributeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitAttributeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitAttributeUpdate() : instance as! VisitAttributeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["attributeType"] as AnyObject?) {
-                case let .success(value): _result.attributeType = value
-                case let .failure(error): break
+                guard let attributeTypeSource = sourceDictionary["attributeType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "attributeType"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?) {
-                case let .success(value): _result.value = value
-                case let .failure(error): break
+                guard let attributeType = Decoders.decode(clazz: String.self.self, source: attributeTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitAttributeUpdate", actual: "\(attributeTypeSource)"))
                 }
+                guard let valueSource = sourceDictionary["value"] as AnyObject? else {
+                    return .failure(.missingKey(key: "value"))
+                }
+                guard let value = Decoders.decode(clazz: String.self.self, source: valueSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitAttributeUpdate", actual: "\(valueSource)"))
+                }
+                let _result = VisitAttributeUpdate(attributeType: attributeType, value: value)
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "VisitAttributeUpdate", actual: "\(source)"))
@@ -15211,15 +15797,19 @@ class Decoders {
         // Decoder for VisitCreate
         Decoders.addDecoder(clazz: VisitCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitCreate() : instance as! VisitCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["visitType"] as AnyObject?) {
-                case let .success(value): _result.visitType = value
-                case let .failure(error): break
+                guard let patient = Decoders.decode(clazz: String.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitCreate", actual: "\(patientSource)"))
                 }
+                guard let visitTypeSource = sourceDictionary["visitType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "visitType"))
+                }
+                guard let visitType = Decoders.decode(clazz: String.self.self, source: visitTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitCreate", actual: "\(visitTypeSource)"))
+                }
+                let _result = VisitCreate(patient: patient, visitType: visitType)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDatetime"] as AnyObject?) {
                 case let .success(value): _result.startDatetime = value
                 case let .failure(error): break
@@ -15257,15 +15847,19 @@ class Decoders {
         // Decoder for VisitCreateFull
         Decoders.addDecoder(clazz: VisitCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitCreateFull() : instance as! VisitCreateFull
-                switch Decoders.decodeOptional(clazz: PatientCreate.self, source: sourceDictionary["patient"] as AnyObject?) {
-                case let .success(value): _result.patient = value
-                case let .failure(error): break
+                guard let patientSource = sourceDictionary["patient"] as AnyObject? else {
+                    return .failure(.missingKey(key: "patient"))
                 }
-                switch Decoders.decodeOptional(clazz: VisittypeCreate.self, source: sourceDictionary["visitType"] as AnyObject?) {
-                case let .success(value): _result.visitType = value
-                case let .failure(error): break
+                guard let patient = Decoders.decode(clazz: PatientCreate.self.self, source: patientSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitCreateFull", actual: "\(patientSource)"))
                 }
+                guard let visitTypeSource = sourceDictionary["visitType"] as AnyObject? else {
+                    return .failure(.missingKey(key: "visitType"))
+                }
+                guard let visitType = Decoders.decode(clazz: VisittypeCreate.self.self, source: visitTypeSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitCreateFull", actual: "\(visitTypeSource)"))
+                }
+                let _result = VisitCreateFull(patient: patient, visitType: visitType)
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDatetime"] as AnyObject?) {
                 case let .success(value): _result.startDatetime = value
                 case let .failure(error): break
@@ -15303,7 +15897,7 @@ class Decoders {
         // Decoder for VisitGet
         Decoders.addDecoder(clazz: VisitGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitGet() : instance as! VisitGet
+                let _result = VisitGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -15361,7 +15955,7 @@ class Decoders {
         // Decoder for VisitGetFull
         Decoders.addDecoder(clazz: VisitGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitGetFull() : instance as! VisitGetFull
+                let _result = VisitGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -15423,7 +16017,7 @@ class Decoders {
         // Decoder for VisitGetRef
         Decoders.addDecoder(clazz: VisitGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitGetRef() : instance as! VisitGetRef
+                let _result = VisitGetRef()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "VisitGetRef", actual: "\(source)"))
@@ -15437,7 +16031,7 @@ class Decoders {
         // Decoder for VisitUpdate
         Decoders.addDecoder(clazz: VisitUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitUpdate() : instance as! VisitUpdate
+                let _result = VisitUpdate()
                 switch Decoders.decodeOptional(clazz: VisittypeCreate.self, source: sourceDictionary["visitType"] as AnyObject?) {
                 case let .success(value): _result.visitType = value
                 case let .failure(error): break
@@ -15479,17 +16073,21 @@ class Decoders {
         // Decoder for VisitattributetypeCreate
         Decoders.addDecoder(clazz: VisitattributetypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitattributetypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitattributetypeCreate() : instance as! VisitattributetypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitattributetypeCreate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitattributetypeCreate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = VisitattributetypeCreate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -15525,17 +16123,21 @@ class Decoders {
         // Decoder for VisitattributetypeCreateFull
         Decoders.addDecoder(clazz: VisitattributetypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitattributetypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitattributetypeCreateFull() : instance as! VisitattributetypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitattributetypeCreateFull", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitattributetypeCreateFull", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = VisitattributetypeCreateFull(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -15571,7 +16173,7 @@ class Decoders {
         // Decoder for VisitattributetypeGet
         Decoders.addDecoder(clazz: VisitattributetypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitattributetypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitattributetypeGet() : instance as! VisitattributetypeGet
+                let _result = VisitattributetypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -15609,7 +16211,7 @@ class Decoders {
         // Decoder for VisitattributetypeGetFull
         Decoders.addDecoder(clazz: VisitattributetypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitattributetypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitattributetypeGetFull() : instance as! VisitattributetypeGetFull
+                let _result = VisitattributetypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -15671,7 +16273,7 @@ class Decoders {
         // Decoder for VisitattributetypeGetRef
         Decoders.addDecoder(clazz: VisitattributetypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitattributetypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitattributetypeGetRef() : instance as! VisitattributetypeGetRef
+                let _result = VisitattributetypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -15693,17 +16295,21 @@ class Decoders {
         // Decoder for VisitattributetypeUpdate
         Decoders.addDecoder(clazz: VisitattributetypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisitattributetypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisitattributetypeUpdate() : instance as! VisitattributetypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitattributetypeUpdate", actual: "\(nameSource)"))
+                }
+                guard let datatypeClassnameSource = sourceDictionary["datatypeClassname"] as AnyObject? else {
+                    return .failure(.missingKey(key: "datatypeClassname"))
+                }
+                guard let datatypeClassname = Decoders.decode(clazz: String.self.self, source: datatypeClassnameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisitattributetypeUpdate", actual: "\(datatypeClassnameSource)"))
+                }
+                let _result = VisitattributetypeUpdate(name: name, datatypeClassname: datatypeClassname)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
-                case let .failure(error): break
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["datatypeClassname"] as AnyObject?) {
-                case let .success(value): _result.datatypeClassname = value
                 case let .failure(error): break
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minOccurs"] as AnyObject?) {
@@ -15739,11 +16345,13 @@ class Decoders {
         // Decoder for VisittypeCreate
         Decoders.addDecoder(clazz: VisittypeCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisittypeCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisittypeCreate() : instance as! VisittypeCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisittypeCreate", actual: "\(nameSource)"))
+                }
+                let _result = VisittypeCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -15761,11 +16369,13 @@ class Decoders {
         // Decoder for VisittypeCreateFull
         Decoders.addDecoder(clazz: VisittypeCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisittypeCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisittypeCreateFull() : instance as! VisittypeCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisittypeCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = VisittypeCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -15783,7 +16393,7 @@ class Decoders {
         // Decoder for VisittypeGet
         Decoders.addDecoder(clazz: VisittypeGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisittypeGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisittypeGet() : instance as! VisittypeGet
+                let _result = VisittypeGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -15805,7 +16415,7 @@ class Decoders {
         // Decoder for VisittypeGetFull
         Decoders.addDecoder(clazz: VisittypeGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisittypeGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisittypeGetFull() : instance as! VisittypeGetFull
+                let _result = VisittypeGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -15843,7 +16453,7 @@ class Decoders {
         // Decoder for VisittypeGetRef
         Decoders.addDecoder(clazz: VisittypeGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisittypeGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisittypeGetRef() : instance as! VisittypeGetRef
+                let _result = VisittypeGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -15865,11 +16475,13 @@ class Decoders {
         // Decoder for VisittypeUpdate
         Decoders.addDecoder(clazz: VisittypeUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<VisittypeUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? VisittypeUpdate() : instance as! VisittypeUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "VisittypeUpdate", actual: "\(nameSource)"))
+                }
+                let _result = VisittypeUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -15887,11 +16499,13 @@ class Decoders {
         // Decoder for WorkflowCreate
         Decoders.addDecoder(clazz: WorkflowCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowCreate() : instance as! WorkflowCreate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "WorkflowCreate", actual: "\(nameSource)"))
+                }
+                let _result = WorkflowCreate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -15909,11 +16523,13 @@ class Decoders {
         // Decoder for WorkflowCreateFull
         Decoders.addDecoder(clazz: WorkflowCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowCreateFull() : instance as! WorkflowCreateFull
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "WorkflowCreateFull", actual: "\(nameSource)"))
+                }
+                let _result = WorkflowCreateFull(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
@@ -15931,7 +16547,7 @@ class Decoders {
         // Decoder for WorkflowGet
         Decoders.addDecoder(clazz: WorkflowGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowGet() : instance as! WorkflowGet
+                let _result = WorkflowGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -15961,7 +16577,7 @@ class Decoders {
         // Decoder for WorkflowGetFull
         Decoders.addDecoder(clazz: WorkflowGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowGetFull() : instance as! WorkflowGetFull
+                let _result = WorkflowGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -16007,7 +16623,7 @@ class Decoders {
         // Decoder for WorkflowGetRef
         Decoders.addDecoder(clazz: WorkflowGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowGetRef() : instance as! WorkflowGetRef
+                let _result = WorkflowGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -16037,7 +16653,7 @@ class Decoders {
         // Decoder for WorkflowStateCreate
         Decoders.addDecoder(clazz: WorkflowStateCreate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowStateCreate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowStateCreate() : instance as! WorkflowStateCreate
+                let _result = WorkflowStateCreate()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "WorkflowStateCreate", actual: "\(source)"))
@@ -16051,7 +16667,7 @@ class Decoders {
         // Decoder for WorkflowStateCreateFull
         Decoders.addDecoder(clazz: WorkflowStateCreateFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowStateCreateFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowStateCreateFull() : instance as! WorkflowStateCreateFull
+                let _result = WorkflowStateCreateFull()
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "WorkflowStateCreateFull", actual: "\(source)"))
@@ -16065,7 +16681,7 @@ class Decoders {
         // Decoder for WorkflowStateGet
         Decoders.addDecoder(clazz: WorkflowStateGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowStateGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowStateGet() : instance as! WorkflowStateGet
+                let _result = WorkflowStateGet()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -16095,7 +16711,7 @@ class Decoders {
         // Decoder for WorkflowStateGetFull
         Decoders.addDecoder(clazz: WorkflowStateGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowStateGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowStateGetFull() : instance as! WorkflowStateGetFull
+                let _result = WorkflowStateGetFull()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -16129,7 +16745,7 @@ class Decoders {
         // Decoder for WorkflowStateGetRef
         Decoders.addDecoder(clazz: WorkflowStateGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowStateGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowStateGetRef() : instance as! WorkflowStateGetRef
+                let _result = WorkflowStateGetRef()
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
@@ -16155,11 +16771,13 @@ class Decoders {
         // Decoder for WorkflowUpdate
         Decoders.addDecoder(clazz: WorkflowUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WorkflowUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
-                let _result = instance == nil ? WorkflowUpdate() : instance as! WorkflowUpdate
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                case let .success(value): _result.name = value
-                case let .failure(error): break
+                guard let nameSource = sourceDictionary["name"] as AnyObject? else {
+                    return .failure(.missingKey(key: "name"))
                 }
+                guard let name = Decoders.decode(clazz: String.self.self, source: nameSource).value else {
+                    return .failure(.typeMismatch(expected: "WorkflowUpdate", actual: "\(nameSource)"))
+                }
+                let _result = WorkflowUpdate(name: name)
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
                 case let .success(value): _result.description = value
                 case let .failure(error): break
