@@ -13,7 +13,7 @@
       "url": "http://openmrs.org/license"
     }
   },
-  "host": "http://34.76.158.186/",
+  "host": "34.76.158.186",
   "basePath": "/openmrs/ws/rest/v1",
   "schemes": [
     "http"
