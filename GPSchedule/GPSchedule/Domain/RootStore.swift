@@ -95,7 +95,7 @@ class RootUseCase: GenericUseCase<RootState> {
         case .unlock:
             return state
         case .error:
-            return state
+            return .error(DomainError.genericError)
         }
     }
 
