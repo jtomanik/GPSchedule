@@ -11,7 +11,7 @@ import RxSwift
 
 class DomainWarehouse: DomainStoreFacade {
 
-    let authService = MockAuthService.self
+    let authService = Authenticator.self
     var rootUseCase: RootUseCase!
 
     init() {
