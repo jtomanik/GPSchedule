@@ -977,38 +977,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "visittype"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createVisitType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisittypeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "visittype response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/visittype/{uuid}": {
@@ -1055,45 +1023,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "visittype"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateVisitType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisittypeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "visittype response"
           },
           "401": {
             "description": "User not logged in"
@@ -1510,38 +1439,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "visit"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createVisit",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisitCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "visit response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/visit/{uuid}": {
@@ -1588,45 +1485,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "visit"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateVisit",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisitUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "visit response"
           },
           "401": {
             "description": "User not logged in"
@@ -1889,38 +1747,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "encountertype"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createEncounterType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EncountertypeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "encountertype response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/encountertype/{uuid}": {
@@ -1967,45 +1793,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "encountertype"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateEncounterType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EncountertypeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "encountertype response"
           },
           "401": {
             "description": "User not logged in"
@@ -2211,38 +1998,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "patient"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createPatient",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "patient response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/patient/{uuid}": {
@@ -2289,45 +2044,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "patient"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updatePatient",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "patient response"
           },
           "401": {
             "description": "User not logged in"
@@ -3668,38 +3384,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "personattributetype"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createPersonAttributeType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonattributetypeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "personattributetype response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/personattributetype/{uuid}": {
@@ -3746,45 +3430,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "personattributetype"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updatePersonAttributeType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonattributetypeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "personattributetype response"
           },
           "401": {
             "description": "User not logged in"
@@ -6123,38 +5768,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createPerson",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "person response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/person/{uuid}": {
@@ -6201,45 +5814,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updatePerson",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "person response"
           },
           "401": {
             "description": "User not logged in"
@@ -7170,38 +6744,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createUser",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "user response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/user/{uuid}": {
@@ -7248,45 +6790,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateUser",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "user response"
           },
           "401": {
             "description": "User not logged in"
@@ -7441,45 +6944,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "providerattributetype"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateProviderAttributeType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ProviderattributetypeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "providerattributetype response"
           },
           "401": {
             "description": "User not logged in"
@@ -7983,38 +7447,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "role"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createRole",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RoleCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "role response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/role/{uuid}": {
@@ -8061,45 +7493,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "role"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateRole",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RoleUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "role response"
           },
           "401": {
             "description": "User not logged in"
@@ -8299,38 +7692,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "visitattributetype"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createVisitAttributeType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisitattributetypeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "visitattributetype response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/visitattributetype/{uuid}": {
@@ -8377,45 +7738,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "visitattributetype"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateVisitAttributeType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisitattributetypeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "visitattributetype response"
           },
           "401": {
             "description": "User not logged in"
@@ -8773,38 +8095,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "encounter"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createEncounter",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EncounterCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "encounter response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/encounter/{uuid}": {
@@ -8851,45 +8141,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "encounter"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateEncounter",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EncounterUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "encounter response"
           },
           "401": {
             "description": "User not logged in"
@@ -9050,45 +8301,6 @@
           }
         }
       },
-      "post": {
-        "tags": [
-          "orderfrequency"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updateOrderFrequency",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/OrderfrequencyUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "orderfrequency response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "orderfrequency"
@@ -9191,38 +8403,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "patientidentifiertype"
-        ],
-        "summary": "Create with properties in request",
-        "operationId": "createPatientIdentifierType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientidentifiertypeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "patientidentifiertype response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/patientidentifiertype/{uuid}": {
@@ -9269,45 +8449,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "patientidentifiertype"
-        ],
-        "summary": "Edit with given uuid, only modifying properties in request",
-        "operationId": "updatePatientIdentifierType",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientidentifiertypeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "patientidentifiertype response"
           },
           "401": {
             "description": "User not logged in"
@@ -10040,45 +9181,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "cohort"
-        ],
-        "summary": "Create membership subresource with properties in request",
-        "operationId": "createCohortMembership",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CohortMembershipCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "membership response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/cohort/{parent-uuid}/membership/{uuid}": {
@@ -10132,52 +9234,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "cohort"
-        ],
-        "summary": "edit membership subresource with given uuid, only modifying properties in request",
-        "operationId": "updateCohortMembership",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CohortMembershipUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "membership response"
           },
           "401": {
             "description": "User not logged in"
@@ -10300,45 +9356,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "Create mapping subresource with properties in request",
-        "operationId": "createConceptMap",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptMappingCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "mapping response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/concept/{parent-uuid}/mapping/{uuid}": {
@@ -10392,52 +9409,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "edit mapping subresource with given uuid, only modifying properties in request",
-        "operationId": "updateConceptMap",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptMappingUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "mapping response"
           },
           "401": {
             "description": "User not logged in"
@@ -10560,45 +9531,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "form"
-        ],
-        "summary": "Create formfield subresource with properties in request",
-        "operationId": "createFormField",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FormFormfieldCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "formfield response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/form/{parent-uuid}/formfield/{uuid}": {
@@ -10652,52 +9584,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "form"
-        ],
-        "summary": "edit formfield subresource with given uuid, only modifying properties in request",
-        "operationId": "updateFormField",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FormFormfieldUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "formfield response"
           },
           "401": {
             "description": "User not logged in"
@@ -10820,45 +9706,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "Create address subresource with properties in request",
-        "operationId": "createPersonAddress",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonAddressCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "address response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/person/{parent-uuid}/address/{uuid}": {
@@ -10912,52 +9759,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "edit address subresource with given uuid, only modifying properties in request",
-        "operationId": "updatePersonAddress",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonAddressUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "address response"
           },
           "401": {
             "description": "User not logged in"
@@ -11150,45 +9951,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "Create attribute subresource with properties in request",
-        "operationId": "createConceptAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptAttributeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/concept/{parent-uuid}/attribute/{uuid}": {
@@ -11242,52 +10004,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "edit attribute subresource with given uuid, only modifying properties in request",
-        "operationId": "updateConceptAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptAttributeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
           },
           "401": {
             "description": "User not logged in"
@@ -11410,45 +10126,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "Create attribute subresource with properties in request",
-        "operationId": "createPersonAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonAttributeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/person/{parent-uuid}/attribute/{uuid}": {
@@ -11502,52 +10179,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "edit attribute subresource with given uuid, only modifying properties in request",
-        "operationId": "updatePersonAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonAttributeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
           },
           "401": {
             "description": "User not logged in"
@@ -11670,45 +10301,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "Create name subresource with properties in request",
-        "operationId": "createPersonName",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonNameCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "name response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/person/{parent-uuid}/name/{uuid}": {
@@ -11762,52 +10354,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "person"
-        ],
-        "summary": "edit name subresource with given uuid, only modifying properties in request",
-        "operationId": "updatePersonName",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PersonNameUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "name response"
           },
           "401": {
             "description": "User not logged in"
@@ -11930,45 +10476,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "drug"
-        ],
-        "summary": "Create ingredient subresource with properties in request",
-        "operationId": "createDrugIngredient",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/DrugIngredientCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "ingredient response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/drug/{parent-uuid}/ingredient/{uuid}": {
@@ -12022,52 +10529,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "drug"
-        ],
-        "summary": "edit ingredient subresource with given uuid, only modifying properties in request",
-        "operationId": "updateDrugIngredient",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/DrugIngredientUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "ingredient response"
           },
           "401": {
             "description": "User not logged in"
@@ -12190,45 +10651,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "visit"
-        ],
-        "summary": "Create attribute subresource with properties in request",
-        "operationId": "createVisitAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisitAttributeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/visit/{parent-uuid}/attribute/{uuid}": {
@@ -12282,52 +10704,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "visit"
-        ],
-        "summary": "edit attribute subresource with given uuid, only modifying properties in request",
-        "operationId": "updateVisitAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VisitAttributeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
           },
           "401": {
             "description": "User not logged in"
@@ -12450,45 +10826,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "patient"
-        ],
-        "summary": "Create identifier subresource with properties in request",
-        "operationId": "createPatientIdentifier",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientIdentifierCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "identifier response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/patient/{parent-uuid}/identifier/{uuid}": {
@@ -12542,52 +10879,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "patient"
-        ],
-        "summary": "edit identifier subresource with given uuid, only modifying properties in request",
-        "operationId": "updatePatientIdentifier",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatientIdentifierUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "identifier response"
           },
           "401": {
             "description": "User not logged in"
@@ -12710,45 +11001,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "orderset"
-        ],
-        "summary": "Create ordersetmember subresource with properties in request",
-        "operationId": "createOrderSetMember",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/OrdersetOrdersetmemberCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "ordersetmember response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/orderset/{parent-uuid}/ordersetmember/{uuid}": {
@@ -12802,52 +11054,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "orderset"
-        ],
-        "summary": "edit ordersetmember subresource with given uuid, only modifying properties in request",
-        "operationId": "updateOrderSetMember",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/OrdersetOrdersetmemberUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "ordersetmember response"
           },
           "401": {
             "description": "User not logged in"
@@ -12970,45 +11176,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "Create name subresource with properties in request",
-        "operationId": "createConceptName",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptNameCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "name response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/concept/{parent-uuid}/name/{uuid}": {
@@ -13062,52 +11229,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "edit name subresource with given uuid, only modifying properties in request",
-        "operationId": "updateConceptName",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptNameUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "name response"
           },
           "401": {
             "description": "User not logged in"
@@ -13230,45 +11351,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "field"
-        ],
-        "summary": "Create answer subresource with properties in request",
-        "operationId": "createFieldAnswer",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FieldAnswerCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "answer response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/field/{parent-uuid}/answer/{uuid}": {
@@ -13322,52 +11404,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "field"
-        ],
-        "summary": "edit answer subresource with given uuid, only modifying properties in request",
-        "operationId": "updateFieldAnswer",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FieldAnswerUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "answer response"
           },
           "401": {
             "description": "User not logged in"
@@ -13490,45 +11526,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "provider"
-        ],
-        "summary": "Create attribute subresource with properties in request",
-        "operationId": "createProviderAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ProviderAttributeCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/provider/{parent-uuid}/attribute/{uuid}": {
@@ -13582,52 +11579,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "provider"
-        ],
-        "summary": "edit attribute subresource with given uuid, only modifying properties in request",
-        "operationId": "updateProviderAttribute",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ProviderAttributeUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "attribute response"
           },
           "401": {
             "description": "User not logged in"
@@ -13750,45 +11701,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "encounter"
-        ],
-        "summary": "Create encounterprovider subresource with properties in request",
-        "operationId": "createEncounterProvider",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EncounterEncounterproviderCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "encounterprovider response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/encounter/{parent-uuid}/encounterprovider/{uuid}": {
@@ -13842,52 +11754,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "encounter"
-        ],
-        "summary": "edit encounterprovider subresource with given uuid, only modifying properties in request",
-        "operationId": "updateEncounterProvider",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EncounterEncounterproviderUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "encounterprovider response"
           },
           "401": {
             "description": "User not logged in"
@@ -14010,45 +11876,6 @@
             "description": "User not logged in"
           }
         }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "Create description subresource with properties in request",
-        "operationId": "createConceptDescription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource to create",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptDescriptionCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "description response"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
       }
     },
     "/concept/{parent-uuid}/description/{uuid}": {
@@ -14102,52 +11929,6 @@
           },
           "404": {
             "description": "Resource with given uuid doesn't exist"
-          },
-          "401": {
-            "description": "User not logged in"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "concept"
-        ],
-        "summary": "edit description subresource with given uuid, only modifying properties in request",
-        "operationId": "updateConceptDescription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "parent-uuid",
-            "in": "path",
-            "description": "parent resource uuid",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "in": "path",
-            "description": "uuid of resource to update",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "resource",
-            "description": "Resource properties to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConceptDescriptionUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "description response"
           },
           "401": {
             "description": "User not logged in"
