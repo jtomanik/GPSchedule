@@ -8,19 +8,21 @@
 
 import Foundation
 import UIKit
+import Cartography
 
 // sourcery: viewName = "Loading"
 // sourcery: parentViewModel = "RootViewModel"
-// sourcery: defaultState = "none"
+// sourcery: defaultState = "animating"
 enum LoadingViewState: BasicViewGenerator, ViewState {
-    case none
+    case stopped
+    case animating
 
     enum UserAction: Event, Equatable {
     }
 
 // sourcery:inline:auto:LoadingViewState.AutoInit
     init() {
-        self = .none
+        self = .animating
     }
 // sourcery:end
 }
@@ -53,11 +55,24 @@ class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootViewModel> {
 
 class LoadingViewController: GenericViewController<LoadingViewModel> {
 
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        return UIActivityIndicatorView()
+    }()
+
     override func setupView() {
-        self.view.backgroundColor = UIColor.green
+        self.view.addSubview(activityIndicator)
+        constrain(activityIndicator) { view in
+            view.center == view.superview!.center
+        }
+        activityIndicator.style = .gray
     }
 
     override func process(state: LoadingViewModel.State) {
-        return
+        switch state {
+        case .stopped:
+            activityIndicator.stopAnimating()
+        case .animating:
+            activityIndicator.startAnimating()
+        }
     }
 }

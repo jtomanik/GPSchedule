@@ -1,28 +1,38 @@
 //
-//  LoggedInViewController.swift
+//  LoggedInViewModel.swift
 //  GPSchedule
 //
-//  Created by Jakub Tomanik on 08/03/2019.
+//  Created by Jakub Tomanik on 13/03/2019.
 //  Copyright © 2019 Jakub Tomanik. All rights reserved.
 //
 
 import Foundation
-import UIKit
 
 // sourcery: viewName = "LoggedIn"
 // sourcery: parentViewModel = "RootViewModel"
 // sourcery: defaultState = "none"
 enum LoggedInViewState: BasicViewGenerator, ViewState {
+
+    struct DisplayModel: Equatable {
+
+    }
+
     case none
-    
+
     enum UserAction: Event, Equatable {
     }
 
-// sourcery:inline:auto:LoggedInViewState.AutoInit
-    init() {
-        self = .none
+    // sourcery:inline:auto:LoggedInViewState.AutoInit
+        init() {
+            self = .none
+        }
+    // sourcery:end
+}
+
+extension LoggedInViewState {
+    var context: DisplayModel {
+        return DisplayModel()
     }
-// sourcery:end
 }
 
 class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, RootViewModel> {
@@ -49,15 +59,4 @@ class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, RootViewModel>
         super.init(store: store, transformer: transformer, reducer: reducer)
     }
 // sourcery:end
-}
-
-class LoggedInViewController: GenericViewController<LoggedInViewModel> {
-
-    override func setupView() {
-        self.view.backgroundColor = UIColor.red
-    }
-
-    override func process(state: LoggedInViewModel.State) {
-        return
-    }
 }

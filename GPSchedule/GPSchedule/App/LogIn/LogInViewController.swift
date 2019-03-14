@@ -11,20 +11,10 @@ import UIKit
 import Bento
 import BentoKit
 
-class LoginViewController: GenericViewController<LoginViewModel> {
+class LoginViewController: GenericTableViewController<LoginViewModel> {
 
     typealias RowId = Int
     typealias SectionId = Int
-
-    private lazy var tableView: BentoTableView = {
-        let table = BentoTableView()
-        return table
-    }()
-
-    override func setupView() {
-        view.addSubview(tableView)
-        tableView.pinToEdges(of: view)
-    }
 
     override func process(state: LoginViewModel.State) {
         let boxedState = package(model: state.context)
