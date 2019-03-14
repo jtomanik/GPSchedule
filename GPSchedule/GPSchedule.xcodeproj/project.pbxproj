@@ -23,6 +23,8 @@
 		7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */; };
 		7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */; };
 		7AE0E0F322398F1A00F341B7 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */; };
+		7AE0E0F72239C27100F341B7 /* LoggedInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */; };
+		7AE0E0FA2239C52A00F341B7 /* GenericTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F92239C52A00F341B7 /* GenericTableViewController.swift */; };
 		7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB2672237E80300E86256 /* Sourcery.swift */; };
 		7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */; };
 		7AEFB26E223829F800E86256 /* LabelComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB26D223829F800E86256 /* LabelComponent.swift */; };
@@ -63,7 +65,9 @@
 		7AACDE1E2231BBD600B24351 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainWarehouse.swift; sourceTree = "<group>"; };
 		7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
-		7AEFB2652237E79B00E86256 /* BasicView.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = BasicView.stencil; sourceTree = "<group>"; };
+		7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewModel.swift; sourceTree = "<group>"; };
+		7AE0E0F92239C52A00F341B7 /* GenericTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericTableViewController.swift; sourceTree = "<group>"; };
+		7AEFB2652237E79B00E86256 /* BasicView.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = BasicView.stencil; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		7AEFB2672237E80300E86256 /* Sourcery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sourcery.swift; sourceTree = "<group>"; };
 		7AEFB2692237EA0700E86256 /* BasicView.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicView.generated.swift; sourceTree = "<group>"; };
 		7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -106,7 +110,7 @@
 				7A79A6B02233037300E22CDA /* RootViewController.swift */,
 				7A79A6CE2235A03D00E22CDA /* RootViewModel.swift */,
 				7AEFB27C22386F2300E86256 /* LogIn */,
-				7A79A6AA2233031D00E22CDA /* LoggedInViewController.swift */,
+				7AE0E0F82239C27700F341B7 /* LoggedIn */,
 				7A79A6AC2233033100E22CDA /* LoadingViewController.swift */,
 				7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */,
 			);
@@ -176,6 +180,15 @@
 			path = GPSchedule;
 			sourceTree = "<group>";
 		};
+		7AE0E0F82239C27700F341B7 /* LoggedIn */ = {
+			isa = PBXGroup;
+			children = (
+				7A79A6AA2233031D00E22CDA /* LoggedInViewController.swift */,
+				7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */,
+			);
+			path = LoggedIn;
+			sourceTree = "<group>";
+		};
 		7AEFB26A2237EA2500E86256 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,6 +208,7 @@
 				7AEFB27622383CD600E86256 /* ButtonComponent.swift */,
 				7AEFB27A22383E2500E86256 /* TextInputComponentView.xib */,
 				7AEFB26F22382B8A00E86256 /* TextInputComponent.swift */,
+				7AE0E0F92239C52A00F341B7 /* GenericTableViewController.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -395,6 +409,7 @@
 				7A79A6AF2233034B00E22CDA /* ErrorViewController.swift in Sources */,
 				7AEFB2752238355800E86256 /* GenericComponent.swift in Sources */,
 				7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */,
+				7AE0E0F72239C27100F341B7 /* LoggedInViewModel.swift in Sources */,
 				7A79A6B322339FAB00E22CDA /* AppArchitecture.swift in Sources */,
 				7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */,
 				7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */,
@@ -407,6 +422,7 @@
 				7A79A6AD2233033100E22CDA /* LoadingViewController.swift in Sources */,
 				7A79A6A92233030800E22CDA /* LogInViewController.swift in Sources */,
 				7A79A6CF2235A03D00E22CDA /* RootViewModel.swift in Sources */,
+				7AE0E0FA2239C52A00F341B7 /* GenericTableViewController.swift in Sources */,
 				7A79A6C92235935400E22CDA /* LoginViewModel.swift in Sources */,
 				7AE0E0F322398F1A00F341B7 /* MockAuthService.swift in Sources */,
 				7A79A6AB2233031D00E22CDA /* LoggedInViewController.swift in Sources */,
