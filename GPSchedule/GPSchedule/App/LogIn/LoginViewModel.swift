@@ -12,7 +12,7 @@ import RxSwift
 import RxSwiftExt
 
 // sourcery: defaultState = "inProgress(DisplayModel())"
-enum LoginViewState {
+enum LoginViewState: BasicViewGenerator, ViewState {
 
     struct DisplayModel: Equatable {
         var title: LabelState
@@ -39,12 +39,14 @@ enum LoginViewState {
     case inProgress(DisplayModel)
     case done(DisplayModel)
 
+// sourcery:inline:auto:LoginViewState.AutoInit
     init() {
         self = .inProgress(DisplayModel())
     }
+// sourcery:end
 }
 
-extension LoginViewState: ViewState {
+extension LoginViewState {
     var context: DisplayModel {
         switch self {
         case .inProgress(let displayModel): return displayModel
