@@ -7,7 +7,7 @@
 import Foundation
 
 open class OpenMRSAPI {
-    open static var basePath = "http://http://34.76.158.186//openmrs/ws/rest/v1"
+    open static var basePath = "http://34.76.158.186/openmrs/ws/rest/v1"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
     open static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
