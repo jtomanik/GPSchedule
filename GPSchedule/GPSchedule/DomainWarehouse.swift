@@ -11,15 +11,18 @@ import RxSwift
 
 class DomainWarehouse: DomainStoreFacade {
 
+// sourcery:inline:auto:DomainWarehouse.Generated
+    let appointmentService = AppointmentDetail.self
     let authService = Authenticator.self
+    let appointmentsService = PersonalSchedule.self
+
     var rootUseCase: RootUseCase!
 
     init() {
         self.rootUseCase = RootUseCase(initialState: RootState(), dependencyProvider: self)
-    }
-}
 
-extension DomainWarehouse {
+    }
+
     func dispatch(event: Event) {
         switch event {
         case let event as RootState.DomainEvent:
@@ -28,6 +31,5 @@ extension DomainWarehouse {
             return
         }
     }
+// sourcery:end
 }
-
-extension DomainWarehouse: RootUseCaseDependenciesProvider {}
