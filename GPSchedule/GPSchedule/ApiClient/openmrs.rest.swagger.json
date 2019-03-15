@@ -9328,7 +9328,30 @@
       }
     },
     "PatientGetRef": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "identifiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PatientIdentifierGetRef"
+          }
+        },
+        "preferred": {
+          "type": "boolean",
+          "default": false
+        },
+        "voided": {
+          "type": "boolean"
+        },
+        "person": {
+          "$ref": "#/definitions/PersonGetRef"
+        }
+      }
     },
     "PatientGetFull": {
       "properties": {
@@ -9355,7 +9378,7 @@
           "type": "boolean"
         },
         "person": {
-          "$ref": "#/definitions/PersonGet"
+          "$ref": "#/definitions/PersonGetRef"
         }
       }
     },
@@ -12919,11 +12942,11 @@
         "display": {
           "type": "string"
         },
-		"timeSlot": {
-			"$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
+        "timeSlot": {
+          "$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
         },
         "appointmentType": {
-			"$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
+          "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
         },
         "reason": {
           "type": "string"
@@ -12941,11 +12964,11 @@
         "display": {
           "type": "string"
         },
-		"timeSlot": {
-			"$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
+        "timeSlot": {
+          "$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
         },
         "appointmentType": {
-			"$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
+          "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
         },
         "reason": {
           "type": "string"
@@ -12963,11 +12986,11 @@
         "display": {
           "type": "string"
         },
-		"timeSlot": {
-			"$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
+        "timeSlot": {
+          "$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
         },
         "appointmentType": {
-			"$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
+          "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
         },
         "reason": {
           "type": "string"
@@ -13170,7 +13193,65 @@
       }
     },
     "PersonGetRef": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "M",
+            "F"
+          ]
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "birthdateEstimated": {
+          "type": "boolean"
+        },
+        "dead": {
+          "type": "boolean"
+        },
+        "deathDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "causeOfDeath": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PersonAttributeGetRef"
+          }
+        },
+        "voided": {
+          "type": "boolean"
+        },
+        "preferredName": {
+          "$ref": "#/definitions/PersonNameGetRef"
+        },
+        "preferredAddress": {
+          "$ref": "#/definitions/PersonAddressGetRef"
+        },
+        "deathdateEstimated": {
+          "type": "boolean",
+          "default": false
+        },
+        "birthtime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     },
     "PersonGetFull": {
       "properties": {
