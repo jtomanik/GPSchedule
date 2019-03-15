@@ -10178,13 +10178,102 @@
       }
     },
     "AppointmentschedulingAppointmentblockGet": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "provider": {
+          "$ref": "#/definitions/ProviderGetRef"
+        },
+        "location": {
+          "$ref": "#/definitions/LocationGetRef"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGet"
+          }
+        },
+        "voided": {
+          "type": "boolean"
+        }
+      }
     },
     "AppointmentschedulingAppointmentblockGetRef": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "provider": {
+          "$ref": "#/definitions/ProviderGetRef"
+        },
+        "location": {
+          "$ref": "#/definitions/LocationGetRef"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGet"
+          }
+        },
+        "voided": {
+          "type": "boolean"
+        }
+      }
     },
     "AppointmentschedulingAppointmentblockGetFull": {
       "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "provider": {
+          "$ref": "#/definitions/ProviderGetRef"
+        },
+        "location": {
+          "$ref": "#/definitions/LocationGetRef"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGet"
+          }
+        },
+        "voided": {
+          "type": "boolean"
+        },
         "auditInfo": {
           "type": "string"
         }
@@ -12055,13 +12144,99 @@
       }
     },
     "AppointmentschedulingTimeslotGet": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "appointmentBlock": {
+          "$ref": "#/definitions/AppointmentschedulingAppointmentblockGetRef"
+        },
+        "countOfAppointments": {
+          "type": "number",
+          "format": "double"
+        },
+        "unallocatedMinutes": {
+          "type": "number",
+          "format": "double"
+        },
+        "voided": {
+          "type": "boolean"
+        }
+      }
     },
     "AppointmentschedulingTimeslotGetRef": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "appointmentBlock": {
+          "$ref": "#/definitions/AppointmentschedulingAppointmentblockGetRef"
+        },
+        "countOfAppointments": {
+          "type": "number",
+          "format": "double"
+        },
+        "unallocatedMinutes": {
+          "type": "number",
+          "format": "double"
+        },
+        "voided": {
+          "type": "boolean"
+        }
+      }
     },
     "AppointmentschedulingTimeslotGetFull": {
       "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "appointmentBlock": {
+          "$ref": "#/definitions/AppointmentschedulingAppointmentblockGetRef"
+        },
+        "countOfAppointments": {
+          "type": "number",
+          "format": "double"
+        },
+        "unallocatedMinutes": {
+          "type": "number",
+          "format": "double"
+        },
+        "voided": {
+          "type": "boolean"
+        },
         "auditInfo": {
           "type": "string"
         }
@@ -12737,13 +12912,69 @@
       }
     },
     "AppointmentschedulingAppointmentGet": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+		"timeSlot": {
+			"$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
+        },
+        "appointmentType": {
+			"$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "patient": {
+          "$ref": "#/definitions/PatientGetRef"
+        }
+      }
     },
     "AppointmentschedulingAppointmentGetRef": {
-      "properties": {}
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+		"timeSlot": {
+			"$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
+        },
+        "appointmentType": {
+			"$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "patient": {
+          "$ref": "#/definitions/PatientGetRef"
+        }
+      }
     },
     "AppointmentschedulingAppointmentGetFull": {
       "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+		"timeSlot": {
+			"$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
+        },
+        "appointmentType": {
+			"$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "patient": {
+          "$ref": "#/definitions/PatientGetRef"
+        },
         "auditInfo": {
           "type": "string"
         }
