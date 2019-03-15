@@ -114,7 +114,7 @@ public class Decoders {
         }
     }
 
-    public static func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> Decoded<[Key:T]> {
+    static open func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> Decoded<[Key:T]> {
         if let sourceDictionary = source as? [Key: AnyObject] {
             var dictionary = [Key:T]()
             for (key, value) in sourceDictionary {
@@ -131,7 +131,7 @@ public class Decoders {
         }
     }
 
-    public static func decodeOptional<T: RawRepresentable>(clazz: T.Type, source: AnyObject?) -> Decoded<T?> {
+    static open func decodeOptional<T: RawRepresentable>(clazz: T.Type, source: AnyObject?) -> Decoded<T?> {
         guard !(source is NSNull), source != nil else { return .success(nil) }
         if let value = source as? T.RawValue {
             if let enumValue = T.init(rawValue: value) {
@@ -144,7 +144,7 @@ public class Decoders {
         }
     }
 
-    public static func decode<T>(clazz: T.Type, source: AnyObject, instance: AnyObject?) -> Decoded<T> {
+    static open func decode<T>(clazz: T.Type, source: AnyObject, instance: AnyObject?) -> Decoded<T> {
         initialize()
         if let sourceNumber = source as? NSNumber, let value = sourceNumber.int32Value as? T, T.self is Int32.Type {
             return .success(value)
@@ -342,6 +342,30 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingAppointmentGet()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingTimeslotGetRef.self, source: sourceDictionary["timeSlot"] as AnyObject?) {
+                case let .success(value): _result.timeSlot = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmenttypeGetRef.self, source: sourceDictionary["appointmentType"] as AnyObject?) {
+                case let .success(value): _result.appointmentType = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?) {
+                case let .success(value): _result.reason = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: PatientGetRef.self, source: sourceDictionary["patient"] as AnyObject?) {
+                case let .success(value): _result.patient = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentGet", actual: "\(source)"))
@@ -356,6 +380,30 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingAppointmentGetFull()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingTimeslotGetRef.self, source: sourceDictionary["timeSlot"] as AnyObject?) {
+                case let .success(value): _result.timeSlot = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmenttypeGetRef.self, source: sourceDictionary["appointmentType"] as AnyObject?) {
+                case let .success(value): _result.appointmentType = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?) {
+                case let .success(value): _result.reason = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: PatientGetRef.self, source: sourceDictionary["patient"] as AnyObject?) {
+                case let .success(value): _result.patient = value
+                case let .failure(error): break
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -374,6 +422,30 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingAppointmentGetRef()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingTimeslotGetRef.self, source: sourceDictionary["timeSlot"] as AnyObject?) {
+                case let .success(value): _result.timeSlot = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmenttypeGetRef.self, source: sourceDictionary["appointmentType"] as AnyObject?) {
+                case let .success(value): _result.appointmentType = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?) {
+                case let .success(value): _result.reason = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: PatientGetRef.self, source: sourceDictionary["patient"] as AnyObject?) {
+                case let .success(value): _result.patient = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentGetRef", actual: "\(source)"))
@@ -388,6 +460,38 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentblockGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentblockGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingAppointmentblockGet()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                case let .success(value): _result.startDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                case let .success(value): _result.endDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ProviderGetRef.self, source: sourceDictionary["provider"] as AnyObject?) {
+                case let .success(value): _result.provider = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: LocationGetRef.self, source: sourceDictionary["location"] as AnyObject?) {
+                case let .success(value): _result.location = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: [AppointmentschedulingAppointmenttypeGet].self, source: sourceDictionary["types"] as AnyObject?) {
+                case let .success(value): _result.types = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentblockGet", actual: "\(source)"))
@@ -402,6 +506,38 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentblockGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentblockGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingAppointmentblockGetFull()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                case let .success(value): _result.startDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                case let .success(value): _result.endDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ProviderGetRef.self, source: sourceDictionary["provider"] as AnyObject?) {
+                case let .success(value): _result.provider = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: LocationGetRef.self, source: sourceDictionary["location"] as AnyObject?) {
+                case let .success(value): _result.location = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: [AppointmentschedulingAppointmenttypeGet].self, source: sourceDictionary["types"] as AnyObject?) {
+                case let .success(value): _result.types = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -420,6 +556,38 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingAppointmentblockGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingAppointmentblockGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingAppointmentblockGetRef()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                case let .success(value): _result.startDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                case let .success(value): _result.endDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ProviderGetRef.self, source: sourceDictionary["provider"] as AnyObject?) {
+                case let .success(value): _result.provider = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: LocationGetRef.self, source: sourceDictionary["location"] as AnyObject?) {
+                case let .success(value): _result.location = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: [AppointmentschedulingAppointmenttypeGet].self, source: sourceDictionary["types"] as AnyObject?) {
+                case let .success(value): _result.types = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingAppointmentblockGetRef", actual: "\(source)"))
@@ -634,6 +802,38 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingTimeslotGet.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingTimeslotGet> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingTimeslotGet()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                case let .success(value): _result.startDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                case let .success(value): _result.endDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmentblockGetRef.self, source: sourceDictionary["appointmentBlock"] as AnyObject?) {
+                case let .success(value): _result.appointmentBlock = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["countOfAppointments"] as AnyObject?) {
+                case let .success(value): _result.countOfAppointments = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["unallocatedMinutes"] as AnyObject?) {
+                case let .success(value): _result.unallocatedMinutes = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingTimeslotGet", actual: "\(source)"))
@@ -648,6 +848,38 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingTimeslotGetFull.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingTimeslotGetFull> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingTimeslotGetFull()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                case let .success(value): _result.startDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                case let .success(value): _result.endDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmentblockGetRef.self, source: sourceDictionary["appointmentBlock"] as AnyObject?) {
+                case let .success(value): _result.appointmentBlock = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["countOfAppointments"] as AnyObject?) {
+                case let .success(value): _result.countOfAppointments = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["unallocatedMinutes"] as AnyObject?) {
+                case let .success(value): _result.unallocatedMinutes = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["auditInfo"] as AnyObject?) {
                 case let .success(value): _result.auditInfo = value
                 case let .failure(error): break
@@ -666,6 +898,38 @@ public class Decoders {
         Decoders.addDecoder(clazz: AppointmentschedulingTimeslotGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AppointmentschedulingTimeslotGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = AppointmentschedulingTimeslotGetRef()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                case let .success(value): _result.startDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                case let .success(value): _result.endDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmentblockGetRef.self, source: sourceDictionary["appointmentBlock"] as AnyObject?) {
+                case let .success(value): _result.appointmentBlock = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["countOfAppointments"] as AnyObject?) {
+                case let .success(value): _result.countOfAppointments = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["unallocatedMinutes"] as AnyObject?) {
+                case let .success(value): _result.unallocatedMinutes = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "AppointmentschedulingTimeslotGetRef", actual: "\(source)"))
