@@ -97,6 +97,12 @@ import UIKit
 
 protocol AppError: Error {} // should I make it Equatable?
 
+extension Array: DomainModel where Element: DomainModel {
+    var id: String {
+        return self.reduce(into: "", { $0 += $1.id })
+    }
+}
+
 class GenericUseCase<State: DomainState>: DomainStore {
 
     var state: BehaviorSubject<State>
