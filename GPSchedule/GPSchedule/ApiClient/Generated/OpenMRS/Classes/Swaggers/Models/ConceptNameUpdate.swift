@@ -11,8 +11,10 @@ import Foundation
 open class ConceptNameUpdate: JSONEncodable {
     public var name: String?
 
-    public init() {}
 
+    public init(name: String?=nil) {
+        self.name = name
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -19,8 +19,18 @@ open class RelationshiptypeGetFull: JSONEncodable {
     public var bIsToA: String?
     public var weight: Int32?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, aIsToB: String?=nil, bIsToA: String?=nil, weight: Int32?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.aIsToB = aIsToB
+        self.bIsToA = bIsToA
+        self.weight = weight
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

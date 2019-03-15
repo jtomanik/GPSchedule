@@ -9,14 +9,16 @@ import Foundation
 
 
 open class ProgramenrollmentStateCreateFull: JSONEncodable {
-    public var state: WorkflowStateCreate?
+    public var state: WorkflowStateCreate
 
-    public init() {}
 
+    public init(state: WorkflowStateCreate) {
+        self.state = state
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["state"] = self.state?.encodeToJSON()
+        nillableDictionary["state"] = self.state.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

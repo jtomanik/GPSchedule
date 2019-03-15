@@ -32,8 +32,31 @@ open class LocationGetFull: JSONEncodable {
     public var parentLocation: LocationGet?
     public var childLocations: [LocationGet]?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, address1: String?=nil, address2: String?=nil, cityVillage: String?=nil, stateProvince: String?=nil, country: String?=nil, postalCode: String?=nil, latitude: String?=nil, longitude: String?=nil, countyDistrict: String?=nil, address3: String?=nil, address4: String?=nil, address5: String?=nil, address6: String?=nil, tags: [LocationtagGet]?=nil, parentLocation: LocationGet?=nil, childLocations: [LocationGet]?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.address1 = address1
+        self.address2 = address2
+        self.cityVillage = cityVillage
+        self.stateProvince = stateProvince
+        self.country = country
+        self.postalCode = postalCode
+        self.latitude = latitude
+        self.longitude = longitude
+        self.countyDistrict = countyDistrict
+        self.address3 = address3
+        self.address4 = address4
+        self.address5 = address5
+        self.address6 = address6
+        self.tags = tags
+        self.parentLocation = parentLocation
+        self.childLocations = childLocations
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

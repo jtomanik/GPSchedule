@@ -17,8 +17,16 @@ open class OrdersetOrdersetmemberGet: JSONEncodable {
     public var orderType: OrdertypeGetRef?
     public var concept: ConceptGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, retired: Bool?=nil, orderTemplate: String?=nil, orderTemplateType: String?=nil, orderType: OrdertypeGetRef?=nil, concept: ConceptGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.retired = retired
+        self.orderTemplate = orderTemplate
+        self.orderTemplateType = orderTemplateType
+        self.orderType = orderType
+        self.concept = concept
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

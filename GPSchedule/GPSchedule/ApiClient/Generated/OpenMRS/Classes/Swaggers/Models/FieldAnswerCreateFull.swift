@@ -9,16 +9,19 @@ import Foundation
 
 
 open class FieldAnswerCreateFull: JSONEncodable {
-    public var concept: ConceptCreate?
-    public var field: FieldCreate?
+    public var concept: ConceptCreate
+    public var field: FieldCreate
 
-    public init() {}
 
+    public init(concept: ConceptCreate, field: FieldCreate) {
+        self.concept = concept
+        self.field = field
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["concept"] = self.concept?.encodeToJSON()
-        nillableDictionary["field"] = self.field?.encodeToJSON()
+        nillableDictionary["concept"] = self.concept.encodeToJSON()
+        nillableDictionary["field"] = self.field.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

@@ -9,10 +9,10 @@ import Foundation
 
 
 open class DrugCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var combination: Bool?
-    public var concept: String?
+    public var combination: Bool
+    public var concept: String
     public var doseStrength: Double?
     public var maximumDailyDose: Double?
     public var minimumDailyDose: Double?
@@ -20,8 +20,19 @@ open class DrugCreate: JSONEncodable {
     public var dosageForm: String?
     public var route: String?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, combination: Bool, concept: String, doseStrength: Double?=nil, maximumDailyDose: Double?=nil, minimumDailyDose: Double?=nil, units: String?=nil, dosageForm: String?=nil, route: String?=nil) {
+        self.name = name
+        self.description = description
+        self.combination = combination
+        self.concept = concept
+        self.doseStrength = doseStrength
+        self.maximumDailyDose = maximumDailyDose
+        self.minimumDailyDose = minimumDailyDose
+        self.units = units
+        self.dosageForm = dosageForm
+        self.route = route
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

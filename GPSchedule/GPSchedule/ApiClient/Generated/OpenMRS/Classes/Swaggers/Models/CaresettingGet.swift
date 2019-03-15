@@ -17,8 +17,12 @@ open class CaresettingGet: JSONEncodable {
     public var display: String?
         public var careSettingType: CareSettingType?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, careSettingType: CareSettingType?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.careSettingType = careSettingType
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -20,8 +20,19 @@ open class SystemsettingGetFull: JSONEncodable {
     public var preferredHandlerClassname: String?
     public var handlerConfig: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, property: String?=nil, value: String?=nil, description: String?=nil, display: String?=nil, datatypeClassname: String?=nil, datatypeConfig: String?=nil, preferredHandlerClassname: String?=nil, handlerConfig: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.property = property
+        self.value = value
+        self.description = description
+        self.display = display
+        self.datatypeClassname = datatypeClassname
+        self.datatypeConfig = datatypeConfig
+        self.preferredHandlerClassname = preferredHandlerClassname
+        self.handlerConfig = handlerConfig
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

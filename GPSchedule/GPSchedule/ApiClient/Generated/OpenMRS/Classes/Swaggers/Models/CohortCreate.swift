@@ -9,18 +9,22 @@ import Foundation
 
 
 open class CohortCreate: JSONEncodable {
-    public var name: String?
-    public var description: String?
-    public var memberIds: [Int32]?
+    public var name: String
+    public var description: String
+    public var memberIds: [Int32]
 
-    public init() {}
 
+    public init(name: String, description: String, memberIds: [Int32]) {
+        self.name = name
+        self.description = description
+        self.memberIds = memberIds
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["description"] = self.description
-        nillableDictionary["memberIds"] = self.memberIds?.encodeToJSON()
+        nillableDictionary["memberIds"] = self.memberIds.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

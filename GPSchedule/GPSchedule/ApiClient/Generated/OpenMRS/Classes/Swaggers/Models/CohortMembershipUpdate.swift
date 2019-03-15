@@ -12,8 +12,11 @@ open class CohortMembershipUpdate: JSONEncodable {
     public var startDate: ISOFullDate?
     public var endDate: ISOFullDate?
 
-    public init() {}
 
+    public init(startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil) {
+        self.startDate = startDate
+        self.endDate = endDate
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -15,8 +15,14 @@ open class DrugIngredientGet: JSONEncodable {
     public var ingredient: ConceptGetRef?
     public var units: ConceptGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, strength: Double?=nil, ingredient: ConceptGetRef?=nil, units: ConceptGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.strength = strength
+        self.ingredient = ingredient
+        self.units = units
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -9,13 +9,33 @@ import Foundation
 
 
 open class AppointmentschedulingAppointmentGetFull: JSONEncodable {
+    public var uuid: String?
+    public var display: String?
+    public var timeSlot: AppointmentschedulingTimeslotGetRef?
+    public var appointmentType: AppointmentschedulingAppointmenttypeGetRef?
+    public var reason: String?
+    public var patient: PatientGetRef?
     public var auditInfo: String?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, timeSlot: AppointmentschedulingTimeslotGetRef?=nil, appointmentType: AppointmentschedulingAppointmenttypeGetRef?=nil, reason: String?=nil, patient: PatientGetRef?=nil, auditInfo: String?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.timeSlot = timeSlot
+        self.appointmentType = appointmentType
+        self.reason = reason
+        self.patient = patient
+        self.auditInfo = auditInfo
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
+        nillableDictionary["uuid"] = self.uuid
+        nillableDictionary["display"] = self.display
+        nillableDictionary["timeSlot"] = self.timeSlot?.encodeToJSON()
+        nillableDictionary["appointmentType"] = self.appointmentType?.encodeToJSON()
+        nillableDictionary["reason"] = self.reason
+        nillableDictionary["patient"] = self.patient?.encodeToJSON()
         nillableDictionary["auditInfo"] = self.auditInfo
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]

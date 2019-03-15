@@ -1,6 +1,9 @@
 sources:
-- GPSchedule
-#- <sources path>
+  include:
+    - GPSchedule
+  exclude:
+    - GPSchedule/ApiClient/Generated/OpenMRS/Classes/Swaggers/APIs
+    - GPSchedule/ApiClient/Generated/OpenMRS/Classes/Swaggers/Models.swift
 templates:
 - GPSchedule/Templates
 #- <templates path>

@@ -16,8 +16,15 @@ open class ProgramenrollmentStateGetRef: JSONEncodable {
     public var state: WorkflowStateGetRef?
     public var patientProgram: Any?
 
-    public init() {}
 
+    public init(uuid: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, voided: Bool?=nil, state: WorkflowStateGetRef?=nil, patientProgram: Any?=nil) {
+        self.uuid = uuid
+        self.startDate = startDate
+        self.endDate = endDate
+        self.voided = voided
+        self.state = state
+        self.patientProgram = patientProgram
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

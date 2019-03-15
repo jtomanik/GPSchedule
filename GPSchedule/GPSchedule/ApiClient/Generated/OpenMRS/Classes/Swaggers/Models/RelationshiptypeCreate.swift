@@ -9,14 +9,20 @@ import Foundation
 
 
 open class RelationshiptypeCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var aIsToB: String?
-    public var bIsToA: String?
+    public var aIsToB: String
+    public var bIsToA: String
     public var weight: Int32?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, aIsToB: String, bIsToA: String, weight: Int32?=nil) {
+        self.name = name
+        self.description = description
+        self.aIsToB = aIsToB
+        self.bIsToA = bIsToA
+        self.weight = weight
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

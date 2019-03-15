@@ -9,9 +9,9 @@ import Foundation
 
 
 open class FormCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var version: String?
+    public var version: String
     public var encounterType: String?
     public var build: Int32?
     public var published: Bool?
@@ -19,8 +19,18 @@ open class FormCreate: JSONEncodable {
     public var xslt: String?
     public var template: String?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, version: String, encounterType: String?=nil, build: Int32?=nil, published: Bool?=nil, formFields: [String]?=nil, xslt: String?=nil, template: String?=nil) {
+        self.name = name
+        self.description = description
+        self.version = version
+        self.encounterType = encounterType
+        self.build = build
+        self.published = published
+        self.formFields = formFields
+        self.xslt = xslt
+        self.template = template
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

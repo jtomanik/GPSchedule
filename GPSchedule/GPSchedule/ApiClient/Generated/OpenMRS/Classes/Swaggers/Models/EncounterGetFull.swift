@@ -22,8 +22,21 @@ open class EncounterGetFull: JSONEncodable {
     public var obs: [ObsGet]?
     public var orders: [OrderGet]?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, encounterDatetime: ISOFullDate?=nil, provider: String?=nil, voided: Bool?=nil, patient: PatientGet?=nil, location: LocationGet?=nil, form: FormGet?=nil, encounterType: EncountertypeGet?=nil, obs: [ObsGet]?=nil, orders: [OrderGet]?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.encounterDatetime = encounterDatetime
+        self.provider = provider
+        self.voided = voided
+        self.patient = patient
+        self.location = location
+        self.form = form
+        self.encounterType = encounterType
+        self.obs = obs
+        self.orders = orders
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

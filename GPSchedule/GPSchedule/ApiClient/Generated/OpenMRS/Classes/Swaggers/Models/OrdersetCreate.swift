@@ -17,8 +17,11 @@ open class OrdersetCreate: JSONEncodable {
         public var _operator: Operator?
     public var orderSetMembers: [OrdersetOrdersetmemberCreate]?
 
-    public init() {}
 
+    public init(_operator: Operator?=nil, orderSetMembers: [OrdersetOrdersetmemberCreate]?=nil) {
+        self._operator = _operator
+        self.orderSetMembers = orderSetMembers
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

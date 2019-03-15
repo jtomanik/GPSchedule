@@ -9,23 +9,32 @@ import Foundation
 
 
 open class ProgramenrollmentCreate: JSONEncodable {
-    public var patient: String?
-    public var program: String?
-    public var dateEnrolled: ISOFullDate?
+    public var patient: String
+    public var program: String
+    public var dateEnrolled: ISOFullDate
     public var dateCompleted: ISOFullDate?
     public var location: String?
     public var voided: Bool?
     public var states: [ProgramenrollmentStateCreate]?
     public var outcome: ConceptCreate?
 
-    public init() {}
 
+    public init(patient: String, program: String, dateEnrolled: ISOFullDate, dateCompleted: ISOFullDate?=nil, location: String?=nil, voided: Bool?=nil, states: [ProgramenrollmentStateCreate]?=nil, outcome: ConceptCreate?=nil) {
+        self.patient = patient
+        self.program = program
+        self.dateEnrolled = dateEnrolled
+        self.dateCompleted = dateCompleted
+        self.location = location
+        self.voided = voided
+        self.states = states
+        self.outcome = outcome
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["patient"] = self.patient
         nillableDictionary["program"] = self.program
-        nillableDictionary["dateEnrolled"] = self.dateEnrolled?.encodeToJSON()
+        nillableDictionary["dateEnrolled"] = self.dateEnrolled.encodeToJSON()
         nillableDictionary["dateCompleted"] = self.dateCompleted?.encodeToJSON()
         nillableDictionary["location"] = self.location
         nillableDictionary["voided"] = self.voided

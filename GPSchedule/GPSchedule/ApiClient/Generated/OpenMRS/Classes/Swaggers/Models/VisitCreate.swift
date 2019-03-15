@@ -9,8 +9,8 @@ import Foundation
 
 
 open class VisitCreate: JSONEncodable {
-    public var patient: String?
-    public var visitType: String?
+    public var patient: String
+    public var visitType: String
     public var startDatetime: ISOFullDate?
     public var location: String?
     public var indication: String?
@@ -18,8 +18,17 @@ open class VisitCreate: JSONEncodable {
     public var encounters: [String]?
     public var attributes: [VisitAttributeCreate]?
 
-    public init() {}
 
+    public init(patient: String, visitType: String, startDatetime: ISOFullDate?=nil, location: String?=nil, indication: String?=nil, stopDatetime: ISOFullDate?=nil, encounters: [String]?=nil, attributes: [VisitAttributeCreate]?=nil) {
+        self.patient = patient
+        self.visitType = visitType
+        self.startDatetime = startDatetime
+        self.location = location
+        self.indication = indication
+        self.stopDatetime = stopDatetime
+        self.encounters = encounters
+        self.attributes = attributes
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

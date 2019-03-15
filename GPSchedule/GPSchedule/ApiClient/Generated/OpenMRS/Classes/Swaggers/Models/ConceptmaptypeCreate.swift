@@ -9,12 +9,16 @@ import Foundation
 
 
 open class ConceptmaptypeCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
     public var isHidden: Bool?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, isHidden: Bool?=nil) {
+        self.name = name
+        self.description = description
+        self.isHidden = isHidden
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

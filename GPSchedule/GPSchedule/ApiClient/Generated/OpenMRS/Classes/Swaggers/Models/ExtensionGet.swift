@@ -25,8 +25,24 @@ open class ExtensionGet: JSONEncodable {
     public var extensionParams: [String:String]?
     public var belongsTo: AppGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, appId: String?=nil, extensionPointId: String?=nil, type: String?=nil, label: String?=nil, url: String?=nil, icon: String?=nil, order: Int32?=nil, requiredPrivilege: String?=nil, featureToggle: String?=nil, require: String?=nil, script: String?=nil, extensionParams: [String:String]?=nil, belongsTo: AppGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.appId = appId
+        self.extensionPointId = extensionPointId
+        self.type = type
+        self.label = label
+        self.url = url
+        self.icon = icon
+        self.order = order
+        self.requiredPrivilege = requiredPrivilege
+        self.featureToggle = featureToggle
+        self.require = require
+        self.script = script
+        self.extensionParams = extensionParams
+        self.belongsTo = belongsTo
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

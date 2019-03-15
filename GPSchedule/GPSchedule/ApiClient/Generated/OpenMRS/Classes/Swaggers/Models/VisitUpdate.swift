@@ -17,8 +17,16 @@ open class VisitUpdate: JSONEncodable {
     public var encounters: [EncounterCreate]?
     public var attributes: [String]?
 
-    public init() {}
 
+    public init(visitType: VisittypeCreate?=nil, startDatetime: ISOFullDate?=nil, location: LocationCreate?=nil, indication: ConceptCreate?=nil, stopDatetime: ISOFullDate?=nil, encounters: [EncounterCreate]?=nil, attributes: [String]?=nil) {
+        self.visitType = visitType
+        self.startDatetime = startDatetime
+        self.location = location
+        self.indication = indication
+        self.stopDatetime = stopDatetime
+        self.encounters = encounters
+        self.attributes = attributes
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

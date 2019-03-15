@@ -7,7 +7,17 @@
 //
 
 import Foundation
+import OpenMRS
 
 protocol Sourcery {}
-
 protocol BasicViewGenerator: Sourcery {}
+protocol DomainImportable: Sourcery {
+    var uuid: String? { get }
+}
+
+protocol DomainMapable: Sourcery {}
+
+extension String: DomainMapable {}
+
+// sourcery: target = "User"
+extension UserGet: DomainImportable {}

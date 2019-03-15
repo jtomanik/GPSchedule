@@ -21,13 +21,13 @@ open class OrderCreate: JSONEncodable {
         case onScheduledDate = "ON_SCHEDULED_DATE"
     }
     public var encounter: String?
-    public var orderType: String?
+    public var orderType: String
         public var action: Action?
     public var accessionNumber: String?
     public var dateActivated: ISOFullDate?
     public var scheduledDate: ISOFullDate?
-    public var patient: String?
-    public var concept: String?
+    public var patient: String
+    public var concept: String
     public var careSetting: String?
     public var dateStopped: ISOFullDate?
     public var autoExpireDate: ISOFullDate?
@@ -39,8 +39,27 @@ open class OrderCreate: JSONEncodable {
     public var instructions: String?
     public var commentToFulfiller: String?
 
-    public init() {}
 
+    public init(encounter: String?=nil, orderType: String, action: Action?=nil, accessionNumber: String?=nil, dateActivated: ISOFullDate?=nil, scheduledDate: ISOFullDate?=nil, patient: String, concept: String, careSetting: String?=nil, dateStopped: ISOFullDate?=nil, autoExpireDate: ISOFullDate?=nil, orderer: String?=nil, previousOrder: String?=nil, urgency: Urgency?=nil, orderReason: String?=nil, orderReasonNonCoded: String?=nil, instructions: String?=nil, commentToFulfiller: String?=nil) {
+        self.encounter = encounter
+        self.orderType = orderType
+        self.action = action
+        self.accessionNumber = accessionNumber
+        self.dateActivated = dateActivated
+        self.scheduledDate = scheduledDate
+        self.patient = patient
+        self.concept = concept
+        self.careSetting = careSetting
+        self.dateStopped = dateStopped
+        self.autoExpireDate = autoExpireDate
+        self.orderer = orderer
+        self.previousOrder = previousOrder
+        self.urgency = urgency
+        self.orderReason = orderReason
+        self.orderReasonNonCoded = orderReasonNonCoded
+        self.instructions = instructions
+        self.commentToFulfiller = commentToFulfiller
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

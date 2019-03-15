@@ -9,11 +9,14 @@ import Foundation
 
 
 open class VisitAttributeCreate: JSONEncodable {
-    public var attributeType: String?
-    public var value: String?
+    public var attributeType: String
+    public var value: String
 
-    public init() {}
 
+    public init(attributeType: String, value: String) {
+        self.attributeType = attributeType
+        self.value = value
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

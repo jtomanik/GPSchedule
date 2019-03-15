@@ -13,8 +13,12 @@ open class ConceptmaptypeGet: JSONEncodable {
     public var display: String?
     public var isHidden: Bool?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, isHidden: Bool?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.isHidden = isHidden
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

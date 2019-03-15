@@ -11,8 +11,10 @@ import Foundation
 open class ReportingrestDataSetGetFull: JSONEncodable {
     public var auditInfo: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil) {
+        self.auditInfo = auditInfo
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

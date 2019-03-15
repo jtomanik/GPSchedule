@@ -21,13 +21,13 @@ open class OrderCreateFull: JSONEncodable {
         case onScheduledDate = "ON_SCHEDULED_DATE"
     }
     public var encounter: EncounterCreate?
-    public var orderType: String?
+    public var orderType: String
         public var action: Action?
     public var accessionNumber: String?
     public var dateActivated: ISOFullDate?
     public var scheduledDate: ISOFullDate?
-    public var patient: PatientCreate?
-    public var concept: ConceptCreate?
+    public var patient: PatientCreate
+    public var concept: ConceptCreate
     public var careSetting: String?
     public var dateStopped: ISOFullDate?
     public var autoExpireDate: ISOFullDate?
@@ -39,8 +39,27 @@ open class OrderCreateFull: JSONEncodable {
     public var instructions: String?
     public var commentToFulfiller: String?
 
-    public init() {}
 
+    public init(encounter: EncounterCreate?=nil, orderType: String, action: Action?=nil, accessionNumber: String?=nil, dateActivated: ISOFullDate?=nil, scheduledDate: ISOFullDate?=nil, patient: PatientCreate, concept: ConceptCreate, careSetting: String?=nil, dateStopped: ISOFullDate?=nil, autoExpireDate: ISOFullDate?=nil, orderer: UserCreate?=nil, previousOrder: OrderCreate?=nil, urgency: Urgency?=nil, orderReason: ConceptCreate?=nil, orderReasonNonCoded: String?=nil, instructions: String?=nil, commentToFulfiller: String?=nil) {
+        self.encounter = encounter
+        self.orderType = orderType
+        self.action = action
+        self.accessionNumber = accessionNumber
+        self.dateActivated = dateActivated
+        self.scheduledDate = scheduledDate
+        self.patient = patient
+        self.concept = concept
+        self.careSetting = careSetting
+        self.dateStopped = dateStopped
+        self.autoExpireDate = autoExpireDate
+        self.orderer = orderer
+        self.previousOrder = previousOrder
+        self.urgency = urgency
+        self.orderReason = orderReason
+        self.orderReasonNonCoded = orderReasonNonCoded
+        self.instructions = instructions
+        self.commentToFulfiller = commentToFulfiller
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
@@ -50,8 +69,8 @@ open class OrderCreateFull: JSONEncodable {
         nillableDictionary["accessionNumber"] = self.accessionNumber
         nillableDictionary["dateActivated"] = self.dateActivated?.encodeToJSON()
         nillableDictionary["scheduledDate"] = self.scheduledDate?.encodeToJSON()
-        nillableDictionary["patient"] = self.patient?.encodeToJSON()
-        nillableDictionary["concept"] = self.concept?.encodeToJSON()
+        nillableDictionary["patient"] = self.patient.encodeToJSON()
+        nillableDictionary["concept"] = self.concept.encodeToJSON()
         nillableDictionary["careSetting"] = self.careSetting
         nillableDictionary["dateStopped"] = self.dateStopped?.encodeToJSON()
         nillableDictionary["autoExpireDate"] = self.autoExpireDate?.encodeToJSON()

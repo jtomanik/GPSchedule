@@ -16,8 +16,15 @@ open class ProviderAttributeGetFull: JSONEncodable {
     public var value: String?
     public var voided: Bool?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, display: String?=nil, uuid: String?=nil, attributeType: String?=nil, value: String?=nil, voided: Bool?=nil) {
+        self.auditInfo = auditInfo
+        self.display = display
+        self.uuid = uuid
+        self.attributeType = attributeType
+        self.value = value
+        self.voided = voided
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -38,8 +38,13 @@ open class ObsGetRef: JSONEncodable {
         public var status: Status?
         public var interpretation: Interpretation?
 
-    public init() {}
 
+    public init(formFieldPath: String?=nil, formFieldNamespace: String?=nil, status: Status?=nil, interpretation: Interpretation?=nil) {
+        self.formFieldPath = formFieldPath
+        self.formFieldNamespace = formFieldNamespace
+        self.status = status
+        self.interpretation = interpretation
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

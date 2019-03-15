@@ -16,8 +16,15 @@ open class CohortGetFull: JSONEncodable {
     public var description: String?
     public var voided: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, voided: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.voided = voided
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -22,8 +22,21 @@ open class PersonattributetypeGetFull: JSONEncodable {
     public var editPrivilege: PrivilegeGet?
     public var concept: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, format: String?=nil, foreignKey: Int32?=nil, sortWeight: Double?=nil, searchable: Bool?=nil, editPrivilege: PrivilegeGet?=nil, concept: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.format = format
+        self.foreignKey = foreignKey
+        self.sortWeight = sortWeight
+        self.searchable = searchable
+        self.editPrivilege = editPrivilege
+        self.concept = concept
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

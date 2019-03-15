@@ -10,10 +10,6 @@ import Foundation
 import RxSwift
 import RxSwiftExt
 
-struct User: DomainModel, Equatable {
-    let username: String
-}
-
 enum AuthError: Error {
     case unknown
     case errorMessage(String)
@@ -95,7 +91,7 @@ class RootUseCase: GenericUseCase<RootState> {
         case .unlock:
             return state
         case .error:
-            return state
+            return .error(DomainError.genericError)
         }
     }
 

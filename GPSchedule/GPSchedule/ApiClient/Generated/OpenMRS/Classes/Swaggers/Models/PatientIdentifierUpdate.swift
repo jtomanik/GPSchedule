@@ -9,13 +9,18 @@ import Foundation
 
 
 open class PatientIdentifierUpdate: JSONEncodable {
-    public var identifier: String?
-    public var identifierType: String?
+    public var identifier: String
+    public var identifierType: String
     public var location: String?
     public var preferred: Bool?
 
-    public init() {}
 
+    public init(identifier: String, identifierType: String, location: String?=nil, preferred: Bool?=nil) {
+        self.identifier = identifier
+        self.identifierType = identifierType
+        self.location = location
+        self.preferred = preferred
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

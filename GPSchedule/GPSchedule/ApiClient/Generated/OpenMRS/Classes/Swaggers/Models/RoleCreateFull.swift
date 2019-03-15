@@ -9,13 +9,18 @@ import Foundation
 
 
 open class RoleCreateFull: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
     public var privileges: [PrivilegeCreate]?
     public var inheritedRoles: [RoleCreate]?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, privileges: [PrivilegeCreate]?=nil, inheritedRoles: [RoleCreate]?=nil) {
+        self.name = name
+        self.description = description
+        self.privileges = privileges
+        self.inheritedRoles = inheritedRoles
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

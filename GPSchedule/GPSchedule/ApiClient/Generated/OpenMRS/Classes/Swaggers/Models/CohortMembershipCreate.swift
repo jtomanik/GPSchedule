@@ -13,8 +13,12 @@ open class CohortMembershipCreate: JSONEncodable {
     public var startDate: ISOFullDate?
     public var endDate: ISOFullDate?
 
-    public init() {}
 
+    public init(patientUuid: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil) {
+        self.patientUuid = patientUuid
+        self.startDate = startDate
+        self.endDate = endDate
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

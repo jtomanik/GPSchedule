@@ -1,5 +1,6 @@
 {
    "projectName":"OpenMRS",
    "podHomepage":"http://www.openmrs.org",
-   "podSummary":"OpenMRS API Client"
+   "podSummary":"OpenMRS API Client",
+   "unwrapRequired": true
 }

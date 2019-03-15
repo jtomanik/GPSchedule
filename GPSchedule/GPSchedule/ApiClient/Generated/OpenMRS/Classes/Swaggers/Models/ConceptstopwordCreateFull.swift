@@ -9,11 +9,14 @@ import Foundation
 
 
 open class ConceptstopwordCreateFull: JSONEncodable {
-    public var value: String?
+    public var value: String
     public var locale: String?
 
-    public init() {}
 
+    public init(value: String, locale: String?=nil) {
+        self.value = value
+        self.locale = locale
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

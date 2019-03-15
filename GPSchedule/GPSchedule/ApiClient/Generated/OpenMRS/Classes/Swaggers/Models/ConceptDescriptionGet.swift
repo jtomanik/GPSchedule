@@ -14,8 +14,13 @@ open class ConceptDescriptionGet: JSONEncodable {
     public var description: String?
     public var locale: String?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, description: String?=nil, locale: String?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.description = description
+        self.locale = locale
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

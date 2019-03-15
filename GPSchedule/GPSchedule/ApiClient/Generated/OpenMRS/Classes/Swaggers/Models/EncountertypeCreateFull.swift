@@ -9,11 +9,14 @@ import Foundation
 
 
 open class EncountertypeCreateFull: JSONEncodable {
-    public var name: String?
-    public var description: String?
+    public var name: String
+    public var description: String
 
-    public init() {}
 
+    public init(name: String, description: String) {
+        self.name = name
+        self.description = description
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

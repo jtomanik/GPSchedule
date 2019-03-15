@@ -16,8 +16,15 @@ open class ProviderattributetypeGet: JSONEncodable {
     public var datatypeClassname: String?
     public var preferredHandlerClassname: String?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, minOccurs: Int32?=nil, maxOccurs: Int32?=nil, datatypeClassname: String?=nil, preferredHandlerClassname: String?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.minOccurs = minOccurs
+        self.maxOccurs = maxOccurs
+        self.datatypeClassname = datatypeClassname
+        self.preferredHandlerClassname = preferredHandlerClassname
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

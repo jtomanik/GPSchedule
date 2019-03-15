@@ -9,16 +9,24 @@ import Foundation
 
 
 open class PersonattributetypeCreate: JSONEncodable {
-    public var name: String?
-    public var description: String?
+    public var name: String
+    public var description: String
     public var format: String?
     public var foreignKey: Int32?
     public var sortWeight: Double?
     public var searchable: Bool?
     public var editPrivilege: PrivilegeCreate?
 
-    public init() {}
 
+    public init(name: String, description: String, format: String?=nil, foreignKey: Int32?=nil, sortWeight: Double?=nil, searchable: Bool?=nil, editPrivilege: PrivilegeCreate?=nil) {
+        self.name = name
+        self.description = description
+        self.format = format
+        self.foreignKey = foreignKey
+        self.sortWeight = sortWeight
+        self.searchable = searchable
+        self.editPrivilege = editPrivilege
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

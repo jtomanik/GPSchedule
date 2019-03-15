@@ -13,7 +13,7 @@ open class PatientidentifiertypeUpdate: JSONEncodable {
         case _required = "REQUIRED"
         case notUsed = "NOT_USED"
     }
-    public var name: String?
+    public var name: String
     public var description: String?
     public var format: String?
     public var formatDescription: String?
@@ -23,8 +23,18 @@ open class PatientidentifiertypeUpdate: JSONEncodable {
         public var locationBehavior: LocationBehavior?
     public var uniquenessBehavior: String?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, format: String?=nil, formatDescription: String?=nil, _required: Bool?=nil, checkDigit: Bool?=nil, validator: String?=nil, locationBehavior: LocationBehavior?=nil, uniquenessBehavior: String?=nil) {
+        self.name = name
+        self.description = description
+        self.format = format
+        self.formatDescription = formatDescription
+        self._required = _required
+        self.checkDigit = checkDigit
+        self.validator = validator
+        self.locationBehavior = locationBehavior
+        self.uniquenessBehavior = uniquenessBehavior
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

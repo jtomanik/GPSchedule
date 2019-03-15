@@ -9,14 +9,14 @@
 import Foundation
 import RxSwift
 
-struct MockAuthService: AuthService {
-
-    static func logIn(username: String, password: String) -> MockAuthService {
-        return MockAuthService()
-    }
-
-    func execute() -> Single<User> {
-        let user = User(username: "Mr Mock")
-        return Single.just(user).delay(5, scheduler: MainScheduler.instance)
-    }
-}
+//struct MockAuthService: AuthService {
+//
+//    static func logIn(username: String, password: String) -> MockAuthService {
+//        return MockAuthService()
+//    }
+//
+//    func execute() -> Single<User> {
+//        let user = User(uuid: "xxx", display: nil, username: "Mr. Mock")
+//        return Single.just(user).delay(5, scheduler: MainScheduler.instance)
+//    }
+//}

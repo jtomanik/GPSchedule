@@ -9,13 +9,18 @@ import Foundation
 
 
 open class ConceptsourceCreateFull: JSONEncodable {
-    public var name: String?
-    public var description: String?
+    public var name: String
+    public var description: String
     public var hl7Code: String?
     public var uniqueId: String?
 
-    public init() {}
 
+    public init(name: String, description: String, hl7Code: String?=nil, uniqueId: String?=nil) {
+        self.name = name
+        self.description = description
+        self.hl7Code = hl7Code
+        self.uniqueId = uniqueId
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

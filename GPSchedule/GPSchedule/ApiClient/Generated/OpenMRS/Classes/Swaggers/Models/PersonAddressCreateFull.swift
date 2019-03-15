@@ -26,8 +26,25 @@ open class PersonAddressCreateFull: JSONEncodable {
     public var latitude: String?
     public var longitude: String?
 
-    public init() {}
 
+    public init(preferred: Bool?=nil, address1: String?=nil, address2: String?=nil, cityVillage: String?=nil, stateProvince: String?=nil, country: String?=nil, postalCode: String?=nil, countyDistrict: String?=nil, address3: String?=nil, address4: String?=nil, address5: String?=nil, address6: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, latitude: String?=nil, longitude: String?=nil) {
+        self.preferred = preferred
+        self.address1 = address1
+        self.address2 = address2
+        self.cityVillage = cityVillage
+        self.stateProvince = stateProvince
+        self.country = country
+        self.postalCode = postalCode
+        self.countyDistrict = countyDistrict
+        self.address3 = address3
+        self.address4 = address4
+        self.address5 = address5
+        self.address6 = address6
+        self.startDate = startDate
+        self.endDate = endDate
+        self.latitude = latitude
+        self.longitude = longitude
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

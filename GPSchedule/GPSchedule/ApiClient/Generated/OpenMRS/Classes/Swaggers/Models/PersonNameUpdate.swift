@@ -9,7 +9,7 @@ import Foundation
 
 
 open class PersonNameUpdate: JSONEncodable {
-    public var givenName: String?
+    public var givenName: String
     public var middleName: String?
     public var familyName: String?
     public var familyName2: String?
@@ -19,8 +19,18 @@ open class PersonNameUpdate: JSONEncodable {
     public var familyNameSuffix: String?
     public var degree: String?
 
-    public init() {}
 
+    public init(givenName: String, middleName: String?=nil, familyName: String?=nil, familyName2: String?=nil, preferred: Bool?=nil, _prefix: String?=nil, familyNamePrefix: String?=nil, familyNameSuffix: String?=nil, degree: String?=nil) {
+        self.givenName = givenName
+        self.middleName = middleName
+        self.familyName = familyName
+        self.familyName2 = familyName2
+        self.preferred = preferred
+        self._prefix = _prefix
+        self.familyNamePrefix = familyNamePrefix
+        self.familyNameSuffix = familyNameSuffix
+        self.degree = degree
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

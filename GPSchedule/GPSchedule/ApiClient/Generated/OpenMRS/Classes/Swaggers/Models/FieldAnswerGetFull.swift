@@ -15,8 +15,14 @@ open class FieldAnswerGetFull: JSONEncodable {
     public var concept: ConceptGet?
     public var field: FieldGet?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, concept: ConceptGet?=nil, field: FieldGet?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.concept = concept
+        self.field = field
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

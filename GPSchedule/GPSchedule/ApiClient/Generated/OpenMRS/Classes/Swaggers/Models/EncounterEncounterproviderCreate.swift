@@ -13,8 +13,12 @@ open class EncounterEncounterproviderCreate: JSONEncodable {
     public var encounterRole: String?
     public var encounter: String?
 
-    public init() {}
 
+    public init(provider: String?=nil, encounterRole: String?=nil, encounter: String?=nil) {
+        self.provider = provider
+        self.encounterRole = encounterRole
+        self.encounter = encounter
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

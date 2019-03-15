@@ -9,7 +9,7 @@ import Foundation
 
 
 open class SystemsettingCreateFull: JSONEncodable {
-    public var property: String?
+    public var property: String
     public var description: String?
     public var datatypeClassname: String?
     public var datatypeConfig: String?
@@ -17,8 +17,16 @@ open class SystemsettingCreateFull: JSONEncodable {
     public var handlerConfig: String?
     public var value: String?
 
-    public init() {}
 
+    public init(property: String, description: String?=nil, datatypeClassname: String?=nil, datatypeConfig: String?=nil, preferredHandlerClassname: String?=nil, handlerConfig: String?=nil, value: String?=nil) {
+        self.property = property
+        self.description = description
+        self.datatypeClassname = datatypeClassname
+        self.datatypeConfig = datatypeConfig
+        self.preferredHandlerClassname = preferredHandlerClassname
+        self.handlerConfig = handlerConfig
+        self.value = value
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

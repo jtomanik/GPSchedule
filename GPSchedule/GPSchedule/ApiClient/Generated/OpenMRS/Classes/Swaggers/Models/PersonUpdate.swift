@@ -13,8 +13,8 @@ open class PersonUpdate: JSONEncodable {
         case m = "M"
         case f = "F"
     }
-    public var dead: Bool?
-    public var causeOfDeath: String?
+    public var dead: Bool
+    public var causeOfDeath: String
     public var deathDate: ISOFullDate?
     public var age: Int32?
         public var gender: Gender?
@@ -26,8 +26,21 @@ open class PersonUpdate: JSONEncodable {
     public var deathdateEstimated: Bool?
     public var birthtime: Date?
 
-    public init() {}
 
+    public init(dead: Bool, causeOfDeath: String, deathDate: ISOFullDate?=nil, age: Int32?=nil, gender: Gender?=nil, birthdate: ISOFullDate?=nil, birthdateEstimated: Bool?=nil, preferredName: String?=nil, preferredAddress: String?=nil, attributes: [PersonAttributeCreate]?=nil, deathdateEstimated: Bool?=nil, birthtime: Date?=nil) {
+        self.dead = dead
+        self.causeOfDeath = causeOfDeath
+        self.deathDate = deathDate
+        self.age = age
+        self.gender = gender
+        self.birthdate = birthdate
+        self.birthdateEstimated = birthdateEstimated
+        self.preferredName = preferredName
+        self.preferredAddress = preferredAddress
+        self.attributes = attributes
+        self.deathdateEstimated = deathdateEstimated
+        self.birthtime = birthtime
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

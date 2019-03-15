@@ -13,8 +13,8 @@ open class PersonCreate: JSONEncodable {
         case m = "M"
         case f = "F"
     }
-    public var names: [PersonNameCreate]?
-        public var gender: Gender?
+    public var names: [PersonNameCreate]
+        public var gender: Gender
     public var age: Int32?
     public var birthdate: ISOFullDate?
     public var birthdateEstimated: Bool?
@@ -26,13 +26,26 @@ open class PersonCreate: JSONEncodable {
     public var deathdateEstimated: Bool?
     public var birthtime: Date?
 
-    public init() {}
 
+    public init(names: [PersonNameCreate], gender: Gender, age: Int32?=nil, birthdate: ISOFullDate?=nil, birthdateEstimated: Bool?=nil, dead: Bool?=nil, deathDate: ISOFullDate?=nil, causeOfDeath: String?=nil, addresses: [PersonAddressCreate]?=nil, attributes: [PersonAttributeCreate]?=nil, deathdateEstimated: Bool?=nil, birthtime: Date?=nil) {
+        self.names = names
+        self.gender = gender
+        self.age = age
+        self.birthdate = birthdate
+        self.birthdateEstimated = birthdateEstimated
+        self.dead = dead
+        self.deathDate = deathDate
+        self.causeOfDeath = causeOfDeath
+        self.addresses = addresses
+        self.attributes = attributes
+        self.deathdateEstimated = deathdateEstimated
+        self.birthtime = birthtime
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["names"] = self.names?.encodeToJSON()
-        nillableDictionary["gender"] = self.gender?.rawValue
+        nillableDictionary["names"] = self.names.encodeToJSON()
+        nillableDictionary["gender"] = self.gender.rawValue
         nillableDictionary["age"] = self.age?.encodeToJSON()
         nillableDictionary["birthdate"] = self.birthdate?.encodeToJSON()
         nillableDictionary["birthdateEstimated"] = self.birthdateEstimated

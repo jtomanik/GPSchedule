@@ -18,17 +18,22 @@ open class ModuleactionCreate: JSONEncodable {
     }
     public var modules: [String]?
     public var allModules: Bool?
-        public var action: Action?
+        public var action: Action
     public var installUri: String?
 
-    public init() {}
 
+    public init(modules: [String]?=nil, allModules: Bool?=nil, action: Action, installUri: String?=nil) {
+        self.modules = modules
+        self.allModules = allModules
+        self.action = action
+        self.installUri = installUri
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["modules"] = self.modules?.encodeToJSON()
         nillableDictionary["allModules"] = self.allModules
-        nillableDictionary["action"] = self.action?.rawValue
+        nillableDictionary["action"] = self.action.rawValue
         nillableDictionary["installUri"] = self.installUri
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]

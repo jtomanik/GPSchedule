@@ -9,16 +9,19 @@ import Foundation
 
 
 open class PatientCreateFull: JSONEncodable {
-    public var person: PersonCreate?
-    public var identifiers: [PatientIdentifierCreate]?
+    public var person: PersonCreate
+    public var identifiers: [PatientIdentifierCreate]
 
-    public init() {}
 
+    public init(person: PersonCreate, identifiers: [PatientIdentifierCreate]) {
+        self.person = person
+        self.identifiers = identifiers
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["person"] = self.person?.encodeToJSON()
-        nillableDictionary["identifiers"] = self.identifiers?.encodeToJSON()
+        nillableDictionary["person"] = self.person.encodeToJSON()
+        nillableDictionary["identifiers"] = self.identifiers.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

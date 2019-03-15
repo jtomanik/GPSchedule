@@ -10,8 +10,9 @@ import Foundation
 
 open class WorkflowStateCreateFull: JSONEncodable {
 
-    public init() {}
 
+    public init() {
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

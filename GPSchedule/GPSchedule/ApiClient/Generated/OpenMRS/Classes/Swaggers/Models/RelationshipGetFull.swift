@@ -17,8 +17,16 @@ open class RelationshipGetFull: JSONEncodable {
     public var relationshipType: RelationshiptypeGet?
     public var personB: PersonGet?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, voided: Bool?=nil, personA: PersonGet?=nil, relationshipType: RelationshiptypeGet?=nil, personB: PersonGet?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.voided = voided
+        self.personA = personA
+        self.relationshipType = relationshipType
+        self.personB = personB
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

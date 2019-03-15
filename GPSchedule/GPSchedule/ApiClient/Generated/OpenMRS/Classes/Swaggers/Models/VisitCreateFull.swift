@@ -9,8 +9,8 @@ import Foundation
 
 
 open class VisitCreateFull: JSONEncodable {
-    public var patient: PatientCreate?
-    public var visitType: VisittypeCreate?
+    public var patient: PatientCreate
+    public var visitType: VisittypeCreate
     public var startDatetime: ISOFullDate?
     public var location: LocationCreate?
     public var indication: ConceptCreate?
@@ -18,13 +18,22 @@ open class VisitCreateFull: JSONEncodable {
     public var encounters: [EncounterCreate]?
     public var attributes: [VisitAttributeCreate]?
 
-    public init() {}
 
+    public init(patient: PatientCreate, visitType: VisittypeCreate, startDatetime: ISOFullDate?=nil, location: LocationCreate?=nil, indication: ConceptCreate?=nil, stopDatetime: ISOFullDate?=nil, encounters: [EncounterCreate]?=nil, attributes: [VisitAttributeCreate]?=nil) {
+        self.patient = patient
+        self.visitType = visitType
+        self.startDatetime = startDatetime
+        self.location = location
+        self.indication = indication
+        self.stopDatetime = stopDatetime
+        self.encounters = encounters
+        self.attributes = attributes
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["patient"] = self.patient?.encodeToJSON()
-        nillableDictionary["visitType"] = self.visitType?.encodeToJSON()
+        nillableDictionary["patient"] = self.patient.encodeToJSON()
+        nillableDictionary["visitType"] = self.visitType.encodeToJSON()
         nillableDictionary["startDatetime"] = self.startDatetime?.encodeToJSON()
         nillableDictionary["location"] = self.location?.encodeToJSON()
         nillableDictionary["indication"] = self.indication?.encodeToJSON()

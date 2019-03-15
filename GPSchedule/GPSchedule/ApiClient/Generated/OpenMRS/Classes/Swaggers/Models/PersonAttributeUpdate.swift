@@ -9,12 +9,16 @@ import Foundation
 
 
 open class PersonAttributeUpdate: JSONEncodable {
-    public var attributeType: String?
+    public var attributeType: String
     public var value: String?
     public var hydratedObject: String?
 
-    public init() {}
 
+    public init(attributeType: String, value: String?=nil, hydratedObject: String?=nil) {
+        self.attributeType = attributeType
+        self.value = value
+        self.hydratedObject = hydratedObject
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

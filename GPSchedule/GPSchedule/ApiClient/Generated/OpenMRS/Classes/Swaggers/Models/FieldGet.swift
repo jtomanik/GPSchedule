@@ -18,8 +18,17 @@ open class FieldGet: JSONEncodable {
     public var fieldType: FieldtypeGetRef?
     public var concept: ConceptGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, tableName: String?=nil, attributeName: String?=nil, defaultValue: String?=nil, selectMultiple: Bool?=nil, fieldType: FieldtypeGetRef?=nil, concept: ConceptGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.tableName = tableName
+        self.attributeName = attributeName
+        self.defaultValue = defaultValue
+        self.selectMultiple = selectMultiple
+        self.fieldType = fieldType
+        self.concept = concept
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -21,8 +21,15 @@ open class ConceptNameGet: JSONEncodable {
     public var localePreferred: Bool?
         public var conceptNameType: ConceptNameType?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, name: String?=nil, locale: String?=nil, localePreferred: Bool?=nil, conceptNameType: ConceptNameType?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.locale = locale
+        self.localePreferred = localePreferred
+        self.conceptNameType = conceptNameType
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

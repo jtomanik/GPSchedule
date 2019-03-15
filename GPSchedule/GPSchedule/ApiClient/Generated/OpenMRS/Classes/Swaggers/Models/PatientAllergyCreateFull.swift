@@ -9,13 +9,18 @@ import Foundation
 
 
 open class PatientAllergyCreateFull: JSONEncodable {
-    public var allergen: Any?
+    public var allergen: Any
     public var severity: Any?
     public var comment: String?
     public var reactions: [Any]?
 
-    public init() {}
 
+    public init(allergen: Any, severity: Any?=nil, comment: String?=nil, reactions: [Any]?=nil) {
+        self.allergen = allergen
+        self.severity = severity
+        self.comment = comment
+        self.reactions = reactions
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

@@ -15,8 +15,14 @@ open class ConceptreferencetermGet: JSONEncodable {
     public var version: String?
     public var conceptSource: ConceptsourceGetRef?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil, code: String?=nil, version: String?=nil, conceptSource: ConceptsourceGetRef?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.code = code
+        self.version = version
+        self.conceptSource = conceptSource
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

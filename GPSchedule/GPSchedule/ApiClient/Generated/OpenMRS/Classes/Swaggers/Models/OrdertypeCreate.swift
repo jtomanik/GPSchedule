@@ -9,14 +9,20 @@ import Foundation
 
 
 open class OrdertypeCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var javaClassName: String?
+    public var javaClassName: String
     public var parent: String?
     public var conceptClasses: [String]?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, javaClassName: String, parent: String?=nil, conceptClasses: [String]?=nil) {
+        self.name = name
+        self.description = description
+        self.javaClassName = javaClassName
+        self.parent = parent
+        self.conceptClasses = conceptClasses
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

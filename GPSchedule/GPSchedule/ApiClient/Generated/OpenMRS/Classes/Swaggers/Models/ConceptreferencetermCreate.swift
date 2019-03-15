@@ -9,14 +9,20 @@ import Foundation
 
 
 open class ConceptreferencetermCreate: JSONEncodable {
-    public var name: String?
+    public var name: String
     public var description: String?
-    public var code: String?
-    public var conceptSource: String?
+    public var code: String
+    public var conceptSource: String
     public var version: String?
 
-    public init() {}
 
+    public init(name: String, description: String?=nil, code: String, conceptSource: String, version: String?=nil) {
+        self.name = name
+        self.description = description
+        self.code = code
+        self.conceptSource = conceptSource
+        self.version = version
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

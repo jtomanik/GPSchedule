@@ -9,11 +9,14 @@ import Foundation
 
 
 open class ConceptDescriptionCreate: JSONEncodable {
-    public var description: String?
-    public var locale: String?
+    public var description: String
+    public var locale: String
 
-    public init() {}
 
+    public init(description: String, locale: String) {
+        self.description = description
+        self.locale = locale
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

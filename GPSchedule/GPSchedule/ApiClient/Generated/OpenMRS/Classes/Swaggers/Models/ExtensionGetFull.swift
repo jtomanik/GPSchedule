@@ -13,8 +13,12 @@ open class ExtensionGetFull: JSONEncodable {
     public var uuid: String?
     public var display: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

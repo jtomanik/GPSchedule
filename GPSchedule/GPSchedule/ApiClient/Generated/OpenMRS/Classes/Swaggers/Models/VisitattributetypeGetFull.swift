@@ -22,8 +22,21 @@ open class VisitattributetypeGetFull: JSONEncodable {
     public var datatypeConfig: String?
     public var handlerConfig: String?
 
-    public init() {}
 
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, minOccurs: Int32?=nil, maxOccurs: Int32?=nil, datatypeClassname: String?=nil, preferredHandlerClassname: String?=nil, datatypeConfig: String?=nil, handlerConfig: String?=nil) {
+        self.auditInfo = auditInfo
+        self.uuid = uuid
+        self.display = display
+        self.name = name
+        self.description = description
+        self.retired = retired
+        self.minOccurs = minOccurs
+        self.maxOccurs = maxOccurs
+        self.datatypeClassname = datatypeClassname
+        self.preferredHandlerClassname = preferredHandlerClassname
+        self.datatypeConfig = datatypeConfig
+        self.handlerConfig = handlerConfig
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()

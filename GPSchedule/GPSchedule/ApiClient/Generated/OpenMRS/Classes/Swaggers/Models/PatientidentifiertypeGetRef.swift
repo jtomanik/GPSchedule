@@ -12,8 +12,11 @@ open class PatientidentifiertypeGetRef: JSONEncodable {
     public var uuid: String?
     public var display: String?
 
-    public init() {}
 
+    public init(uuid: String?=nil, display: String?=nil) {
+        self.uuid = uuid
+        self.display = display
+    }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
