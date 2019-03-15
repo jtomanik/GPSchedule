@@ -125,7 +125,7 @@ class GenericUseCase<State: DomainState>: DomainStore {
 
         events
             .distinctUntilChanged() // that may not always be desirable
-            .map { [middlewares] event in middlewares.map{ $0(event) } }
+            .map { [middlewares] event in middlewares.map { $0(event) } }
             .map { Observable.from($0).merge() }.merge()
             .map { [reduce, currentState] in reduce(currentState, $0) }
             .bind(to: state)
@@ -133,15 +133,15 @@ class GenericUseCase<State: DomainState>: DomainStore {
 
         state
             .distinctUntilChanged()
-            .map{ [feedbackLoops] state in feedbackLoops.map{ $0(state) } }
+            .map { [feedbackLoops] state in feedbackLoops.map { $0(state) } }
             .map { Observable.from($0).merge() }.merge()
             .bind(to: events)
             .disposed(by: disposeBag)
 
         state
             .distinctUntilChanged()
-            .subscribeNext(weak: self, { obj in
-                return { obj.currentState = $0
+            .subscribeNext(weak: self, { object in
+                return { object.currentState = $0
                 }})
             .disposed(by: disposeBag)
     }
@@ -210,11 +210,12 @@ class GenericChildViewModel<VS: ViewState, PT: ViewReactor>: GenericViewModel<VS
     typealias Store = PT.Store
     typealias Parent = GenericViewModel<PT.State, Store>
 
-    weak var parent:  Parent?
+    weak var parent: Parent?
 
-    required convenience init(parent: Parent,
-                  transformer: ViewStateTransformer<Store.State, State>?,
-                  reducer: ViewStateReducer<State>?) {
+    required convenience init(
+            parent: Parent,
+            transformer: ViewStateTransformer<Store.State, State>?,
+            reducer: ViewStateReducer<State>?) {
         self.init(store: parent.store, transformer: transformer, reducer: reducer)
         self.parent = parent
     }

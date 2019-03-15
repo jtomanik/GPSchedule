@@ -18,6 +18,7 @@ class TextInputComponentView: UIView, NibLoadable {
     var didUpdate: ((String?) -> Void)?
 
     override func awakeFromNib() {
+        super.awakeFromNib()
         setupView()
     }
 
@@ -74,7 +75,8 @@ extension TextInputComponentView: UITextFieldDelegate {
         return false
     }
 
-    @objc private func textFieldDidChange(_ textField: UITextField) {
+    @objc
+    private func textFieldDidChange(_ textField: UITextField) {
         didUpdate?(textField.text)
     }
 
@@ -117,7 +119,9 @@ final class FocusToolbar: UIToolbar {
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
-        guard newSuperview != nil else { return }
+        guard newSuperview != nil else {
+            return
+        }
         updateAvailability()
     }
 
@@ -128,19 +132,22 @@ final class FocusToolbar: UIToolbar {
         }
     }
 
-    @objc private func moveBackward() {
+    @objc
+    private func moveBackward() {
         view?.withFocusCoordinator { coordinator in
             _ = coordinator.move(.backward)
         }
     }
 
-    @objc private func moveForward() {
+    @objc
+    private func moveForward() {
         view?.withFocusCoordinator { coordinator in
             _ = coordinator.move(.forward)
         }
     }
 
-    @objc private func dismiss() {
+    @objc
+    private func dismiss() {
         view?.endEditing(true)
     }
 }

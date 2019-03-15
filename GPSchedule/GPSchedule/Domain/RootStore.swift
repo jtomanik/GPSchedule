@@ -32,6 +32,7 @@ protocol AppointmentsService: ServiceCommand {
 
 protocol AuthServiceProvider: ServiceProvider {
     associatedtype Service: AuthService
+
     var authService: Service.Type { get }
 }
 
@@ -108,7 +109,7 @@ class RootUseCase: GenericUseCase<RootState> {
 
     convenience init<DependenciesProvider: RootUseCaseDependenciesProvider>(
         initialState: State = RootState(),
-        dependencyProvider: DependenciesProvider)  {
+        dependencyProvider: DependenciesProvider) {
         self.init(initialState: initialState,
                   reducer: RootUseCase.reduce,
                   middlewares: [RootUseCase.authMiddleware(service: dependencyProvider.authService)],

@@ -37,6 +37,7 @@ PODS:
     - RxSwiftExt/Core
   - Sourcery (0.16.0)
   - StyleSheets (0.3)
+  - SwiftLint (0.31.0)
 
 DEPENDENCIES:
   - Bento (from `https://github.com/Babylonpartners/Bento.git`)
@@ -50,6 +51,7 @@ DEPENDENCIES:
   - RxSwiftExt
   - Sourcery
   - StyleSheets (from `https://github.com/Babylonpartners/Bento.git`)
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -66,6 +68,7 @@ SPEC REPOS:
     - RxSwift
     - RxSwiftExt
     - Sourcery
+    - SwiftLint
 
 EXTERNAL SOURCES:
   Bento:
@@ -106,7 +109,8 @@ SPEC CHECKSUMS:
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
   Sourcery: 3e55aad9719ee5782ab81eb16addd44d272e4d13
   StyleSheets: cb35ec6073f95ad4b6ede668f5ba33099bfb3fda
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: 9b72f8f13b2bed3f2457464daba688d3298f5060
+PODFILE CHECKSUM: 1a3b05358fdfe30882406ac95d46a1c84c7e5f16
 
 COCOAPODS: 1.6.1

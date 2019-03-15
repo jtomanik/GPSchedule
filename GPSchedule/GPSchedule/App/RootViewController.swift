@@ -12,20 +12,20 @@ import UIKit
 class RootViewController: GenericViewController<RootViewModel> {
 
     private lazy var logInView: LoginViewController = {
-        let vm = LoginViewModel(parent: viewModel)
-        return LoginViewController(viewModel: vm)
+        let childViewModel = LoginViewModel(parent: viewModel)
+        return LoginViewController(viewModel: childViewModel)
     }()
     private lazy var loggedInView: LoggedInViewController = {
-        let vm = LoggedInViewModel(parent: viewModel)
-        return LoggedInViewController(viewModel: vm)
+        let childViewModel = LoggedInViewModel(parent: viewModel)
+        return LoggedInViewController(viewModel: childViewModel)
     }()
     private lazy var loadingView: LoadingViewController = {
-        let vm = LoadingViewModel(parent: viewModel)
-        return LoadingViewController(viewModel: vm)
+        let childViewModel = LoadingViewModel(parent: viewModel)
+        return LoadingViewController(viewModel: childViewModel)
     }()
     private lazy var errorView: ErrorViewController = {
-        let vm = ErrorViewModel(parent: viewModel)
-        return ErrorViewController(viewModel: vm)
+        let childViewModel = ErrorViewModel(parent: viewModel)
+        return ErrorViewController(viewModel: childViewModel)
     }()
 
     override func setupView() {

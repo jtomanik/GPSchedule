@@ -2,28 +2,30 @@
     {% if type.isGeneric == false %}
     {% set parent %}{{ type.inheritedTypes|join }}{% endset %}
     // sourcery:inline:auto:{{ type.name }}.AutoInit
-    {% if parent|contains:"Child" %}
-     convenience init(parent: RootViewModel) {
-        self.init(parent: parent, transformer: {{ type.name }}.transform, reducer: {{ type.name }}.reduce)
-    }
+// swiftlint:disable all
+        {% if parent|contains:"Child" %}
+convenience init(parent: RootViewModel) {
+    self.init(parent: parent, transformer: {{ type.name }}.transform, reducer: {{ type.name }}.reduce)
+}
 
-    required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-        self.init(store: parent.store, transformer: transformer, reducer: reducer)
-        self.parent = parent
-    }
+required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    self.init(store: parent.store, transformer: transformer, reducer: reducer)
+    self.parent = parent
+}
 
-    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-        super.init(store: store, transformer: transformer, reducer: reducer)
-    }
-    {% else %}
-    convenience init(store: RootUseCase) {
-        self.init(store: store, transformer: {{ type.name }}.transform, reducer: {{ type.name }}.reduce)
-    }
+required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    super.init(store: store, transformer: transformer, reducer: reducer)
+}
+        {% else %}
+convenience init(store: RootUseCase) {
+    self.init(store: store, transformer: {{ type.name }}.transform, reducer: {{ type.name }}.reduce)
+}
 
-    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-        super.init(store: store, transformer: transformer, reducer: reducer)
-    }
-    {% endif %}
+required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    super.init(store: store, transformer: transformer, reducer: reducer)
+}
+        {% endif %}
+// swiftlint:enable all
     // sourcery:end
     {% endif %}
 {% endfor %}

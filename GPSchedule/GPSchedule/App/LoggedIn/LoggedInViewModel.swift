@@ -80,45 +80,21 @@ class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, RootViewModel>
         }
     }
 
-
-
 // sourcery:inline:auto:LoggedInViewModel.AutoInit
+// swiftlint:disable all
+convenience init(parent: RootViewModel) {
+    self.init(parent: parent, transformer: LoggedInViewModel.transform, reducer: LoggedInViewModel.reduce)
+}
 
+required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    self.init(store: parent.store, transformer: transformer, reducer: reducer)
+    self.parent = parent
+}
 
-     convenience init(parent: RootViewModel) {
-
-
-        self.init(parent: parent, transformer: LoggedInViewModel.transform, reducer: LoggedInViewModel.reduce)
-
-
-    }
-
-
-
-
-
-    required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-
-
-        self.init(store: parent.store, transformer: transformer, reducer: reducer)
-
-
-        self.parent = parent
-
-
-    }
-
-
-
-
-
-    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-
-
-        super.init(store: store, transformer: transformer, reducer: reducer)
-
-
-    }
+required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    super.init(store: store, transformer: transformer, reducer: reducer)
+}
+// swiftlint:enable all
 // sourcery:end
 
 }

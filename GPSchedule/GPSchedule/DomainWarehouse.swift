@@ -12,6 +12,7 @@ import RxSwift
 class DomainWarehouse: DomainStoreFacade {
 
 // sourcery:inline:auto:DomainWarehouse.Generated
+// swiftlint:disable all
     let appointmentService = AppointmentDetail.self
     let authService = Authenticator.self
     let appointmentsService = PersonalSchedule.self
@@ -31,5 +32,6 @@ class DomainWarehouse: DomainStoreFacade {
             return
         }
     }
+// swiftlint:enable all
 // sourcery:end
 }

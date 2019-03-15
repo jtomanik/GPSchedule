@@ -20,4 +20,5 @@ target 'GPSchedule' do
   pod 'OpenMRS', :path => './GPSchedule/ApiClient/Generated/OpenMRS.podspec'
 
   pod 'Sourcery'
+  pod 'SwiftLint'
 end
