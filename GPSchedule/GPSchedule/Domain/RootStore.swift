@@ -20,6 +20,16 @@ protocol AuthService: ServiceCommand {
     func execute() -> Single<User>
 }
 
+protocol AppointmentService: ServiceCommand {
+    static func appointment(with id: String) -> Self
+    func execute() -> Single<Appointment>
+}
+
+protocol AppointmentsService: ServiceCommand {
+    static func appointments(for id: String) -> Self
+    func execute() -> Single<[Appointment]>
+}
+
 protocol AuthServiceProvider: ServiceProvider {
     associatedtype Service: AuthService
     var authService: Service.Type { get }
@@ -53,6 +63,7 @@ enum RootState: DomainState {
     }
 }
 
+// sourcery: defaultState = "RootState"
 class RootUseCase: GenericUseCase<RootState> {
 
     static func authMiddleware<Service: AuthService>(service: Service.Type) -> DomainStateMiddleware<RootState> {

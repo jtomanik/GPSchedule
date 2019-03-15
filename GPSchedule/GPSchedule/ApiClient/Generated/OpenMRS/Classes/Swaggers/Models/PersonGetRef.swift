@@ -9,13 +9,62 @@ import Foundation
 
 
 open class PersonGetRef: JSONEncodable {
+    public enum Gender: String {
+        case m = "M"
+        case f = "F"
+    }
+    public var uuid: String?
+    public var display: String?
+        public var gender: Gender?
+    public var age: Int32?
+    public var birthdate: Date?
+    public var birthdateEstimated: Bool?
+    public var dead: Bool?
+    public var deathDate: ISOFullDate?
+    public var causeOfDeath: String?
+    public var attributes: [PersonAttributeGetRef]?
+    public var voided: Bool?
+    public var preferredName: PersonNameGetRef?
+    public var preferredAddress: PersonAddressGetRef?
+    public var deathdateEstimated: Bool?
+    public var birthtime: Date?
 
 
-    public init() {
+    public init(uuid: String?=nil, display: String?=nil, gender: Gender?=nil, age: Int32?=nil, birthdate: Date?=nil, birthdateEstimated: Bool?=nil, dead: Bool?=nil, deathDate: ISOFullDate?=nil, causeOfDeath: String?=nil, attributes: [PersonAttributeGetRef]?=nil, voided: Bool?=nil, preferredName: PersonNameGetRef?=nil, preferredAddress: PersonAddressGetRef?=nil, deathdateEstimated: Bool?=nil, birthtime: Date?=nil) {
+        self.uuid = uuid
+        self.display = display
+        self.gender = gender
+        self.age = age
+        self.birthdate = birthdate
+        self.birthdateEstimated = birthdateEstimated
+        self.dead = dead
+        self.deathDate = deathDate
+        self.causeOfDeath = causeOfDeath
+        self.attributes = attributes
+        self.voided = voided
+        self.preferredName = preferredName
+        self.preferredAddress = preferredAddress
+        self.deathdateEstimated = deathdateEstimated
+        self.birthtime = birthtime
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
+        nillableDictionary["uuid"] = self.uuid
+        nillableDictionary["display"] = self.display
+        nillableDictionary["gender"] = self.gender?.rawValue
+        nillableDictionary["age"] = self.age?.encodeToJSON()
+        nillableDictionary["birthdate"] = self.birthdate?.encodeToJSON()
+        nillableDictionary["birthdateEstimated"] = self.birthdateEstimated
+        nillableDictionary["dead"] = self.dead
+        nillableDictionary["deathDate"] = self.deathDate?.encodeToJSON()
+        nillableDictionary["causeOfDeath"] = self.causeOfDeath
+        nillableDictionary["attributes"] = self.attributes?.encodeToJSON()
+        nillableDictionary["voided"] = self.voided
+        nillableDictionary["preferredName"] = self.preferredName?.encodeToJSON()
+        nillableDictionary["preferredAddress"] = self.preferredAddress?.encodeToJSON()
+        nillableDictionary["deathdateEstimated"] = self.deathdateEstimated
+        nillableDictionary["birthtime"] = self.birthtime?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

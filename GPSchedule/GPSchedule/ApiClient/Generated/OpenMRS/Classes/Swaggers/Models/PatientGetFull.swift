@@ -15,10 +15,10 @@ open class PatientGetFull: JSONEncodable {
     public var identifiers: [PatientIdentifierGetRef]?
     public var preferred: Bool?
     public var voided: Bool?
-    public var person: PersonGet?
+    public var person: PersonGetRef?
 
 
-    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, identifiers: [PatientIdentifierGetRef]?=nil, preferred: Bool?=nil, voided: Bool?=nil, person: PersonGet?=nil) {
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, identifiers: [PatientIdentifierGetRef]?=nil, preferred: Bool?=nil, voided: Bool?=nil, person: PersonGetRef?=nil) {
         self.auditInfo = auditInfo
         self.uuid = uuid
         self.display = display

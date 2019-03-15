@@ -21,9 +21,14 @@
 		7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACDE122231BBD400B24351 /* AppDelegate.swift */; };
 		7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE192231BBD600B24351 /* Assets.xcassets */; };
 		7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */; };
-		7AC554BD223AB62A00FDEDE5 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554BC223AB62A00FDEDE5 /* AuthService.swift */; };
+		7AC554BD223AB62A00FDEDE5 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */; };
 		7AC554BF223AF98B00FDEDE5 /* DomainImportable.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7AC554BE223AF98B00FDEDE5 /* DomainImportable.stencil */; };
 		7AC554C3223AFB1500FDEDE5 /* DomainImportable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554C2223AFB1500FDEDE5 /* DomainImportable.generated.swift */; };
+		7AC554C8223B309E00FDEDE5 /* PersonalSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554C7223B309E00FDEDE5 /* PersonalSchedule.swift */; };
+		7AC554CA223B35C400FDEDE5 /* AppointmentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554C9223B35C400FDEDE5 /* AppointmentDetail.swift */; };
+		7AC554CC223B36EE00FDEDE5 /* OpenMRS+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554CB223B36EE00FDEDE5 /* OpenMRS+Rx.swift */; };
+		7AC554CE223BAAFD00FDEDE5 /* WarehouseStorable.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 7AC554CD223BAAFD00FDEDE5 /* WarehouseStorable.stencil */; };
+		7AC554D0223BAD0A00FDEDE5 /* WarehouseStorable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554CF223BAD0A00FDEDE5 /* WarehouseStorable.generated.swift */; };
 		7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */; };
 		7AE0E0F322398F1A00F341B7 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */; };
 		7AE0E0F72239C27100F341B7 /* LoggedInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */; };
@@ -66,9 +71,14 @@
 		7AACDE192231BBD600B24351 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7AACDE1C2231BBD600B24351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7AACDE1E2231BBD600B24351 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7AC554BC223AB62A00FDEDE5 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		7AC554BE223AF98B00FDEDE5 /* DomainImportable.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = DomainImportable.stencil; sourceTree = "<group>"; };
 		7AC554C2223AFB1500FDEDE5 /* DomainImportable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainImportable.generated.swift; sourceTree = "<group>"; };
+		7AC554C7223B309E00FDEDE5 /* PersonalSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalSchedule.swift; sourceTree = "<group>"; };
+		7AC554C9223B35C400FDEDE5 /* AppointmentDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentDetail.swift; sourceTree = "<group>"; };
+		7AC554CB223B36EE00FDEDE5 /* OpenMRS+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OpenMRS+Rx.swift"; sourceTree = "<group>"; };
+		7AC554CD223BAAFD00FDEDE5 /* WarehouseStorable.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = WarehouseStorable.stencil; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		7AC554CF223BAD0A00FDEDE5 /* WarehouseStorable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarehouseStorable.generated.swift; sourceTree = "<group>"; };
 		7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainWarehouse.swift; sourceTree = "<group>"; };
 		7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewModel.swift; sourceTree = "<group>"; };
@@ -133,6 +143,7 @@
 				7A79A6C122357B3600E22CDA /* AppView.stencil */,
 				7AEFB2652237E79B00E86256 /* BasicView.stencil */,
 				7A79A6CA2235952300E22CDA /* InlineHelpers.stencil */,
+				7AC554CD223BAAFD00FDEDE5 /* WarehouseStorable.stencil */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -140,6 +151,7 @@
 		7A79A6BC2235105D00E22CDA /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				7AC554CF223BAD0A00FDEDE5 /* WarehouseStorable.generated.swift */,
 				7AC554C2223AFB1500FDEDE5 /* DomainImportable.generated.swift */,
 				7AEFB2692237EA0700E86256 /* BasicView.generated.swift */,
 				7A79A6CC2235967E00E22CDA /* InlineHelpers.generated.swift */,
@@ -175,18 +187,29 @@
 			children = (
 				7A79A6BC2235105D00E22CDA /* Generated */,
 				7AACDE122231BBD400B24351 /* AppDelegate.swift */,
-				7AC554BC223AB62A00FDEDE5 /* AuthService.swift */,
-				7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */,
 				7A79A6B222339FAB00E22CDA /* AppArchitecture.swift */,
 				7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */,
 				7A79A6B922344A0000E22CDA /* Templates */,
 				7A79A6B4223422CA00E22CDA /* App */,
 				7AEFB26A2237EA2500E86256 /* Domain */,
+				7AC554C6223B29D200FDEDE5 /* Services */,
 				7AACDE192231BBD600B24351 /* Assets.xcassets */,
 				7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */,
 				7AACDE1E2231BBD600B24351 /* Info.plist */,
 			);
 			path = GPSchedule;
+			sourceTree = "<group>";
+		};
+		7AC554C6223B29D200FDEDE5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */,
+				7AC554C7223B309E00FDEDE5 /* PersonalSchedule.swift */,
+				7AC554C9223B35C400FDEDE5 /* AppointmentDetail.swift */,
+				7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */,
+				7AC554CB223B36EE00FDEDE5 /* OpenMRS+Rx.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		7AE0E0F82239C27700F341B7 /* LoggedIn */ = {
@@ -309,6 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AC554CE223BAAFD00FDEDE5 /* WarehouseStorable.stencil in Resources */,
 				7AACDE1D2231BBD600B24351 /* LaunchScreen.storyboard in Resources */,
 				7AEFB27B22383E2500E86256 /* TextInputComponentView.xib in Resources */,
 				7AACDE1A2231BBD600B24351 /* Assets.xcassets in Resources */,
@@ -423,23 +447,27 @@
 				7A79A6AF2233034B00E22CDA /* ErrorViewController.swift in Sources */,
 				7AEFB2752238355800E86256 /* GenericComponent.swift in Sources */,
 				7AEFB2682237E80300E86256 /* Sourcery.swift in Sources */,
+				7AC554C8223B309E00FDEDE5 /* PersonalSchedule.swift in Sources */,
 				7AE0E0F72239C27100F341B7 /* LoggedInViewModel.swift in Sources */,
 				7A79A6B322339FAB00E22CDA /* AppArchitecture.swift in Sources */,
-				7AC554BD223AB62A00FDEDE5 /* AuthService.swift in Sources */,
+				7AC554BD223AB62A00FDEDE5 /* Authenticator.swift in Sources */,
 				7AC554C3223AFB1500FDEDE5 /* DomainImportable.generated.swift in Sources */,
 				7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */,
+				7AC554CA223B35C400FDEDE5 /* AppointmentDetail.swift in Sources */,
 				7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */,
 				7AEFB27722383CD600E86256 /* ButtonComponent.swift in Sources */,
 				7A79A6C022354B4800E22CDA /* UIElementsStates.swift in Sources */,
 				7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */,
 				7A79A6B622342C5400E22CDA /* RootStore.swift in Sources */,
 				7A79A6B12233037300E22CDA /* RootViewController.swift in Sources */,
+				7AC554CC223B36EE00FDEDE5 /* OpenMRS+Rx.swift in Sources */,
 				7AEFB26E223829F800E86256 /* LabelComponent.swift in Sources */,
 				7A79A6AD2233033100E22CDA /* LoadingViewController.swift in Sources */,
 				7A79A6A92233030800E22CDA /* LogInViewController.swift in Sources */,
 				7A79A6CF2235A03D00E22CDA /* RootViewModel.swift in Sources */,
 				7AE0E0FA2239C52A00F341B7 /* GenericTableViewController.swift in Sources */,
 				7A79A6C92235935400E22CDA /* LoginViewModel.swift in Sources */,
+				7AC554D0223BAD0A00FDEDE5 /* WarehouseStorable.generated.swift in Sources */,
 				7AE0E0F322398F1A00F341B7 /* MockAuthService.swift in Sources */,
 				7A79A6AB2233031D00E22CDA /* LoggedInViewController.swift in Sources */,
 				7AEFB27022382B8A00E86256 /* TextInputComponent.swift in Sources */,

@@ -1,0 +1,48 @@
+
+//  this template generates  the contents of DomainWarehouse.swift
+// sourcery:inline:auto:DomainWarehouse.Generated
+{% for type in types.implementing.ServiceCommand %}
+    {% if type.kind|!contains: "protocol" %}
+    {% set service %}{{type.inheritedTypes|join}}{% endset %}
+    let {{service|lowerFirstLetter}} = {{type.name}}.self
+    {% endif %}
+{% endfor %}
+
+{% for type in types.classes %}
+    {% if type.name|contains: "UseCase" %}
+        {% if type.isGeneric == false %}
+    var {{type.name|lowerFirstLetter}}: {{type.name}}!
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+    init() {
+{% for type in types.classes|annotated:"defaultState" %}
+    {% if type.name|contains: "UseCase" %}
+        {% if type.isGeneric == false %}
+        self.{{type.name|lowerFirstLetter}} = {{type.name}}(initialState: {{type.annotations.defaultState}}(), dependencyProvider: self)
+
+        {% endif %}
+    {% endif %}
+{% endfor %}
+    }
+
+    func dispatch(event: Event) {
+        switch event {
+{% for type in types.classes|annotated:"defaultState" %}
+    {% if type.name|contains: "UseCase" %}
+        {% if type.isGeneric == false %}
+        case let event as {{type.annotations.defaultState}}.DomainEvent:
+            {{type.name|lowerFirstLetter}}.dispatch(event: event)
+        {% endif %}
+    {% endif %}
+{% endfor %}
+        default:
+            return
+        }
+    }
+// sourcery:end
+// Following types ware added to DomainWarehouse
+{% for type in types.implementing.ServiceProvider %}
+extension DomainWarehouse: {{type.name}} {}
+{% endfor %}

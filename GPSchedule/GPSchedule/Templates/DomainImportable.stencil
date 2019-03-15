@@ -13,7 +13,7 @@ protocol {{type.annotations.target}}Model: DomainModel {
 }
 
 extension {{type.name}}: {{type.annotations.target}}Model, Equatable {
-    public static func == (lhs: UserGet, rhs: UserGet) -> Bool {
+    public static func == (lhs: {{type.name}}, rhs: {{type.name}}) -> Bool {
       return
     {% for variable in type.variables %}
         {% for mapable in types.implementing.DomainMapable %}
