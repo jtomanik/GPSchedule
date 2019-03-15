@@ -23,7 +23,7 @@ extension Bool: DomainMapable {}
 
 extension UserGet: DomainMapable {}
 extension AppointmentschedulingAppointmentGet: DomainMapable {}
-extension AppointmentschedulingTimeslotGetRef: DomainMapable  {}
+extension AppointmentschedulingTimeslotGetRef: DomainMapable {}
 extension AppointmentschedulingAppointmentblockGetRef: DomainMapable {}
 extension AppointmentschedulingAppointmenttypeGet: DomainMapable {}
 extension PatientGetRef: DomainMapable {}
@@ -65,5 +65,3 @@ extension LocationGetRef: DomainImportable {}
 
 // sourcery: target = "Person"
 extension PersonGetRef: DomainImportable {}
-
-

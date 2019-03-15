@@ -1,6 +1,7 @@
 
 //  this template generates  the contents of DomainWarehouse.swift
 // sourcery:inline:auto:DomainWarehouse.Generated
+// swiftlint:disable all
 {% for type in types.implementing.ServiceCommand %}
     {% if type.kind|!contains: "protocol" %}
     {% set service %}{{type.inheritedTypes|join}}{% endset %}
@@ -41,6 +42,7 @@
             return
         }
     }
+// swiftlint:enable all
 // sourcery:end
 // Following types ware added to DomainWarehouse
 {% for type in types.implementing.ServiceProvider %}

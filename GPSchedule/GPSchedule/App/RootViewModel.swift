@@ -23,7 +23,7 @@ enum RootViewState: ViewState {
         // case dissmissError
     }
 
-    init(){
+    init() {
         self = .logIn
     }
 }
@@ -49,12 +49,14 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
     }
 
 // sourcery:inline:auto:RootViewModel.AutoInit
-    convenience init(store: RootUseCase) {
-        self.init(store: store, transformer: RootViewModel.transform, reducer: RootViewModel.reduce)
-    }
+// swiftlint:disable all
+convenience init(store: RootUseCase) {
+    self.init(store: store, transformer: RootViewModel.transform, reducer: RootViewModel.reduce)
+}
 
-    required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-        super.init(store: store, transformer: transformer, reducer: reducer)
-    }
+required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    super.init(store: store, transformer: transformer, reducer: reducer)
+}
+// swiftlint:enable all
 // sourcery:end
 }

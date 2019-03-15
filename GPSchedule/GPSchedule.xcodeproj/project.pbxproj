@@ -279,6 +279,7 @@
 			buildConfigurationList = 7AACDE212231BBD600B24351 /* Build configuration list for PBXNativeTarget "GPSchedule" */;
 			buildPhases = (
 				1E22CF2BCC6DFDD1691667D5 /* [CP] Check Pods Manifest.lock */,
+				7AC554D1223BE29000FDEDE5 /* Swiftlint */,
 				7A79A6BE22353D0000E22CDA /* Sourcery */,
 				7AACDE0B2231BBD400B24351 /* Sources */,
 				7AACDE0C2231BBD400B24351 /* Frameworks */,
@@ -384,6 +385,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "$PODS_ROOT/Sourcery/bin/sourcery --disableCache\n";
+		};
+		7AC554D1223BE29000FDEDE5 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		D66621AF273993E1DCCA88E8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
