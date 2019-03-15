@@ -175,18 +175,26 @@
 			children = (
 				7A79A6BC2235105D00E22CDA /* Generated */,
 				7AACDE122231BBD400B24351 /* AppDelegate.swift */,
-				7AC554BC223AB62A00FDEDE5 /* AuthService.swift */,
-				7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */,
 				7A79A6B222339FAB00E22CDA /* AppArchitecture.swift */,
 				7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */,
 				7A79A6B922344A0000E22CDA /* Templates */,
 				7A79A6B4223422CA00E22CDA /* App */,
 				7AEFB26A2237EA2500E86256 /* Domain */,
+				7AC554C6223B29D200FDEDE5 /* Services */,
 				7AACDE192231BBD600B24351 /* Assets.xcassets */,
 				7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */,
 				7AACDE1E2231BBD600B24351 /* Info.plist */,
 			);
 			path = GPSchedule;
+			sourceTree = "<group>";
+		};
+		7AC554C6223B29D200FDEDE5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				7AC554BC223AB62A00FDEDE5 /* AuthService.swift */,
+				7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		7AE0E0F82239C27700F341B7 /* LoggedIn */ = {
