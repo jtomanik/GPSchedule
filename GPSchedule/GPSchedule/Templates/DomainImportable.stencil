@@ -1,0 +1,31 @@
+import OpenMRS
+
+{% for type in types.implementing.DomainImportable|annotated:"target" %}
+typealias {{type.annotations.target}} = {{type.name}}
+protocol {{type.annotations.target}}Model: DomainModel {
+    {% for variable in type.variables %}
+        {% for mapable in types.implementing.DomainMapable %}
+            {% if variable.type.name == mapable.name %}
+  var {{variable.name}}: {{variable.typeName}} { get }
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+}
+
+extension {{type.name}}: {{type.annotations.target}}Model, Equatable {
+    public static func == (lhs: UserGet, rhs: UserGet) -> Bool {
+      return
+    {% for variable in type.variables %}
+        {% for mapable in types.implementing.DomainMapable %}
+            {% if variable.type.name == mapable.name %}
+          lhs.{{variable.name}} == rhs.{{variable.name}} &&
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+          true
+    }
+    var id: String {
+      return uuid!
+    }
+}
+{% endfor %}
