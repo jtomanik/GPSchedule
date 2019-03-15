@@ -10218,7 +10218,7 @@ public class Decoders {
                 case let .success(value): _result.voided = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: PersonGet.self, source: sourceDictionary["person"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: PersonGetRef.self, source: sourceDictionary["person"] as AnyObject?) {
                 case let .success(value): _result.person = value
                 case let .failure(error): break
                 }
@@ -10236,6 +10236,30 @@ public class Decoders {
         Decoders.addDecoder(clazz: PatientGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PatientGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = PatientGetRef()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: [PatientIdentifierGetRef].self, source: sourceDictionary["identifiers"] as AnyObject?) {
+                case let .success(value): _result.identifiers = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["preferred"] as AnyObject?) {
+                case let .success(value): _result.preferred = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: PersonGetRef.self, source: sourceDictionary["person"] as AnyObject?) {
+                case let .success(value): _result.person = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PatientGetRef", actual: "\(source)"))
@@ -11674,6 +11698,66 @@ public class Decoders {
         Decoders.addDecoder(clazz: PersonGetRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PersonGetRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = PersonGetRef()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?) {
+                case let .success(value): _result.uuid = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display"] as AnyObject?) {
+                case let .success(value): _result.display = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: PersonGetRef.Gender.self, source: sourceDictionary["gender"] as AnyObject?) {
+                case let .success(value): _result.gender = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["age"] as AnyObject?) {
+                case let .success(value): _result.age = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["birthdate"] as AnyObject?) {
+                case let .success(value): _result.birthdate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["birthdateEstimated"] as AnyObject?) {
+                case let .success(value): _result.birthdateEstimated = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["dead"] as AnyObject?) {
+                case let .success(value): _result.dead = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["deathDate"] as AnyObject?) {
+                case let .success(value): _result.deathDate = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["causeOfDeath"] as AnyObject?) {
+                case let .success(value): _result.causeOfDeath = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: [PersonAttributeGetRef].self, source: sourceDictionary["attributes"] as AnyObject?) {
+                case let .success(value): _result.attributes = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["voided"] as AnyObject?) {
+                case let .success(value): _result.voided = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: PersonNameGetRef.self, source: sourceDictionary["preferredName"] as AnyObject?) {
+                case let .success(value): _result.preferredName = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: PersonAddressGetRef.self, source: sourceDictionary["preferredAddress"] as AnyObject?) {
+                case let .success(value): _result.preferredAddress = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["deathdateEstimated"] as AnyObject?) {
+                case let .success(value): _result.deathdateEstimated = value
+                case let .failure(error): break
+                }
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["birthtime"] as AnyObject?) {
+                case let .success(value): _result.birthtime = value
+                case let .failure(error): break
+                }
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "PersonGetRef", actual: "\(source)"))
