@@ -15,7 +15,10 @@ import RxSwift
  responsibility: 
 */
 
-protocol DomainModel {}
+protocol DomainModel {
+    var id: String { get }
+}
+
 protocol Event {}
 protocol PureState {}
 protocol DomainState: PureState, Equatable {
