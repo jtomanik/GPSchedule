@@ -20,6 +20,7 @@ protocol DomainMapable: Sourcery {}
 extension String: DomainMapable {}
 extension Double: DomainMapable {}
 extension Bool: DomainMapable {}
+extension Int: DomainMapable {}
 
 extension UserGet: DomainMapable {}
 extension AppointmentschedulingAppointmentGet: DomainMapable {}
@@ -32,12 +33,6 @@ extension LocationGetRef: DomainMapable {}
 extension PersonGetRef: DomainMapable {}
 
 extension ISOFullDate: DomainMapable {}
-
-extension ISOFullDate: Equatable {
-    public static func == (lhs: ISOFullDate, rhs: ISOFullDate) -> Bool {
-        return lhs.description == rhs.description
-    }
-}
 
 // sourcery: target = "User"
 extension UserGet: DomainImportable {}
@@ -65,3 +60,10 @@ extension LocationGetRef: DomainImportable {}
 
 // sourcery: target = "Person"
 extension PersonGetRef: DomainImportable {}
+
+// sourcery: target = "FullDate"
+extension ISOFullDate: DomainImportable {
+    var uuid: String? {
+        return self.description
+    }
+}

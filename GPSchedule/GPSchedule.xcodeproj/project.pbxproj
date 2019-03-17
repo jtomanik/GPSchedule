@@ -72,7 +72,7 @@
 		7AACDE1C2231BBD600B24351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7AACDE1E2231BBD600B24351 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
-		7AC554BE223AF98B00FDEDE5 /* DomainImportable.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = DomainImportable.stencil; sourceTree = "<group>"; };
+		7AC554BE223AF98B00FDEDE5 /* DomainImportable.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = DomainImportable.stencil; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		7AC554C2223AFB1500FDEDE5 /* DomainImportable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainImportable.generated.swift; sourceTree = "<group>"; };
 		7AC554C7223B309E00FDEDE5 /* PersonalSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalSchedule.swift; sourceTree = "<group>"; };
 		7AC554C9223B35C400FDEDE5 /* AppointmentDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentDetail.swift; sourceTree = "<group>"; };
