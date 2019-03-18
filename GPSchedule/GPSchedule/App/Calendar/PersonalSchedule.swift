@@ -34,11 +34,9 @@ struct PersonalSchedule: AppointmentsService {
             .map { $0.results }
             .filterNil()
             .map { Decoders.decode(clazz: Array<AppointmentschedulingAppointmentGet>.self, source: $0 as AnyObject) }
-            .map {
-                $0.value }
+            .map { $0.value }
             .errorOnNil(APIError.parsingError) // parsing error
-            .map { [uuid] in
-                $0.filter({ $0.timeSlot?.appointmentBlock?.provider?.person?.uuid == uuid }) }
+            .map { [uuid] in $0.filter({ $0.timeSlot?.appointmentBlock?.provider?.person?.uuid == uuid }) }
             .asSingle()
     }
 }
