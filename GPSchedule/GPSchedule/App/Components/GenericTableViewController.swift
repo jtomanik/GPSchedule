@@ -13,9 +13,6 @@ import BentoKit
 
 class GenericTableViewController<VM: ViewReactor>: GenericViewController<VM> {
 
-    typealias RowId = Int
-    typealias SectionId = Int
-
     lazy var tableView: BentoTableView = {
         let table = BentoTableView()
         return table
