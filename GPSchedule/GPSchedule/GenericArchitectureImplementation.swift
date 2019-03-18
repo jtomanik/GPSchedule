@@ -58,7 +58,7 @@ class GenericUseCase<State: DomainState>: DomainStore {
         self.feedbackLoops = feedbackLoop
         self.state = BehaviorSubject(value: initialState)
 
-        // TODO: Wee need to catch Errors that Middleware may throw
+        // TODO: We need to catch Errors that Middleware may throw
         events
             .distinctUntilChanged() // that may not always be desirable
             .map { [middlewares] event in middlewares.map { $0(event) } }
