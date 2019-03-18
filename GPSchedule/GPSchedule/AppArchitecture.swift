@@ -15,16 +15,20 @@ import RxSwift
  responsibility: 
 */
 
+protocol AbstractEvent {}
+protocol AbstractState {}
+protocol AbstractError: Error {}
+
 protocol DomainModel {
     var id: String { get }
 }
-
-protocol AbstractEvent {}
-protocol AbstractState {}
-
 protocol DomainEvent: AbstractEvent {}
+
+// TODO: Domain state should have associated AbstractError type
 protocol DomainState: AbstractState, Equatable {
     associatedtype StateEvent: DomainEvent, Equatable
+
+    init() // default state
 }
 
 protocol DomainStore: class {
@@ -32,21 +36,22 @@ protocol DomainStore: class {
 
     var state: BehaviorSubject<State> { get }
 
-    init(initialState: State,
-         warehouse: DomainStoreFacade?,
-         reducer: @escaping DomaninStateReducer<State>,
+    func dispatch(event: State.StateEvent)
+
+    init(warehouse: DomainStoreFacade?,
+         reducer: @escaping DomainStateReducer<State>,
          middleware: [DomainStateMiddleware<State>],
          feedbackLoop: [DomainStateFeedback<State>])
-
-    func dispatch(event: State.StateEvent)
 }
 
-typealias DomaninStateReducer<State: DomainState> = (State, State.StateEvent) -> State
+typealias DomainStateReducer<State: DomainState> = (State, State.StateEvent) -> State
 typealias DomainStateFeedback<State: DomainState> = (State) -> Observable<DomainEvent>
 typealias DomainStateMiddleware<State: DomainState> = (State.StateEvent) -> Observable<State.StateEvent>
+//typealias DomainStateErrorHandler<State: DomainState> = (DomainState.StateError) -> Observable<DomainEvent>
 
 protocol ServiceCommand {
     associatedtype Model: DomainModel
+
     func execute() -> Single<Model>
 }
 
@@ -55,25 +60,24 @@ protocol ServiceProvider: class {}
 protocol DomainStoreFacade: class {
     var state: BehaviorSubject<AbstractState> { get }
 
-    func getStore<S>(for type: S.Type) -> S
     func dispatch(event: DomainEvent)
+    func getStore<S>(for type: S.Type) -> S
 }
 
 // MARK: Presentation Domain
-protocol ViewState: Equatable {
+protocol ViewState: AbstractState, Equatable {
     associatedtype UserAction: AbstractEvent, Equatable
 
-    init()
+    init() // default state
 }
 
-typealias ViewStateTransformer<StoreState: DomainState, State: ViewState> = (StoreState, State) -> State
 typealias ViewStateReducer<State: ViewState> = (State, State.UserAction) -> State
+typealias ViewStateTransformer<StoreState: DomainState, State: ViewState> = (StoreState, State) -> State
 
 protocol ViewReactor: class {
     associatedtype State: ViewState
     associatedtype Store: DomainStore
 
-    var store: Store! { get }
     var action: PublishSubject<State.UserAction> { get }
     var state: BehaviorSubject<State> { get }
 

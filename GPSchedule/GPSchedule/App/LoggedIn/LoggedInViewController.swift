@@ -24,8 +24,8 @@ class LoggedInViewController: GenericTableViewController<LoggedInViewModel> {
         case .refreshing(let title, _):
             self.title = title
             tableView.render(loadingBoxes())
-        case .list(let title, let model, _):
-            self.title = title
+        case .list(let model, _):
+            self.title = model.title
             tableView.render(package(model: model))
         case .fetching:
             tableView.render(loadingBoxes())

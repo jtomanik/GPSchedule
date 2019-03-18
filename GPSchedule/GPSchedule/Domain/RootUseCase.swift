@@ -61,8 +61,7 @@ class RootUseCase: GenericUseCase<RootState> {
         initialState: State = RootState(),
         warehouse: DomainStoreFacade?,
         dependencyProvider: DependenciesProvider) {
-        self.init(initialState: initialState,
-                  warehouse: warehouse,
+        self.init(warehouse: warehouse,
                   reducer: RootUseCase.reduce,
                   middleware: [],
                   feedbackLoop: [])

@@ -88,8 +88,7 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
         initialState: State = CalendarState(),
         warehouse: DomainStoreFacade?,
         dependencyProvider: DependenciesProvider) {
-        self.init(initialState: initialState,
-                  warehouse: warehouse,
+        self.init(warehouse: warehouse,
                   reducer: CalendarUseCase.reduce,
                   middleware: [],
                   feedbackLoop: [])

@@ -108,8 +108,7 @@ class AuthUseCase: GenericUseCase<AuthState> {
         initialState: State = AuthState(),
         warehouse: DomainStoreFacade?,
         dependencyProvider: DependenciesProvider) {
-        self.init(initialState: initialState,
-                  warehouse: warehouse,
+        self.init(warehouse: warehouse,
                   reducer: AuthUseCase.reduce,
                   middleware: [AuthUseCase.authMiddleware(service: dependencyProvider.authService)],
                   feedbackLoop: [AuthUseCase.authFeedback()])
