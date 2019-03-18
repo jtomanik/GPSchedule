@@ -37,12 +37,14 @@ class GenericUseCase<State: DomainState>: DomainStore {
     private var currentState: State
     private let events = PublishSubject<State.StateEvent>()
     private let reduce: DomainStateReducer<State>
+    private let exceptionHandler: DomainErrorFeedback<State>
     private let middlewares: [DomainStateMiddleware<State>]
     private let feedbackLoops: [DomainStateFeedback<State>]
     private let disposeBag = DisposeBag()
 
     required init(warehouse: DomainStoreFacade?,
                   reducer: @escaping DomainStateReducer<State>,
+                  errorHandler: @escaping DomainErrorFeedback<State>,
                   middleware: [DomainStateMiddleware<State>] = [],
                   feedbackLoop: [DomainStateFeedback<State>] = []) {
 
@@ -54,39 +56,48 @@ class GenericUseCase<State: DomainState>: DomainStore {
         self.currentState = initialState
         self.warehouse = warehouse
         self.reduce = reducer
+        self.exceptionHandler = errorHandler
         self.middlewares = middleware.isEmpty ? [passthruMiddleware] : middleware
         self.feedbackLoops = feedbackLoop
         self.state = BehaviorSubject(value: initialState)
 
-        // TODO: We need to catch Errors that Middleware may throw
         events
             .distinctUntilChanged() // that may not always be desirable
             .map { [middlewares] event in middlewares.map { $0(event) } }
             .map { Observable.from($0).merge() }.merge()
             .map { [reduce, currentState] in reduce(currentState, $0) }
-            .bind(to: state)
+            .asObservable()
+            .subscribe(weak: self, { object in return object.eventStreamHandler })
             .disposed(by: disposeBag)
 
         state
             .distinctUntilChanged()
             .map { [feedbackLoops] state in feedbackLoops.map { $0(state) } }
             .map { Observable.from($0).merge() }.merge()
-            .subscribe(onNext: { [weak self] (event) in
-                self?.warehouse?.dispatch(event: event)
+            .subscribe(onNext: { [warehouse] (event) in
+                warehouse?.dispatch(event: event)
             })
-            .disposed(by: disposeBag)
-
-        //TODO: Implement sad-path
-        state
-            .distinctUntilChanged()
-            .subscribeNext(weak: self, { object in
-                return { object.currentState = $0
-                }})
             .disposed(by: disposeBag)
     }
 
     func dispatch(event: State.StateEvent) {
         events.onNext(event)
+    }
+
+    private func eventStreamHandler(rxEvent: Event<State>) {
+        switch rxEvent {
+        case .next(let newState):
+            currentState = newState
+            state.onNext(newState)
+        case .error(let error):
+            if let error = error as? State.StateError {
+                warehouse?.dispatch(event: exceptionHandler(currentState, error))
+            } else {
+                fatalError("Use case encountered unhandled error")
+            }
+        case .completed:
+            fatalError("Event stream must not be compleated while UseCase is alive")
+        }
     }
 }
 
@@ -211,4 +222,10 @@ class GenericViewController<VM: ViewReactor>: UIViewController, AppView {
     func process(state: ViewModel.State) {
         return
     }
+}
+
+enum APIError: AppError {
+    case backendError
+    case parsingError
+    case noData
 }

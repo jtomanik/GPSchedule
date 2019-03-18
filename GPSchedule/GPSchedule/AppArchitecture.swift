@@ -22,11 +22,13 @@ protocol AbstractError: Error {}
 protocol DomainModel {
     var id: String { get }
 }
+
+protocol DomainError: AbstractError {}
 protocol DomainEvent: AbstractEvent {}
 
-// TODO: Domain state should have associated AbstractError type
 protocol DomainState: AbstractState, Equatable {
     associatedtype StateEvent: DomainEvent, Equatable
+    associatedtype StateError: DomainError, Equatable
 
     init() // default state
 }
@@ -40,6 +42,7 @@ protocol DomainStore: class {
 
     init(warehouse: DomainStoreFacade?,
          reducer: @escaping DomainStateReducer<State>,
+         errorHandler: @escaping DomainErrorFeedback<State>,
          middleware: [DomainStateMiddleware<State>],
          feedbackLoop: [DomainStateFeedback<State>])
 }
@@ -47,7 +50,7 @@ protocol DomainStore: class {
 typealias DomainStateReducer<State: DomainState> = (State, State.StateEvent) -> State
 typealias DomainStateFeedback<State: DomainState> = (State) -> Observable<DomainEvent>
 typealias DomainStateMiddleware<State: DomainState> = (State.StateEvent) -> Observable<State.StateEvent>
-//typealias DomainStateErrorHandler<State: DomainState> = (DomainState.StateError) -> Observable<DomainEvent>
+typealias DomainErrorFeedback<State: DomainState> = (State, State.StateError) -> DomainEvent
 
 protocol ServiceCommand {
     associatedtype Model: DomainModel
