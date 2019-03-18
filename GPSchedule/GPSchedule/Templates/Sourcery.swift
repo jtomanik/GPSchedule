@@ -26,7 +26,7 @@ extension UserGet: DomainMapable {}
 extension AppointmentschedulingAppointmentGet: DomainMapable {}
 extension AppointmentschedulingTimeslotGetRef: DomainMapable {}
 extension AppointmentschedulingAppointmentblockGetRef: DomainMapable {}
-extension AppointmentschedulingAppointmenttypeGet: DomainMapable {}
+extension AppointmentschedulingAppointmenttypeGetRef: DomainMapable {}
 extension PatientGetRef: DomainMapable {}
 extension ProviderGetRef: DomainMapable {}
 extension LocationGetRef: DomainMapable {}
@@ -47,7 +47,7 @@ extension AppointmentschedulingTimeslotGetRef: DomainImportable {}
 extension AppointmentschedulingAppointmentblockGetRef: DomainImportable {}
 
 // sourcery: target = "AppointmentType"
-extension AppointmentschedulingAppointmenttypeGet: DomainImportable {}
+extension AppointmentschedulingAppointmenttypeGetRef: DomainImportable {}
 
 // sourcery: target = "Patient"
 extension PatientGetRef: DomainImportable {}

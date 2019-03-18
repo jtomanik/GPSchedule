@@ -30,7 +30,7 @@ enum LoginViewState: BasicViewGenerator, ViewState {
         }
     }
 
-    enum UserAction: Event, Equatable {
+    enum UserAction: AbstractEvent, Equatable {
         case usernameEntry(String?)
         case passwordEntry(String?)
         case loginButtonPressed
@@ -55,7 +55,7 @@ extension LoginViewState {
     }
 }
 
-class LoginViewModel: GenericChildViewModel<LoginViewState, RootViewModel> {
+class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootViewModel> {
 
     static func transform(storeState: Store.State, state: State) -> State {
         switch storeState {
@@ -130,12 +130,12 @@ convenience init(parent: RootViewModel) {
 }
 
 required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    self.init(store: parent.store, transformer: transformer, reducer: reducer)
+    self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
     self.parent = parent
 }
 
-required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    super.init(store: store, transformer: transformer, reducer: reducer)
+required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
 }
 // swiftlint:enable all
 // sourcery:end
