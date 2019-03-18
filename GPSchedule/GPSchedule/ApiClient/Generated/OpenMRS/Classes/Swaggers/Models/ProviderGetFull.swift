@@ -15,13 +15,13 @@ open class ProviderGetFull: JSONEncodable {
     public var name: String?
     public var description: String?
     public var retired: Bool?
-    public var person: PersonGet?
+    public var person: PersonGetRef?
     public var identifier: String?
-    public var attributes: [ProviderAttributeGet]?
+    public var attributes: [ProviderAttributeGetRef]?
     public var preferredHandlerClassname: String?
 
 
-    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, person: PersonGet?=nil, identifier: String?=nil, attributes: [ProviderAttributeGet]?=nil, preferredHandlerClassname: String?=nil) {
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, name: String?=nil, description: String?=nil, retired: Bool?=nil, person: PersonGetRef?=nil, identifier: String?=nil, attributes: [ProviderAttributeGetRef]?=nil, preferredHandlerClassname: String?=nil) {
         self.auditInfo = auditInfo
         self.uuid = uuid
         self.display = display

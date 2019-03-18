@@ -350,11 +350,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: AppointmentschedulingTimeslotGetRef.self, source: sourceDictionary["timeSlot"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingTimeslotGet.self, source: sourceDictionary["timeSlot"] as AnyObject?) {
                 case let .success(value): _result.timeSlot = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmenttypeGetRef.self, source: sourceDictionary["appointmentType"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmenttypeGet.self, source: sourceDictionary["appointmentType"] as AnyObject?) {
                 case let .success(value): _result.appointmentType = value
                 case let .failure(error): break
                 }
@@ -362,7 +362,7 @@ public class Decoders {
                 case let .success(value): _result.reason = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: PatientGetRef.self, source: sourceDictionary["patient"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: PatientGet.self, source: sourceDictionary["patient"] as AnyObject?) {
                 case let .success(value): _result.patient = value
                 case let .failure(error): break
                 }
@@ -476,15 +476,15 @@ public class Decoders {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ProviderGetRef.self, source: sourceDictionary["provider"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: ProviderGet.self, source: sourceDictionary["provider"] as AnyObject?) {
                 case let .success(value): _result.provider = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: LocationGetRef.self, source: sourceDictionary["location"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: LocationGet.self, source: sourceDictionary["location"] as AnyObject?) {
                 case let .success(value): _result.location = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: [AppointmentschedulingAppointmenttypeGet].self, source: sourceDictionary["types"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: [AppointmentschedulingAppointmenttypeGetRef].self, source: sourceDictionary["types"] as AnyObject?) {
                 case let .success(value): _result.types = value
                 case let .failure(error): break
                 }
@@ -818,7 +818,7 @@ public class Decoders {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmentblockGetRef.self, source: sourceDictionary["appointmentBlock"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: AppointmentschedulingAppointmentblockGet.self, source: sourceDictionary["appointmentBlock"] as AnyObject?) {
                 case let .success(value): _result.appointmentBlock = value
                 case let .failure(error): break
                 }
@@ -13518,7 +13518,7 @@ public class Decoders {
                 case let .success(value): _result.retired = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: PersonGet.self, source: sourceDictionary["person"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: PersonGetRef.self, source: sourceDictionary["person"] as AnyObject?) {
                 case let .success(value): _result.person = value
                 case let .failure(error): break
                 }
@@ -13526,7 +13526,7 @@ public class Decoders {
                 case let .success(value): _result.identifier = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: [ProviderAttributeGet].self, source: sourceDictionary["attributes"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: [ProviderAttributeGetRef].self, source: sourceDictionary["attributes"] as AnyObject?) {
                 case let .success(value): _result.attributes = value
                 case let .failure(error): break
                 }
