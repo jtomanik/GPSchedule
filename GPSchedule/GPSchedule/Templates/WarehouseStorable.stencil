@@ -2,6 +2,8 @@
 //  this template generates  the contents of DomainWarehouse.swift
 // sourcery:inline:auto:DomainWarehouse.Generated
 // swiftlint:disable all
+    let state = BehaviorSubject<AbstractState>(value: InitialState())
+
 {% for type in types.implementing.ServiceCommand %}
     {% if type.kind|!contains: "protocol" %}
     {% set service %}{{type.inheritedTypes|join}}{% endset %}
@@ -17,23 +19,45 @@
     {% endif %}
 {% endfor %}
 
+    private let disposeBag = DisposeBag()
+
     init() {
 {% for type in types.classes|annotated:"defaultState" %}
     {% if type.name|contains: "UseCase" %}
         {% if type.isGeneric == false %}
-        self.{{type.name|lowerFirstLetter}} = {{type.name}}(initialState: {{type.annotations.defaultState}}(), dependencyProvider: self)
+        self.{{type.name|lowerFirstLetter}} = {{type.name}}(initialState: {{type.annotations.defaultState}}(),warehouse: self,  dependencyProvider: self)
 
         {% endif %}
     {% endif %}
 {% endfor %}
+
+        Observable.merge([rootUseCase!.state])
+            .map { $0 as AbstractState}
+            .bind(to: state)
+            .disposed(by: disposeBag)
     }
 
-    func dispatch(event: Event) {
+    func getStore<S>(for type: S.Type) -> S {
+        switch type {
+{% for type in types.classes %}
+    {% if type.name|contains: "UseCase" %}
+        {% if type.isGeneric == false %}
+        case is {{type.name}}.Type:
+            return {{type.name|lowerFirstLetter}}! as! S
+        {% endif %}
+    {% endif %}
+{% endfor %}
+        default:
+            fatalError("Store type is not a part of a Warehouse")
+        }
+    }
+
+    func dispatch(event: DomainEvent) {
         switch event {
 {% for type in types.classes|annotated:"defaultState" %}
     {% if type.name|contains: "UseCase" %}
         {% if type.isGeneric == false %}
-        case let event as {{type.annotations.defaultState}}.DomainEvent:
+        case let event as {{type.annotations.defaultState}}.StateEvent:
             {{type.name|lowerFirstLetter}}.dispatch(event: event)
         {% endif %}
     {% endif %}

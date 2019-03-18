@@ -15,9 +15,10 @@ class RootViewController: GenericViewController<RootViewModel> {
         let childViewModel = LoginViewModel(parent: viewModel)
         return LoginViewController(viewModel: childViewModel)
     }()
-    private lazy var loggedInView: LoggedInViewController = {
+    private lazy var loggedInView: UINavigationController = {
         let childViewModel = LoggedInViewModel(parent: viewModel)
-        return LoggedInViewController(viewModel: childViewModel)
+        let view = LoggedInViewController(viewModel: childViewModel)
+        return UINavigationController(rootViewController: view)
     }()
     private lazy var loadingView: LoadingViewController = {
         let childViewModel = LoadingViewModel(parent: viewModel)
@@ -76,6 +77,7 @@ class RootViewController: GenericViewController<RootViewModel> {
         loggedInView.view.isHidden = true
     }
     private func showErrorView() {
+        hideLoadingView()
         self.present(errorView,
                      animated: true,
                      completion: nil)
@@ -85,6 +87,7 @@ class RootViewController: GenericViewController<RootViewModel> {
                           completion: nil)
     }
     private func showLoadingView() {
+        hideErrorView()
         self.present(loadingView,
                      animated: true,
                      completion: nil)

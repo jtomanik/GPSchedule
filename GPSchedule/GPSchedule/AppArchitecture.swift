@@ -52,6 +52,11 @@ protocol ServiceCommand {
 
 protocol ServiceProvider: class {}
 
+protocol DomainStoreFacade: class {
+    var state: BehaviorSubject<AbstractState> { get }
+
+    func getStore<S>(for type: S.Type) -> S
+    func dispatch(event: DomainEvent)
 }
 
 // MARK: Presentation Domain
@@ -72,13 +77,13 @@ protocol ViewReactor: class {
     var action: PublishSubject<State.UserAction> { get }
     var state: BehaviorSubject<State> { get }
 
-    init(store: Store,
+    init(warehouse: DomainStoreFacade,
          transformer: ViewStateTransformer<Store.State, State>?,
          reducer: ViewStateReducer<State>?)
 }
 
 protocol ChildViewReactor: ViewReactor {
-    associatedtype Parent: ViewReactor where Parent.Store == Store
+    associatedtype Parent: ViewReactor
 
     init(parent: Parent,
          transformer: ViewStateTransformer<Store.State, State>?,
@@ -95,6 +100,14 @@ protocol AppView: class {
 // MARK: Implementations
 import UIKit
 
+enum InitialState: AbstractState {
+    case uninitialized
+
+    init() {
+        self = .uninitialized
+    }
+}
+
 protocol AppError: Error {} // should I make it Equatable?
 
 extension Array: DomainModel where Element: DomainModel {
@@ -105,22 +118,34 @@ extension Array: DomainModel where Element: DomainModel {
 
 class GenericUseCase<State: DomainState>: DomainStore {
 
+    static func dummyMiddleware(event: State.StateEvent) -> Observable<State.StateEvent> {
+        return Observable.just(event)
+    }
+    
     var state: BehaviorSubject<State>
+    private weak var warehouse: DomainStoreFacade?
     private var currentState: State
-    private let events = PublishSubject<State.DomainEvent>()
+    private let events = PublishSubject<State.StateEvent>()
     private let reduce: DomaninStateReducer<State>
     private let middlewares: [DomainStateMiddleware<State>]
     private let feedbackLoops: [DomainStateFeedback<State>]
     private let disposeBag = DisposeBag()
 
     required init(initialState: State,
+                  warehouse: DomainStoreFacade?,
                   reducer: @escaping DomaninStateReducer<State>,
-                  middlewares: [DomainStateMiddleware<State>] = [],
-                  feedbackLoops: [DomainStateFeedback<State>] = []) {
+                  middleware: [DomainStateMiddleware<State>] = [],
+                  feedbackLoop: [DomainStateFeedback<State>] = []) {
+
         self.currentState = initialState
+        self.warehouse = warehouse
         self.reduce = reducer
-        self.middlewares = middlewares
-        self.feedbackLoops = feedbackLoops
+        if middleware.isEmpty {
+            self.middlewares = [GenericUseCase.dummyMiddleware]
+        } else {
+            self.middlewares = middleware
+        }
+        self.feedbackLoops = feedbackLoop
         self.state = BehaviorSubject(value: initialState)
 
         events
@@ -135,7 +160,9 @@ class GenericUseCase<State: DomainState>: DomainStore {
             .distinctUntilChanged()
             .map { [feedbackLoops] state in feedbackLoops.map { $0(state) } }
             .map { Observable.from($0).merge() }.merge()
-            .bind(to: events)
+            .subscribe(onNext: { [weak self] (event) in
+                self?.warehouse?.dispatch(event: event)
+            })
             .disposed(by: disposeBag)
 
         state

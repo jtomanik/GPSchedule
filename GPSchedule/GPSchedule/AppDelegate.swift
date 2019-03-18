@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = UIColor.white
         window?.rootViewController = RootViewController(
             viewModel: RootViewModel(
-                store: generalStore.rootUseCase))
+                warehouse: generalStore))
         self.window?.makeKeyAndVisible()
     }
 }

@@ -17,7 +17,7 @@ enum LoadingViewState: BasicViewGenerator, ViewState {
     case stopped
     case animating
 
-    enum UserAction: Event, Equatable {
+    enum UserAction: AbstractEvent, Equatable {
     }
 
 // sourcery:inline:auto:LoadingViewState.AutoInit
@@ -27,7 +27,7 @@ enum LoadingViewState: BasicViewGenerator, ViewState {
 // sourcery:end
 }
 
-class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootViewModel> {
+class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootUseCase, RootViewModel> {
 
     static func transform(storeState: RootState, state: State) -> State {
         return state
@@ -44,12 +44,12 @@ convenience init(parent: RootViewModel) {
 }
 
 required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    self.init(store: parent.store, transformer: transformer, reducer: reducer)
+    self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
     self.parent = parent
 }
 
-required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    super.init(store: store, transformer: transformer, reducer: reducer)
+required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
 }
 // swiftlint:enable all
 // sourcery:end

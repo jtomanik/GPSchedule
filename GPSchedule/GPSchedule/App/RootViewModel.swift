@@ -18,7 +18,7 @@ enum RootViewState: ViewState {
     case loading
     case error(DomainError)
 
-    enum UserAction: Event {
+    enum UserAction: AbstractEvent {
         case bussy
         // case dissmissError
     }
@@ -50,12 +50,12 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
 
 // sourcery:inline:auto:RootViewModel.AutoInit
 // swiftlint:disable all
-convenience init(store: RootUseCase) {
-    self.init(store: store, transformer: RootViewModel.transform, reducer: RootViewModel.reduce)
+convenience init(warehouse: DomainStoreFacade) {
+    self.init(warehouse: warehouse, transformer: RootViewModel.transform, reducer: RootViewModel.reduce)
 }
 
-required init(store: Store, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    super.init(store: store, transformer: transformer, reducer: reducer)
+required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
+    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
 }
 // swiftlint:enable all
 // sourcery:end
