@@ -19,10 +19,12 @@ protocol DomainModel {
     var id: String { get }
 }
 
-protocol Event {}
-protocol PureState {}
-protocol DomainState: PureState, Equatable {
-    associatedtype DomainEvent: Event, Equatable
+protocol AbstractEvent {}
+protocol AbstractState {}
+
+protocol DomainEvent: AbstractEvent {}
+protocol DomainState: AbstractState, Equatable {
+    associatedtype StateEvent: DomainEvent, Equatable
 }
 
 protocol DomainStore: class {
@@ -31,17 +33,17 @@ protocol DomainStore: class {
     var state: BehaviorSubject<State> { get }
 
     init(initialState: State,
+         warehouse: DomainStoreFacade?,
          reducer: @escaping DomaninStateReducer<State>,
-         middlewares: [DomainStateMiddleware<State>],
-         feedbackLoops: [DomainStateFeedback<State>])
+         middleware: [DomainStateMiddleware<State>],
+         feedbackLoop: [DomainStateFeedback<State>])
 
-    func dispatch(event: State.DomainEvent)
+    func dispatch(event: State.StateEvent)
 }
 
-typealias DomaninStateReducer<State: DomainState> = (State, State.DomainEvent) -> State
-typealias DomainStateFeedback<State: DomainState> = (State) -> Observable<State.DomainEvent>
-//typealias DomainStateMiddleware<State: DomainState> = (ServiceCommand) -> (State.DomainEvent) -> Observable<State.DomainEvent>
-typealias DomainStateMiddleware<State: DomainState> = (State.DomainEvent) -> Observable<State.DomainEvent>
+typealias DomaninStateReducer<State: DomainState> = (State, State.StateEvent) -> State
+typealias DomainStateFeedback<State: DomainState> = (State) -> Observable<DomainEvent>
+typealias DomainStateMiddleware<State: DomainState> = (State.StateEvent) -> Observable<State.StateEvent>
 
 protocol ServiceCommand {
     associatedtype Model: DomainModel
@@ -50,13 +52,11 @@ protocol ServiceCommand {
 
 protocol ServiceProvider: class {}
 
-protocol DomainStoreFacade {
-    func dispatch(event: Event)
 }
 
 // MARK: Presentation Domain
 protocol ViewState: Equatable {
-    associatedtype UserAction: Event, Equatable
+    associatedtype UserAction: AbstractEvent, Equatable
 
     init()
 }
@@ -146,7 +146,7 @@ class GenericUseCase<State: DomainState>: DomainStore {
             .disposed(by: disposeBag)
     }
 
-    func dispatch(event: State.DomainEvent) {
+    func dispatch(event: State.StateEvent) {
         events.onNext(event)
     }
 }
@@ -157,13 +157,14 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
     typealias Store = ST
 
     weak var store: Store!
+    weak var warehouse: DomainStoreFacade!
     let action = PublishSubject<State.UserAction>()
     let state = BehaviorSubject<State>(value: State.init())
     private let transform: ViewStateTransformer<Store.State, State>
     private let reduce: ViewStateReducer<State>
     private let disposableBag = DisposeBag()
 
-    required init(store: Store,
+    required init(warehouse: DomainStoreFacade,
                   transformer: ViewStateTransformer<Store.State, State>?,
                   reducer: ViewStateReducer<State>?) {
 
@@ -177,7 +178,8 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
                 return state
         }
 
-        self.store = store
+        self.store = warehouse.getStore(for: Store.self)
+        self.warehouse = warehouse
         self.transform = transformer ?? defaultViewStateTransformer
         self.reduce = reducer ?? defaultViewStateReducer
 
@@ -195,20 +197,22 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
 
         state
             .distinctUntilChanged()
-            .subscribeNext(weak: self, type(of: self).forwarder)
+            .subscribe(weak: self, onNext: type(of: self).forwarder, onError: type(of: self).errorHandler, onCompleted: nil, onDisposed: nil)
             .disposed(by: disposableBag)
     }
 
     func forwarder(state: State) {
         return
     }
+
+    func errorHandler(error: Error) {
+        fatalError("Unhandler error")
+    }
 }
 
-class GenericChildViewModel<VS: ViewState, PT: ViewReactor>: GenericViewModel<VS, PT.Store>, ChildViewReactor {
+class GenericChildViewModel<VS: ViewState, ST: DomainStore, PT: ViewReactor>: GenericViewModel<VS, ST>, ChildViewReactor {
 
-    typealias State = VS
-    typealias Store = PT.Store
-    typealias Parent = GenericViewModel<PT.State, Store>
+    typealias Parent = GenericViewModel<PT.State, PT.Store>
 
     weak var parent: Parent?
 
@@ -216,14 +220,14 @@ class GenericChildViewModel<VS: ViewState, PT: ViewReactor>: GenericViewModel<VS
             parent: Parent,
             transformer: ViewStateTransformer<Store.State, State>?,
             reducer: ViewStateReducer<State>?) {
-        self.init(store: parent.store, transformer: transformer, reducer: reducer)
+        self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
         self.parent = parent
     }
 
-    required init(store: Store,
+    required init(warehouse: DomainStoreFacade,
                   transformer: ViewStateTransformer<Store.State, State>?,
                   reducer: ViewStateReducer<State>?) {
-        super.init(store: store, transformer: transformer, reducer: reducer)
+        super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
     }
 }
 
