@@ -137,6 +137,7 @@
 		7A6A0E8B223FA440001F834E /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				7A79A6B522342C5400E22CDA /* RootUseCase.swift */,
 				7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */,
 				7A79A6AC2233033100E22CDA /* LoadingViewController.swift */,
 				7A79A6B02233037300E22CDA /* RootViewController.swift */,
@@ -216,7 +217,6 @@
 				7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */,
 				7A79A6B922344A0000E22CDA /* Templates */,
 				7A79A6B4223422CA00E22CDA /* App */,
-				7AEFB26A2237EA2500E86256 /* Domain */,
 				7AC554C6223B29D200FDEDE5 /* Services */,
 				7AACDE192231BBD600B24351 /* Assets.xcassets */,
 				7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */,
@@ -228,11 +228,7 @@
 		7AC554C6223B29D200FDEDE5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */,
-				7AC554C7223B309E00FDEDE5 /* PersonalSchedule.swift */,
-				7AC554C9223B35C400FDEDE5 /* AppointmentDetail.swift */,
 				7AE0E0F222398F1A00F341B7 /* MockAuthService.swift */,
-				7AC554CB223B36EE00FDEDE5 /* OpenMRS+Rx.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -240,20 +236,13 @@
 		7AE0E0F82239C27700F341B7 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				7A6A0E87223EEE2E001F834E /* CalendarUseCase.swift */,
+				7AC554C9223B35C400FDEDE5 /* AppointmentDetail.swift */,
+				7AC554C7223B309E00FDEDE5 /* PersonalSchedule.swift */,
 				7A79A6AA2233031D00E22CDA /* CalendarViewController.swift */,
 				7AE0E0F62239C27100F341B7 /* CalendarViewModel.swift */,
 			);
 			path = Calendar;
-			sourceTree = "<group>";
-		};
-		7AEFB26A2237EA2500E86256 /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				7A79A6B522342C5400E22CDA /* RootUseCase.swift */,
-				7A6A0E85223EEDFE001F834E /* AuthUseCase.swift */,
-				7A6A0E87223EEE2E001F834E /* CalendarUseCase.swift */,
-			);
-			path = Domain;
 			sourceTree = "<group>";
 		};
 		7AEFB2712238322800E86256 /* Components */ = {
@@ -280,6 +269,8 @@
 		7AEFB27C22386F2300E86256 /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
+				7A6A0E85223EEDFE001F834E /* AuthUseCase.swift */,
+				7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */,
 				7A79A6A82233030800E22CDA /* LogInViewController.swift */,
 				7A79A6C82235935400E22CDA /* LoginViewModel.swift */,
 			);
@@ -289,6 +280,7 @@
 		7AEFB27D22386F4500E86256 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				7AC554CB223B36EE00FDEDE5 /* OpenMRS+Rx.swift */,
 				7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
