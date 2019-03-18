@@ -10,11 +10,6 @@ import Foundation
 import RxSwift
 import RxSwiftExt
 
-enum AuthError: Error {
-    case unknown
-    case errorMessage(String)
-}
-
 protocol AuthService: ServiceCommand {
     static func logIn(username: String, password: String) -> Self
     func execute() -> Single<User>
@@ -30,27 +25,54 @@ protocol AuthUseCaseDependenciesProvider: AuthServiceProvider {}
 
 enum AuthState: DomainState {
 
+    enum StateError: DomainError, Equatable {
+        case unauthorized
+        case unknown
+        case errorMessage(String)
+    }
+
     enum StateEvent: DomainEvent, Equatable {
         case login(username: String, password: String)
         case loggedIn(User)
         case logout
         case lock
         case unlock
-        case error(DomainError)
+        case error(StateError)
     }
 
-    case unauthorized(error: String?)
+    case unauthorized
     case authorized(user: User)
     //        case locked(user: User)
-    case error(DomainError)
+    case authFailure(StateError)
 
     init() {
-        self = .unauthorized(error: nil)
+        self = .unauthorized
     }
 }
 
 // sourcery: defaultState = "AuthState"
 class AuthUseCase: GenericUseCase<AuthState> {
+
+    static func reduce(_ state: AuthState, _ event: AuthState.StateEvent) -> AuthState {
+        switch event {
+        case .login:
+            return state
+        case .loggedIn(let user):
+            return .authorized(user: user)
+        case .logout:
+            return .unauthorized
+        case .lock:
+            return state
+        case .unlock:
+            return state
+        case .error:
+            return .authFailure(State.StateError.unauthorized)
+        }
+    }
+
+    static func errorHandler(_ state: AuthState, _ error: Error) -> DomainEvent {
+        return RootState.StateEvent.error(.genericError)
+    }
 
     static func authMiddleware<Service: AuthService>(service: Service.Type) -> DomainStateMiddleware<AuthState> {
         return { (event: AuthState.StateEvent) -> Observable<AuthState.StateEvent> in
@@ -61,14 +83,15 @@ class AuthUseCase: GenericUseCase<AuthState> {
                 .execute()
                 .map { AuthState.StateEvent.loggedIn($0) }
                 .catchError { (error) -> Single<AuthState.StateEvent> in
-                    guard let error = error as? AuthError else {
-                        return Single.just(AuthState.StateEvent.error(.genericError))
+                    guard let error = error as? APIError else {
+                        return Single.just(AuthState.StateEvent.error(.unknown))
                     }
+                    // sourcery:inline:APIError.Switch
                     switch error {
-                    case .unknown:
-                        return Single.just(AuthState.StateEvent.error(.genericError))
-                    case .errorMessage(let message):
-                        return Single.just(AuthState.StateEvent.error(.errorMessage(message)))
+                    case .backendError:
+                        return Single.just(AuthState.StateEvent.error(.unauthorized))
+                    default:
+                        return Single.just(AuthState.StateEvent.error(.unknown))
                     }
                 }
                 .asObservable()
@@ -77,30 +100,13 @@ class AuthUseCase: GenericUseCase<AuthState> {
 
     static func authFeedback() -> DomainStateFeedback<AuthState> {
         return { (state: AuthState) -> Observable<DomainEvent> in
-            if case .error(let error) = state {
-                return Observable.just(RootState.StateEvent.error(error))
+            if case .authFailure = state {
+                return Observable.just(RootState.StateEvent.logout)
             }
             guard case .authorized(let user) = state else {
                 return Observable.empty()
             }
             return Observable.just(RootState.StateEvent.loggedIn(user))
-        }
-    }
-
-    static func reduce(_ state: AuthState, _ event: AuthState.StateEvent) -> AuthState {
-        switch event {
-        case .login:
-            return state
-        case .loggedIn(let user):
-            return .authorized(user: user)
-        case .logout:
-            return .unauthorized(error: nil)
-        case .lock:
-            return state
-        case .unlock:
-            return state
-        case .error:
-            return .error(DomainError.genericError)
         }
     }
 
@@ -110,8 +116,8 @@ class AuthUseCase: GenericUseCase<AuthState> {
         dependencyProvider: DependenciesProvider) {
         self.init(warehouse: warehouse,
                   reducer: AuthUseCase.reduce,
+                  errorHandler: AuthUseCase.errorHandler,
                   middleware: [AuthUseCase.authMiddleware(service: dependencyProvider.authService)],
                   feedbackLoop: [AuthUseCase.authFeedback()])
     }
 }
-
