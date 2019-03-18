@@ -1,5 +1,5 @@
 //
-//  LoggedInViewController.swift
+//  CalendarViewController.swift
 //  GPSchedule
 //
 //  Created by Jakub Tomanik on 08/03/2019.
@@ -11,12 +11,12 @@ import UIKit
 import Bento
 import BentoKit
 
-class LoggedInViewController: GenericTableViewController<LoggedInViewModel> {
+class CalendarViewController: GenericTableViewController<CalendarViewModel> {
 
     typealias RowId = String
     typealias SectionId = String
 
-    override func process(state: LoggedInViewModel.State) {
+    override func process(state: CalendarViewModel.State) {
         switch state {
         case .empty(let title):
             self.title = title
@@ -34,7 +34,7 @@ class LoggedInViewController: GenericTableViewController<LoggedInViewModel> {
         }
     }
 
-    private func package(model: LoggedInViewState.ListDisplayModel) -> Box<SectionId, RowId> {
+    private func package(model: CalendarViewState.ListDisplayModel) -> Box<SectionId, RowId> {
         return Box<SectionId, RowId>.empty
                 |-+ Section(id: "Appointments")
                 |---* model.items.map { self.package(model: $0) }
@@ -44,7 +44,7 @@ class LoggedInViewController: GenericTableViewController<LoggedInViewModel> {
         return RowId(model.id) <> AppointmentComponent(state: model)
     }
 
-    private func package(model: LoggedInViewState.DetailDisplayModel) -> Box<SectionId, RowId> {
+    private func package(model: CalendarViewState.DetailDisplayModel) -> Box<SectionId, RowId> {
         return Box<SectionId, RowId>.empty
     }
 

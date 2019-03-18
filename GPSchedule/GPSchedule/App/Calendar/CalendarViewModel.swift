@@ -1,5 +1,5 @@
 //
-//  LoggedInViewModel.swift
+//  CalendarViewModel.swift
 //  GPSchedule
 //
 //  Created by Jakub Tomanik on 13/03/2019.
@@ -11,7 +11,7 @@ import Foundation
 // sourcery: viewName = "LoggedIn"
 // sourcery: parentViewModel = "RootViewModel"
 // sourcery: defaultState = "empty(title: "")"
-enum LoggedInViewState: BasicViewGenerator, ViewState {
+enum CalendarViewState: BasicViewGenerator, ViewState {
 
     struct ListDisplayModel: Equatable {
         let title: String?
@@ -36,14 +36,14 @@ enum LoggedInViewState: BasicViewGenerator, ViewState {
         case showDetail(id: String)
     }
 
-    // sourcery:inline:auto:LoggedInViewState.AutoInit
+    // sourcery:inline:auto:CalendarViewState.AutoInit
         init() {
             self = .empty(title: "")
         }
     // sourcery:end
 }
 
-class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, CalendarUseCase, RootViewModel> {
+class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCase, RootViewModel> {
 
     static func translate(domain model: Appointment) -> AppointmentComponentState {
         // TODO: Create Time formatter
@@ -63,7 +63,7 @@ class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, CalendarUseCas
             } else {
                 return .list(model: State.ListDisplayModel(
                                 title: user.display,
-                                items: values.map { LoggedInViewModel.translate(domain: $0) }),
+                                items: values.map { CalendarViewModel.translate(domain: $0) }),
                              for: user)
             }
         case .detail(let value):
@@ -76,13 +76,13 @@ class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, CalendarUseCas
     static func reduce(state: State, action: State.UserAction) -> State {
         switch action {
         case .refresh:
-            if case LoggedInViewState.list(_, let user) = state {
+            if case CalendarViewState.list(_, let user) = state {
                 return .refreshing(title: user.display, for: user)
             } else {
                 return state
             }
         case .showDetail(let id):
-            if case LoggedInViewState.list(_, let user) = state {
+            if case CalendarViewState.list(_, let user) = state {
                 return .fetching(id: id, for: user)
             } else {
                 return state
@@ -90,13 +90,13 @@ class LoggedInViewModel: GenericChildViewModel<LoggedInViewState, CalendarUseCas
         }
     }
 
-    override func forwarder(state: LoggedInViewState) {
+    override func forwarder(state: CalendarViewState) {
     }
 
-// sourcery:inline:auto:LoggedInViewModel.AutoInit
+// sourcery:inline:auto:CalendarViewModel.AutoInit
 // swiftlint:disable all
 convenience init(parent: RootViewModel) {
-    self.init(parent: parent, transformer: LoggedInViewModel.transform, reducer: LoggedInViewModel.reduce)
+    self.init(parent: parent, transformer: CalendarViewModel.transform, reducer: CalendarViewModel.reduce)
 }
 
 required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
