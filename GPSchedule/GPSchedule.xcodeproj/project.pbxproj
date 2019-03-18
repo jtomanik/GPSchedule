@@ -134,17 +134,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7A6A0E8B223FA440001F834E /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */,
+				7A79A6AC2233033100E22CDA /* LoadingViewController.swift */,
+				7A79A6B02233037300E22CDA /* RootViewController.swift */,
+				7A79A6CE2235A03D00E22CDA /* RootViewModel.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
 		7A79A6B4223422CA00E22CDA /* App */ = {
 			isa = PBXGroup;
 			children = (
 				7AEFB27D22386F4500E86256 /* Extensions */,
 				7AEFB2712238322800E86256 /* Components */,
-				7A79A6B02233037300E22CDA /* RootViewController.swift */,
-				7A79A6CE2235A03D00E22CDA /* RootViewModel.swift */,
+				7A6A0E8B223FA440001F834E /* Root */,
 				7AEFB27C22386F2300E86256 /* LogIn */,
-				7AE0E0F82239C27700F341B7 /* LoggedIn */,
-				7A79A6AC2233033100E22CDA /* LoadingViewController.swift */,
-				7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */,
+				7AE0E0F82239C27700F341B7 /* Calendar */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -229,13 +237,13 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		7AE0E0F82239C27700F341B7 /* LoggedIn */ = {
+		7AE0E0F82239C27700F341B7 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
 				7A79A6AA2233031D00E22CDA /* LoggedInViewController.swift */,
 				7AE0E0F62239C27100F341B7 /* LoggedInViewModel.swift */,
 			);
-			path = LoggedIn;
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		7AEFB26A2237EA2500E86256 /* Domain */ = {
