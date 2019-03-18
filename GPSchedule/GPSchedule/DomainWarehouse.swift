@@ -13,20 +13,52 @@ class DomainWarehouse: DomainStoreFacade {
 
 // sourcery:inline:auto:DomainWarehouse.Generated
 // swiftlint:disable all
+    let state = BehaviorSubject<AbstractState>(value: InitialState())
+
     let appointmentService = AppointmentDetail.self
     let authService = Authenticator.self
     let appointmentsService = PersonalSchedule.self
 
+    var authUseCase: AuthUseCase!
+    var calendarUseCase: CalendarUseCase!
     var rootUseCase: RootUseCase!
 
-    init() {
-        self.rootUseCase = RootUseCase(initialState: RootState(), dependencyProvider: self)
+    private let disposeBag = DisposeBag()
 
+    init() {
+        self.authUseCase = AuthUseCase(initialState: AuthState(),warehouse: self,  dependencyProvider: self)
+
+        self.calendarUseCase = CalendarUseCase(initialState: CalendarState(),warehouse: self,  dependencyProvider: self)
+
+        self.rootUseCase = RootUseCase(initialState: RootState(),warehouse: self,  dependencyProvider: self)
+
+
+        Observable.merge([rootUseCase!.state])
+            .map { $0 as AbstractState}
+            .bind(to: state)
+            .disposed(by: disposeBag)
     }
 
-    func dispatch(event: Event) {
+    func getStore<S>(for type: S.Type) -> S {
+        switch type {
+        case is AuthUseCase.Type:
+            return authUseCase! as! S
+        case is CalendarUseCase.Type:
+            return calendarUseCase! as! S
+        case is RootUseCase.Type:
+            return rootUseCase! as! S
+        default:
+            fatalError("Store type is not a part of a Warehouse")
+        }
+    }
+
+    func dispatch(event: DomainEvent) {
         switch event {
-        case let event as RootState.DomainEvent:
+        case let event as AuthState.StateEvent:
+            authUseCase.dispatch(event: event)
+        case let event as CalendarState.StateEvent:
+            calendarUseCase.dispatch(event: event)
+        case let event as RootState.StateEvent:
             rootUseCase.dispatch(event: event)
         default:
             return

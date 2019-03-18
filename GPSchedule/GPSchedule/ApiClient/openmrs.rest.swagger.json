@@ -10217,15 +10217,15 @@
           "format": "date"
         },
         "provider": {
-          "$ref": "#/definitions/ProviderGetRef"
+          "$ref": "#/definitions/ProviderGet"
         },
         "location": {
-          "$ref": "#/definitions/LocationGetRef"
+          "$ref": "#/definitions/LocationGet"
         },
         "types": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGet"
+            "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
           }
         },
         "voided": {
@@ -12058,7 +12058,7 @@
           "type": "boolean"
         },
         "person": {
-          "$ref": "#/definitions/PersonGet"
+          "$ref": "#/definitions/PersonGetRef"
         },
         "identifier": {
           "type": "string"
@@ -12066,7 +12066,7 @@
         "attributes": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ProviderAttributeGet"
+            "$ref": "#/definitions/ProviderAttributeGetRef"
           }
         },
         "preferredHandlerClassname": {
@@ -12183,7 +12183,7 @@
           "format": "date"
         },
         "appointmentBlock": {
-          "$ref": "#/definitions/AppointmentschedulingAppointmentblockGetRef"
+          "$ref": "#/definitions/AppointmentschedulingAppointmentblockGet"
         },
         "countOfAppointments": {
           "type": "number",
@@ -12943,16 +12943,16 @@
           "type": "string"
         },
         "timeSlot": {
-          "$ref": "#/definitions/AppointmentschedulingTimeslotGetRef"
+          "$ref": "#/definitions/AppointmentschedulingTimeslotGet"
         },
         "appointmentType": {
-          "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGetRef"
+          "$ref": "#/definitions/AppointmentschedulingAppointmenttypeGet"
         },
         "reason": {
           "type": "string"
         },
         "patient": {
-          "$ref": "#/definitions/PatientGetRef"
+          "$ref": "#/definitions/PatientGet"
         }
       }
     },

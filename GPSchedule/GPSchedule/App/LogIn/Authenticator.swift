@@ -29,14 +29,14 @@ struct Authenticator: AuthService {
             .getAllUsersWithRequestBuilder(v: "full", username: username)
             .addCredential()
             .rx()
-            .errorOnNil(AuthError.unknown)
+            .errorOnNil(APIError.backendError)
             .map { $0.results }
             .filterNil()
             .map { Decoders.decode(clazz: Array<UserGet>.self, source: $0 as AnyObject) }
             .map { $0.value }
-            .errorOnNil(AuthError.unknown) // parsing error
+            .errorOnNil(APIError.parsingError)
             .map { $0.first }
-            .errorOnNil(AuthError.unknown) // no user
+            .errorOnNil(APIError.noData)
             .asSingle()
     }
 }

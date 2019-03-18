@@ -6,7 +6,11 @@ protocol {{type.annotations.target}}Model: DomainModel {
     {% for variable in type.variables %}
         {% for mapable in types.implementing.DomainMapable %}
             {% if variable.type.name == mapable.name %}
-  var {{variable.name}}: {{variable.typeName}} { get }
+                {% if variable.type|annotated:"target" %}
+    var {{variable.name}}: {{variable.type.annotations.target}}{% if variable.type.isOptional %}?{% endif %} { get }
+                {% else %}
+    var {{variable.name}}: {{variable.typeName}} { get }
+                {% endif %}
             {% endif %}
         {% endfor %}
     {% endfor %}
@@ -29,3 +33,6 @@ extension {{type.name}}: {{type.annotations.target}}Model, Equatable {
     }
 }
 {% endfor %}
+
+
+

@@ -11,13 +11,13 @@ import Foundation
 open class AppointmentschedulingAppointmentGet: JSONEncodable {
     public var uuid: String?
     public var display: String?
-    public var timeSlot: AppointmentschedulingTimeslotGetRef?
-    public var appointmentType: AppointmentschedulingAppointmenttypeGetRef?
+    public var timeSlot: AppointmentschedulingTimeslotGet?
+    public var appointmentType: AppointmentschedulingAppointmenttypeGet?
     public var reason: String?
-    public var patient: PatientGetRef?
+    public var patient: PatientGet?
 
 
-    public init(uuid: String?=nil, display: String?=nil, timeSlot: AppointmentschedulingTimeslotGetRef?=nil, appointmentType: AppointmentschedulingAppointmenttypeGetRef?=nil, reason: String?=nil, patient: PatientGetRef?=nil) {
+    public init(uuid: String?=nil, display: String?=nil, timeSlot: AppointmentschedulingTimeslotGet?=nil, appointmentType: AppointmentschedulingAppointmenttypeGet?=nil, reason: String?=nil, patient: PatientGet?=nil) {
         self.uuid = uuid
         self.display = display
         self.timeSlot = timeSlot

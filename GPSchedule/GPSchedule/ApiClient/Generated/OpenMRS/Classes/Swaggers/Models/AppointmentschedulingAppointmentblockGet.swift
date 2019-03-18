@@ -13,13 +13,13 @@ open class AppointmentschedulingAppointmentblockGet: JSONEncodable {
     public var display: String?
     public var startDate: ISOFullDate?
     public var endDate: ISOFullDate?
-    public var provider: ProviderGetRef?
-    public var location: LocationGetRef?
-    public var types: [AppointmentschedulingAppointmenttypeGet]?
+    public var provider: ProviderGet?
+    public var location: LocationGet?
+    public var types: [AppointmentschedulingAppointmenttypeGetRef]?
     public var voided: Bool?
 
 
-    public init(uuid: String?=nil, display: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, provider: ProviderGetRef?=nil, location: LocationGetRef?=nil, types: [AppointmentschedulingAppointmenttypeGet]?=nil, voided: Bool?=nil) {
+    public init(uuid: String?=nil, display: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, provider: ProviderGet?=nil, location: LocationGet?=nil, types: [AppointmentschedulingAppointmenttypeGetRef]?=nil, voided: Bool?=nil) {
         self.uuid = uuid
         self.display = display
         self.startDate = startDate

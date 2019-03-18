@@ -27,16 +27,18 @@ struct PersonalSchedule: AppointmentsService {
 
     func execute() -> Single<[Appointment]> {
         return AppointmentschedulingAppointmentAPI
-            .getAllAppointmentsWithRequestBuilder()
+            .getAllAppointmentsWithRequestBuilder(v: "full")
             .addCredential()
             .rx()
-            .errorOnNil(AuthError.unknown)
+            .errorOnNil(APIError.backendError)
             .map { $0.results }
             .filterNil()
             .map { Decoders.decode(clazz: Array<AppointmentschedulingAppointmentGet>.self, source: $0 as AnyObject) }
-            .map { $0.value }
-            .errorOnNil(AuthError.unknown) // parsing error
-            .map { [uuid] in $0.filter({ $0.timeSlot?.appointmentBlock?.provider?.uuid == uuid }) }
+            .map {
+                $0.value }
+            .errorOnNil(APIError.parsingError) // parsing error
+            .map { [uuid] in
+                $0.filter({ $0.timeSlot?.appointmentBlock?.provider?.person?.uuid == uuid }) }
             .asSingle()
     }
 }
