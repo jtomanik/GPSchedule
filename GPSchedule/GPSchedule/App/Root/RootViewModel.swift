@@ -12,15 +12,16 @@ import RxSwift
 import RxSwiftExt
 
 // sourcery: defaultState = "logIn"
-enum RootViewState: ViewState {
+indirect enum RootViewState: ViewState {
     case logIn
     case loggedIn
-    case loading
-    case error(DomainError)
+    case loading(from: RootViewState)
+    case error(RootState.StateError, from: RootViewState)
 
     enum UserAction: AbstractEvent {
         case bussy
-        // case dissmissError
+        case dissmissError
+        case dissmissLoading
     }
 
     init() {
@@ -37,14 +38,22 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
         case .authorized:
             return .loggedIn
         case .error(let error):
-            return .error(error)
+            return .error(error, from: state)
         }
     }
 
     static func reduce(state: State, action: State.UserAction) -> State {
         switch action {
         case .bussy:
-            return .loading
+            return .loading(from: state)
+        case .dissmissLoading:
+            if case .loading(let oldState) = state {
+                return oldState
+            } else {
+                return state
+            }
+        case .dissmissError:
+            return state
         }
     }
 

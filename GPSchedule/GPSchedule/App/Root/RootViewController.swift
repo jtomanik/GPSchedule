@@ -15,15 +15,18 @@ class RootViewController: GenericViewController<RootViewModel> {
         let childViewModel = LoginViewModel(parent: viewModel)
         return LoginViewController(viewModel: childViewModel)
     }()
+
     private lazy var loggedInView: UINavigationController = {
         let childViewModel = CalendarViewModel(parent: viewModel)
         let view = CalendarViewController(viewModel: childViewModel)
         return UINavigationController(rootViewController: view)
     }()
+
     private lazy var loadingView: LoadingViewController = {
         let childViewModel = LoadingViewModel(parent: viewModel)
         return LoadingViewController(viewModel: childViewModel)
     }()
+
     private lazy var errorView: ErrorViewController = {
         let childViewModel = ErrorViewModel(parent: viewModel)
         return ErrorViewController(viewModel: childViewModel)

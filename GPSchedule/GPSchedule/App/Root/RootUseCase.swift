@@ -10,27 +10,27 @@ import Foundation
 import RxSwift
 import RxSwiftExt
 
-enum DomainError: Error, Equatable {
-    case genericError
-    case errorMessage(String)
-}
-
 protocol RootUseCaseDependenciesProvider: ServiceProvider {}
 
 enum RootState: DomainState {
 
+    enum StateError: DomainError, Equatable {
+        case genericError
+        case errorMessage(String)
+    }
+
     enum StateEvent: DomainEvent, Equatable {
         case loggedIn(User)
         case logout
-        case error(DomainError)
+        case error(StateError)
     }
 
-    case unauthorized(error: String?)
+    case unauthorized
     case authorized(user: User)
-    case error(DomainError)
+    case error(StateError)
 
     init() {
-        self = .unauthorized(error: nil)
+        self = .unauthorized
     }
 }
 
@@ -42,10 +42,14 @@ class RootUseCase: GenericUseCase<RootState> {
         case .loggedIn(let user):
             return .authorized(user: user)
         case .logout:
-            return .unauthorized(error: nil)
+            return .unauthorized
         case .error:
-            return .error(DomainError.genericError)
+            return .error(.genericError)
         }
+    }
+
+    static func errorHandler(_ state: RootState, _ error: Error) -> DomainEvent {
+        return RootState.StateEvent.error(.genericError)
     }
 
     static func rootFeedback() -> DomainStateFeedback<RootState> {
@@ -63,7 +67,8 @@ class RootUseCase: GenericUseCase<RootState> {
         dependencyProvider: DependenciesProvider) {
         self.init(warehouse: warehouse,
                   reducer: RootUseCase.reduce,
+                  errorHandler: RootUseCase.errorHandler,
                   middleware: [],
-                  feedbackLoop: [])
+                  feedbackLoop: [RootUseCase.rootFeedback()])
     }
 }
