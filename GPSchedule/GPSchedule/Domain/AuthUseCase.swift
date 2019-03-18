@@ -1,8 +1,8 @@
 //
-//  RootStore.swift
+//  AuthUseCase.swift
 //  GPSchedule
 //
-//  Created by Jakub Tomanik on 09/03/2019.
+//  Created by Jakub Tomanik on 17/03/2019.
 //  Copyright © 2019 Jakub Tomanik. All rights reserved.
 //
 
@@ -20,32 +20,17 @@ protocol AuthService: ServiceCommand {
     func execute() -> Single<User>
 }
 
-protocol AppointmentService: ServiceCommand {
-    static func appointment(with id: String) -> Self
-    func execute() -> Single<Appointment>
-}
-
-protocol AppointmentsService: ServiceCommand {
-    static func appointments(for id: String) -> Self
-    func execute() -> Single<[Appointment]>
-}
-
 protocol AuthServiceProvider: ServiceProvider {
     associatedtype Service: AuthService
 
     var authService: Service.Type { get }
 }
 
-protocol RootUseCaseDependenciesProvider: AuthServiceProvider {}
+protocol AuthUseCaseDependenciesProvider: AuthServiceProvider {}
 
-enum DomainError: Error, Equatable {
-    case genericError
-    case errorMessage(String)
-}
+enum AuthState: DomainState {
 
-enum RootState: DomainState {
-
-    enum DomainEvent: Event, Equatable {
+    enum StateEvent: DomainEvent, Equatable {
         case login(username: String, password: String)
         case loggedIn(User)
         case logout
@@ -64,33 +49,45 @@ enum RootState: DomainState {
     }
 }
 
-// sourcery: defaultState = "RootState"
-class RootUseCase: GenericUseCase<RootState> {
+// sourcery: defaultState = "AuthState"
+class AuthUseCase: GenericUseCase<AuthState> {
 
-    static func authMiddleware<Service: AuthService>(service: Service.Type) -> DomainStateMiddleware<RootState> {
-        return { (event: RootState.DomainEvent) -> Observable<RootState.DomainEvent> in
+    static func authMiddleware<Service: AuthService>(service: Service.Type) -> DomainStateMiddleware<AuthState> {
+        return { (event: AuthState.StateEvent) -> Observable<AuthState.StateEvent> in
             guard case .login(let username, let password) = event else {
                 return Observable.just(event)
             }
             return service.logIn(username: username, password: password)
                 .execute()
-                .map { RootState.DomainEvent.loggedIn($0) }
-                .catchError { (error) -> Single<RootState.DomainEvent> in
+                .map { AuthState.StateEvent.loggedIn($0) }
+                .catchError { (error) -> Single<AuthState.StateEvent> in
                     guard let error = error as? AuthError else {
-                        return Single.just(RootState.DomainEvent.error(.genericError))
+                        return Single.just(AuthState.StateEvent.error(.genericError))
                     }
                     switch error {
                     case .unknown:
-                        return Single.just(RootState.DomainEvent.error(.genericError))
+                        return Single.just(AuthState.StateEvent.error(.genericError))
                     case .errorMessage(let message):
-                        return Single.just(RootState.DomainEvent.error(.errorMessage(message)))
+                        return Single.just(AuthState.StateEvent.error(.errorMessage(message)))
                     }
                 }
                 .asObservable()
         }
     }
 
-    static func reduce(_ state: RootState, _ event: RootState.DomainEvent) -> RootState {
+    static func authFeedback() -> DomainStateFeedback<AuthState> {
+        return { (state: AuthState) -> Observable<DomainEvent> in
+            if case .error(let error) = state {
+                return Observable.just(RootState.StateEvent.error(error))
+            }
+            guard case .authorized(let user) = state else {
+                return Observable.empty()
+            }
+            return Observable.just(RootState.StateEvent.loggedIn(user))
+        }
+    }
+
+    static func reduce(_ state: AuthState, _ event: AuthState.StateEvent) -> AuthState {
         switch event {
         case .login:
             return state
@@ -107,12 +104,15 @@ class RootUseCase: GenericUseCase<RootState> {
         }
     }
 
-    convenience init<DependenciesProvider: RootUseCaseDependenciesProvider>(
-        initialState: State = RootState(),
+    convenience init<DependenciesProvider: AuthUseCaseDependenciesProvider>(
+        initialState: State = AuthState(),
+        warehouse: DomainStoreFacade?,
         dependencyProvider: DependenciesProvider) {
         self.init(initialState: initialState,
-                  reducer: RootUseCase.reduce,
-                  middlewares: [RootUseCase.authMiddleware(service: dependencyProvider.authService)],
-                  feedbackLoops: [])
+                  warehouse: warehouse,
+                  reducer: AuthUseCase.reduce,
+                  middleware: [AuthUseCase.authMiddleware(service: dependencyProvider.authService)],
+                  feedbackLoop: [AuthUseCase.authFeedback()])
     }
 }
+
