@@ -117,8 +117,12 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
 
     override func forwarder(state: LoginViewState) {
         switch state {
-        case .inProgress(let context):
-            parent?.action.onNext(RootViewState.UserAction.dissmissLoading)
+        case .inProgress:
+            if let parentValue = try? parent?.state.value(),
+                let parentState = parentValue,
+                case .loading(_) = parentState {
+                parent?.action.onNext(RootViewState.UserAction.dissmissLoading)
+            }
         case .done(let context):
             parent?.action.onNext(.bussy)
             store.dispatch(event: .login(
