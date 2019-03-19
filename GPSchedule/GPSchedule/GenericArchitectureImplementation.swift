@@ -65,7 +65,7 @@ class GenericUseCase<State: DomainState>: DomainStore {
             .distinctUntilChanged() // that may not always be desirable
             .map { [middlewares] event in middlewares.map { $0(event) } }
             .map { Observable.from($0).merge() }.merge()
-            .map { [reduce, currentState] in reduce(currentState, $0) }
+            .map { [reduce] in reduce(self.currentState, $0) }
             .asObservable()
             .subscribe(weak: self, { object in return object.eventStreamHandler })
             .disposed(by: disposeBag)
@@ -107,12 +107,13 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
     typealias Store = ST
 
     let action = PublishSubject<State.UserAction>()
-    let state = BehaviorSubject<State>(value: State.init())
+    let state: BehaviorSubject<State>
     weak var store: Store!
     weak var warehouse: DomainStoreFacade!
+    private var currentState: State
     private let transform: ViewStateTransformer<Store.State, State>
     private let reduce: ViewStateReducer<State>
-    private let disposableBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     required init(warehouse: DomainStoreFacade,
                   transformer: ViewStateTransformer<Store.State, State>?,
@@ -128,6 +129,9 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
                 return state
         }
 
+        let initialState = State.init()
+        self.currentState = initialState
+        self.state = BehaviorSubject(value: initialState)
         self.store = warehouse.getStore(for: Store.self)
         self.warehouse = warehouse
         self.transform = transformer ?? defaultViewStateTransformer
@@ -135,20 +139,17 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
 
         store.state
             .distinctUntilChanged()
-            .map { [state, transform] in try transform($0, state.value()) }
-            .bind(to: state)
-            .disposed(by: disposableBag)
+            .map { [transform] in transform($0, self.currentState) }
+            .asObservable()
+            .subscribe(weak: self, { object in return object.eventStreamHandler })
+            .disposed(by: disposeBag)
 
         action
-            .distinctUntilChanged() // that may not always be desirable
-            .map { [state, reduce] in try reduce(state.value(), $0) }
-            .bind(to: state)
-            .disposed(by: disposableBag)
-
-        state
             .distinctUntilChanged()
-            .subscribe(weak: self, onNext: type(of: self).forwarder, onError: type(of: self).errorHandler, onCompleted: nil, onDisposed: nil)
-            .disposed(by: disposableBag)
+            .map { [reduce] in reduce(self.currentState, $0) }
+            .asObservable()
+            .subscribe(weak: self, { object in return object.eventStreamHandler })
+            .disposed(by: disposeBag)
     }
 
     func forwarder(state: State) {
@@ -157,6 +158,19 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
 
     func errorHandler(error: Error) {
         fatalError("Unhandler error")
+    }
+
+    private func eventStreamHandler(rxEvent: Event<State>) {
+        switch rxEvent {
+        case .next(let newState):
+            currentState = newState
+            state.onNext(newState)
+            forwarder(state: newState)
+        case .error(let error):
+            errorHandler(error: error)
+        case .completed:
+            fatalError("Event stream must not be compleated while UseCase is alive")
+        }
     }
 }
 
@@ -209,7 +223,7 @@ class GenericViewController<VM: ViewReactor>: UIViewController, AppView {
     }
 
     func bindToViewModel() {
-        viewModel.state
+        viewModel.state.share()
             .subscribe(
                 weak: self,
                 onNext: { return $0.process },
