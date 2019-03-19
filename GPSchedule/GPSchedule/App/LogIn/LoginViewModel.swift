@@ -127,35 +127,20 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
         }
     }
 
-    
 // sourcery:inline:auto:LoginViewModel.AutoInit
-    
 // swiftlint:disable all
-    
 convenience init(parent: RootViewModel) {
-    
     self.init(parent: parent, transformer: LoginViewModel.transform, reducer: LoginViewModel.reduce)
-    
 }
-    
 
-    
 required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    
     self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
-    
     self.parent = parent
-    
 }
-    
 
-    
 required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    
     super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
-    
 }
-    
 // swiftlint:enable all
 // sourcery:end
 }

@@ -28,7 +28,7 @@ class LoginViewController: GenericTableViewController<LoginViewModel> {
         |---+ RowId(1) <> TextInputComponent(state: model.usernameField, didUpdate: self.loginFieldChanged)
         |---+ RowId(2) <> TextInputComponent(state: model.passwordField, didUpdate: self.passwordFieldChanged)
         |---+ RowId(3) <> LabelComponent(state: model.errorMessage)
-            |---+ RowId(4) <> ButtonComponent(state: model.loginButton, didUpdate: self.loginButtonTapped)
+        |---+ RowId(4) <> ButtonComponent(state: model.loginButton, didUpdate: self.loginButtonTapped)
     }
 
     private func loginFieldChanged(text: String?) {

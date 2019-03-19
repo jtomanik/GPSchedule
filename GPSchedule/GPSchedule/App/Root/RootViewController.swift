@@ -56,7 +56,7 @@ class RootViewController: GenericViewController<RootViewModel> {
             hideLogInView()
             showLoggedInView()
             hideLoadingView()
-        case .error(let error):
+        case .error:
             showErrorView()
         case .loading:
             showLoadingView()
