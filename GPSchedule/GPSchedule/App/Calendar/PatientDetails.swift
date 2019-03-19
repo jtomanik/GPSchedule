@@ -29,6 +29,7 @@ struct PatientDetails: PatientService {
             .addCredential()
             .rx()
             .filterNil()
+            .observeOn(MainScheduler.instance)
             .asSingle()
     }
 }

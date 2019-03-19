@@ -37,6 +37,7 @@ struct PersonalSchedule: AppointmentsService {
             .map { $0.value }
             .errorOnNil(APIError.parsingError) // parsing error
             .map { [uuid] in $0.filter({ $0.timeSlot?.appointmentBlock?.provider?.person?.uuid == uuid }) }
+            .observeOn(MainScheduler.instance)
             .asSingle()
     }
 }

@@ -55,7 +55,7 @@ enum CalendarState: DomainState {
     enum StateEvent: DomainEvent, Equatable {
         case fetchAll(for: User)
         case fetched(entries: [Appointment], for: User)
-        case fetchDetail(of: Appointment, for: User)
+        case fetchDetail(id: String, for: User)
         case fetchedFull(Appointment, for: User)
 
     }
@@ -82,24 +82,41 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
                 .execute()
                 .map { values in
                     return CalendarState.StateEvent.fetched(entries: values, for: user)
-                }.asObservable()
+                }
+                .asObservable()
         }
     }
 
     static func appointmentsDetailsMiddleware<Services: CalendarUseCaseDependenciesProvider>(services: Services) -> DomainStateMiddleware<CalendarState> {
         return { (event: CalendarState.StateEvent) -> Observable<CalendarState.StateEvent> in
-            guard case .fetchDetail(let appointment, let user) = event,
-                let appointmentUuid = appointment.uuid,
-                let patientUuid = appointment.patient?.uuid,
-                let timeslotUuid = appointment.timeSlot?.uuid else {
+            guard case .fetchDetail(let id, let user) = event else {
                     return Observable.just(event)
             }
-            let fullAppointment = services.appointmentService.appointment(with: appointmentUuid).execute()
-            let fullPatient = services.patientService.patient(with: patientUuid).execute()
-            let fullTimeslot = services.timeslotService.timeslot(with: timeslotUuid).execute()
+            let fullAppointment = services.appointmentService.appointment(with: id)
+            let fullPatientService = services.patientService
+            let fullTimeslotService = services.timeslotService
+
+            let appointmentStream = fullAppointment
+                .execute()
+                .asObservable()
+                .share()
+
+            let patientStream = appointmentStream
+                .map { $0.patient }
+                .filterNil()
+                .map { $0.uuid }
+                .filterNil()
+                .flatMap { fullPatientService.patient(with: $0).execute().asObservable() }
+
+            let timeslotStream = appointmentStream
+                .map { $0.timeSlot }
+                .filterNil()
+                .map { $0.uuid }
+                .filterNil()
+                .flatMap { fullTimeslotService.timeslot(with: $0).execute().asObservable() }
 
             return Observable
-                .zip(fullAppointment.asObservable(), fullPatient.asObservable(), fullTimeslot.asObservable())
+                .zip(appointmentStream, patientStream, timeslotStream)
                 .map { (value) -> Appointment in
                     let (appointment, patient, timeslot) = value
                     appointment.patient = patient
@@ -112,7 +129,7 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
 
     static func reduce(_ state: CalendarState, _ event: CalendarState.StateEvent) -> CalendarState {
         switch event {
-        case .fetchAll(let user):
+        case .fetchAll:
             return state
         case .fetched(let items, let user):
             return .all(entires: items, user: user)
@@ -134,7 +151,8 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
         self.init(warehouse: warehouse,
                   reducer: CalendarUseCase.reduce,
                   errorHandler: CalendarUseCase.errorHandler,
-                  middleware: [CalendarUseCase.appointmentsMiddleware(service: dependencyProvider.appointmentsService)],
+                  middleware: [CalendarUseCase.appointmentsMiddleware(service: dependencyProvider.appointmentsService),
+                               CalendarUseCase.appointmentsDetailsMiddleware(services: dependencyProvider)],
                   feedbackLoop: [])
     }
 }

@@ -29,6 +29,7 @@ struct AppointmentDetails: AppointmentService {
             .addCredential()
             .rx()
             .filterNil()
+            .observeOn(MainScheduler.instance)
             .asSingle()
     }
 }

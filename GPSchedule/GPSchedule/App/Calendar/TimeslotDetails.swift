@@ -29,6 +29,7 @@ struct TimeslotDetails: TimeslotService {
             .addCredential()
             .rx()
             .filterNil()
+            .observeOn(MainScheduler.instance)
             .asSingle()
     }
 }

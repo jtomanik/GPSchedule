@@ -16,6 +16,18 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
     typealias RowId = String
     typealias SectionId = String
 
+    private lazy var detailView: AppointmentDetailViewController = {
+        return AppointmentDetailViewController(viewModel: self.viewModel)
+    }()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let state = try? viewModel.state.value(),
+            case CalendarViewState.detail = state {
+            viewModel.action.onNext(CalendarViewState.UserAction.refresh)
+        }
+    }
+
     override func process(state: CalendarViewModel.State) {
         switch state {
         case .empty(let title):
@@ -29,8 +41,8 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
             tableView.render(package(model: model))
         case .fetching:
             tableView.render(loadingBoxes())
-        case .detail(let model):
-            tableView.render(package(model: model))
+        case .detail:
+            showDetailView()
         }
     }
 
@@ -41,7 +53,8 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
     }
 
     private func package(model: AppointmentComponentState) -> Node<RowId> {
-        return RowId(model.id) <> AppointmentComponent(state: model)
+        return RowId(model.id) <> AppointmentComponent(state: model,
+                                                       didUpdate: { [weak self] in self?.userDidTap(on: $0) })
     }
 
     private func package(model: CalendarViewState.DetailDisplayModel) -> Box<SectionId, RowId> {
@@ -60,5 +73,13 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
                 |---+ RowId("0") <> LabelComponent(
                     state: LabelState(text: "No data available", isHidden: false))
 
+    }
+
+    private func userDidTap(on appointmentId: String) {
+        viewModel.action.onNext(CalendarViewState.UserAction.showDetail(id: appointmentId))
+    }
+
+    private func showDetailView() {
+        navigationController?.pushViewController(detailView, animated: true)
     }
 }
