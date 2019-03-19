@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AppointmentComponentState : Equatable {
+struct AppointmentComponentState: Equatable {
     let id: String
     let timeFrom: String
     let timeTo: String

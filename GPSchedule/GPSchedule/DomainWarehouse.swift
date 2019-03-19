@@ -15,9 +15,11 @@ class DomainWarehouse: DomainStoreFacade {
 // swiftlint:disable all
     let state = BehaviorSubject<AbstractState>(value: InitialState())
 
-    let appointmentService = AppointmentDetail.self
+    let appointmentService = AppointmentDetails.self
     let authService = Authenticator.self
+    let patientService = PatientDetails.self
     let appointmentsService = PersonalSchedule.self
+    let timeslotService = TimeslotDetails.self
 
     var authUseCase: AuthUseCase!
     var calendarUseCase: CalendarUseCase!

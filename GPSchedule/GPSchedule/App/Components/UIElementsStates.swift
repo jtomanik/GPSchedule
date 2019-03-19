@@ -24,3 +24,9 @@ struct LabelState: Equatable {
     var text: String?
     var isHidden: Bool
 }
+
+extension LabelState {
+    init(text: String?) {
+        self.init(text: text, isHidden: false)
+    }
+}

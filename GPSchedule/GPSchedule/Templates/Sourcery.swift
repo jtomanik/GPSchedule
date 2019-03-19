@@ -50,9 +50,9 @@ extension UserGet: DomainImportable {}
 extension AppointmentschedulingAppointmentGet: DomainImportable {}
 
 // sourcery: target = "Timeslot"
-extension AppointmentschedulingTimeslotGetRef: DomainImportable {}
-// sourcery: target = "TimeslotShort"
 extension AppointmentschedulingTimeslotGet: DomainImportable {}
+// sourcery: target = "TimeslotShort"
+extension AppointmentschedulingTimeslotGetRef: DomainImportable {}
 
 // sourcery: target = "AppointmentBlock"
 extension AppointmentschedulingAppointmentblockGet: DomainImportable {}

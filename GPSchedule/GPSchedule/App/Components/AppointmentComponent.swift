@@ -14,14 +14,21 @@ final class AppointmentComponentView: UIView, NibLoadable {
     @IBOutlet weak var timeTo: UILabel!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var subtitle: UILabel!
+
+    var onPressed: ((Void) -> Void)?
+
+    @IBAction func userDidTap(_ sender: Any) {
+        onPressed?(())
+    }
 }
 
-class AppointmentComponent: GenericComponent<AppointmentComponentState, AppointmentComponentView> {
+class AppointmentComponent: GenericActionableComponent<AppointmentComponentState, String, AppointmentComponentView> {
 
     override func render(in view: AppointmentComponentView) {
         view.timeFrom.text = state.timeFrom
         view.timeTo.text = state.timeTo
         view.title.text = state.title
         view.subtitle.text = state.subtitle
+        view.onPressed = { [didUpdate, state] (_) -> Void in didUpdate?(state.id) }
     }
 }

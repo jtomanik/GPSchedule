@@ -69,5 +69,6 @@ variable_name:
     - all
     - top
     - raw
+    - of
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit)
 

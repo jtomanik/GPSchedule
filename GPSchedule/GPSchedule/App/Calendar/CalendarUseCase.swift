@@ -10,6 +10,16 @@ import Foundation
 import RxSwift
 import RxSwiftExt
 
+protocol PatientService: ServiceCommand {
+    static func patient(with id: String) -> Self
+    func execute() -> Single<Patient>
+}
+
+protocol TimeslotService: ServiceCommand {
+    static func timeslot(with id: String) -> Self
+    func execute() -> Single<Timeslot>
+}
+
 protocol AppointmentService: ServiceCommand {
     static func appointment(with id: String) -> Self
     func execute() -> Single<Appointment>
@@ -23,9 +33,13 @@ protocol AppointmentsService: ServiceCommand {
 protocol CalendarServiceProvider: ServiceProvider {
     associatedtype Service1: AppointmentService
     associatedtype Service2: AppointmentsService
+    associatedtype Service3: PatientService
+    associatedtype Service4: TimeslotService
 
     var appointmentService: Service1.Type { get }
     var appointmentsService: Service2.Type { get }
+    var patientService: Service3.Type { get }
+    var timeslotService: Service4.Type { get }
 }
 
 typealias CalendarUseCaseDependenciesProvider = CalendarServiceProvider
@@ -41,7 +55,8 @@ enum CalendarState: DomainState {
     enum StateEvent: DomainEvent, Equatable {
         case fetchAll(for: User)
         case fetched(entries: [Appointment], for: User)
-        case fetchDetail(id: String)
+        case fetchDetail(id: String, for: User)
+        case fetchedFull(Appointment, for: User)
 
     }
 
@@ -67,22 +82,59 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
                 .execute()
                 .map { values in
                     return CalendarState.StateEvent.fetched(entries: values, for: user)
-                }.asObservable()
+                }
+                .asObservable()
         }
     }
 
-//    static func authFeedback() -> DomainStateFeedback<AuthState> {
-//        return { (state: AuthState) -> Observable<DomainEvent> in
-//            return Observable.empty()
-//        }
-//    }
+    static func appointmentsDetailsMiddleware<Services: CalendarUseCaseDependenciesProvider>(services: Services) -> DomainStateMiddleware<CalendarState> {
+        return { (event: CalendarState.StateEvent) -> Observable<CalendarState.StateEvent> in
+            guard case .fetchDetail(let id, let user) = event else {
+                    return Observable.just(event)
+            }
+            let fullAppointment = services.appointmentService.appointment(with: id)
+            let fullPatientService = services.patientService
+            let fullTimeslotService = services.timeslotService
+
+            let appointmentStream = fullAppointment
+                .execute()
+                .asObservable()
+                .share()
+
+            let patientStream = appointmentStream
+                .map { $0.patient }
+                .filterNil()
+                .map { $0.uuid }
+                .filterNil()
+                .flatMap { fullPatientService.patient(with: $0).execute().asObservable() }
+
+            let timeslotStream = appointmentStream
+                .map { $0.timeSlot }
+                .filterNil()
+                .map { $0.uuid }
+                .filterNil()
+                .flatMap { fullTimeslotService.timeslot(with: $0).execute().asObservable() }
+
+            return Observable
+                .zip(appointmentStream, patientStream, timeslotStream)
+                .map { (value) -> Appointment in
+                    let (appointment, patient, timeslot) = value
+                    appointment.patient = patient
+                    appointment.timeSlot = timeslot
+                    return appointment
+                }
+                .map { return CalendarState.StateEvent.fetchedFull($0, for: user) }
+        }
+    }
 
     static func reduce(_ state: CalendarState, _ event: CalendarState.StateEvent) -> CalendarState {
         switch event {
-        case .fetchAll(let user):
+        case .fetchAll:
             return state
         case .fetched(let items, let user):
             return .all(entires: items, user: user)
+        case .fetchedFull(let appointment, let user):
+            return .detail(entry: appointment, user: user)
         default:
             return state
         }
@@ -99,7 +151,8 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
         self.init(warehouse: warehouse,
                   reducer: CalendarUseCase.reduce,
                   errorHandler: CalendarUseCase.errorHandler,
-                  middleware: [CalendarUseCase.appointmentsMiddleware(service: dependencyProvider.appointmentsService)],
+                  middleware: [CalendarUseCase.appointmentsMiddleware(service: dependencyProvider.appointmentsService),
+                               CalendarUseCase.appointmentsDetailsMiddleware(services: dependencyProvider)],
                   feedbackLoop: [])
     }
 }

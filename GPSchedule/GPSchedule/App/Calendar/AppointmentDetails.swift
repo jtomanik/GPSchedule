@@ -11,10 +11,10 @@ import OpenMRS
 import RxSwift
 import RxOptional
 
-struct AppointmentDetail: AppointmentService {
+struct AppointmentDetails: AppointmentService {
 
-    static func appointment(with id: String) -> AppointmentDetail {
-        return AppointmentDetail(uuid: id)
+    static func appointment(with id: String) -> AppointmentDetails {
+        return AppointmentDetails(uuid: id)
     }
 
     private let uuid: String
@@ -25,10 +25,11 @@ struct AppointmentDetail: AppointmentService {
 
     func execute() -> Single<Appointment> {
         return AppointmentschedulingAppointmentAPI
-            .getAppointmentWithRequestBuilder(uuid: uuid)
+            .getAppointmentWithRequestBuilder(uuid: uuid, v: "full")
             .addCredential()
             .rx()
             .filterNil()
+            .observeOn(MainScheduler.instance)
             .asSingle()
     }
 }
