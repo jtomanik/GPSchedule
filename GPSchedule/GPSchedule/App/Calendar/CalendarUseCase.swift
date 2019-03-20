@@ -45,10 +45,11 @@ protocol CalendarServiceProvider: ServiceProvider {
 typealias CalendarUseCaseDependenciesProvider = CalendarServiceProvider
 
 // sourcery: defaultState = "AuthState"
-enum CalendarState: DomainState {
+indirect enum CalendarState: DomainState {
 
     enum StateError: DomainError, Equatable {
         case unknown
+        case api(APIError)
         case authError
     }
 
@@ -57,15 +58,17 @@ enum CalendarState: DomainState {
         case fetched(entries: [Appointment], for: User)
         case fetchDetail(id: String, for: User)
         case fetchedFull(Appointment, for: User)
-
+        case error(StateError)
+        case recoverFromError
+        case refresh
     }
 
     case all(entires: [Appointment], user: User)
     case detail(entry: Appointment, user: User)
-    case error(StateError)
+    case error(StateError, from: CalendarState)
 
     init() {
-        self = .error(StateError.unknown)
+        self = .all(entires: [], user: User(uuid: ""))
     }
 }
 
@@ -78,12 +81,18 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
                 let uuid = user.person?.uuid else {
                 return Observable.just(event)
             }
+
             return service.appointments(for: uuid)
                 .execute()
-                .map { values in
-                    return CalendarState.StateEvent.fetched(entries: values, for: user)
-                }
                 .asObservable()
+                .map { values in return CalendarState.StateEvent.fetched(entries: values, for: user)
+                }
+                .catchError { (error) -> Observable<CalendarState.StateEvent> in
+                    guard let error = error as? APIError else {
+                        return Observable.just(CalendarState.StateEvent.error(.unknown))
+                    }
+                    return Observable.just(CalendarState.StateEvent.error(.api(error)))
+                }
         }
     }
 
@@ -92,6 +101,7 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
             guard case .fetchDetail(let id, let user) = event else {
                     return Observable.just(event)
             }
+
             let fullAppointment = services.appointmentService.appointment(with: id)
             let fullPatientService = services.patientService
             let fullTimeslotService = services.timeslotService
@@ -124,24 +134,39 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
                     return appointment
                 }
                 .map { return CalendarState.StateEvent.fetchedFull($0, for: user) }
+                .asObservable()
+                .catchError { (error) -> Observable<CalendarState.StateEvent> in
+                    guard let error = error as? APIError else {
+                        return Observable.just(CalendarState.StateEvent.error(.unknown))
+                    }
+                    return Observable.just(CalendarState.StateEvent.error(.api(error)))
+                }
         }
     }
 
     static func reduce(_ state: CalendarState, _ event: CalendarState.StateEvent) -> CalendarState {
-        switch event {
-        case .fetchAll:
-            return state
-        case .fetched(let items, let user):
+        switch (state, event) {
+        case (_, .fetched(let items, let user)):
             return .all(entires: items, user: user)
-        case .fetchedFull(let appointment, let user):
+        case (_, .fetchedFull(let appointment, let user)):
             return .detail(entry: appointment, user: user)
+        case (_, .error(let error)):
+            return .error(error, from: state)
+        case (.error(_, let oldState), .recoverFromError):
+            return oldState
+        case (let oldState, .refresh):
+            return oldState
         default:
             return state
         }
     }
 
-    static func errorHandler(_ state: CalendarState, _ error: Error) -> DomainEvent {
-        return RootState.StateEvent.error(RootState.StateError.genericError)
+    static func feedback(state: CalendarState) -> Observable<DomainEvent> {
+        if case CalendarState.error(let error) = state {
+            return Observable.just(RootState.StateEvent.error(RootState.StateError.genericError))
+        } else {
+            return Observable.empty()
+        }
     }
 
     convenience init<DependenciesProvider: CalendarUseCaseDependenciesProvider>(
@@ -150,9 +175,8 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
         dependencyProvider: DependenciesProvider) {
         self.init(warehouse: warehouse,
                   reducer: CalendarUseCase.reduce,
-                  errorHandler: CalendarUseCase.errorHandler,
                   middleware: [CalendarUseCase.appointmentsMiddleware(service: dependencyProvider.appointmentsService),
                                CalendarUseCase.appointmentsDetailsMiddleware(services: dependencyProvider)],
-                  feedbackLoop: [])
+                  feedbackLoop: [CalendarUseCase.feedback])
     }
 }
