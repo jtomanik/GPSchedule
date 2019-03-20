@@ -11,9 +11,6 @@ import RxSwift
 
 // MARK: Abstract declarations
 // MARK: Business Domain
-/*
- responsibility: 
-*/
 
 protocol AbstractEvent {}
 protocol AbstractState {}
@@ -24,7 +21,10 @@ protocol DomainModel {
 }
 
 protocol DomainError: AbstractError {}
-protocol DomainEvent: AbstractEvent {}
+
+protocol DomainEvent: AbstractEvent {
+    func isEqualTo(_ other: DomainEvent) -> Bool
+}
 
 protocol DomainState: AbstractState, Equatable {
     associatedtype StateEvent: DomainEvent, Equatable
@@ -36,13 +36,12 @@ protocol DomainState: AbstractState, Equatable {
 protocol DomainStore: class {
     associatedtype State: DomainState
 
-    var state: BehaviorSubject<State> { get }
+    var state: StateRelay<State> { get }
 
     func dispatch(event: State.StateEvent)
 
     init(warehouse: DomainStoreFacade?,
          reducer: @escaping DomainStateReducer<State>,
-         errorHandler: @escaping DomainErrorFeedback<State>,
          middleware: [DomainStateMiddleware<State>],
          feedbackLoop: [DomainStateFeedback<State>])
 }
@@ -50,7 +49,6 @@ protocol DomainStore: class {
 typealias DomainStateReducer<State: DomainState> = (State, State.StateEvent) -> State
 typealias DomainStateFeedback<State: DomainState> = (State) -> Observable<DomainEvent>
 typealias DomainStateMiddleware<State: DomainState> = (State.StateEvent) -> Observable<State.StateEvent>
-typealias DomainErrorFeedback<State: DomainState> = (State, State.StateError) -> DomainEvent
 
 protocol ServiceCommand {
     associatedtype Model: DomainModel
@@ -61,8 +59,6 @@ protocol ServiceCommand {
 protocol ServiceProvider: class {}
 
 protocol DomainStoreFacade: class {
-    var state: BehaviorSubject<AbstractState> { get }
-
     func dispatch(event: DomainEvent)
     func getStore<S>(for type: S.Type) -> S
 }
@@ -74,19 +70,22 @@ protocol ViewState: AbstractState, Equatable {
     init() // default state
 }
 
-typealias ViewStateReducer<State: ViewState> = (State, State.UserAction) -> State
 typealias ViewStateTransformer<StoreState: DomainState, State: ViewState> = (StoreState, State) -> State
+typealias ViewStateReducer<State: ViewState> = (State, State.UserAction) -> State
+    typealias ViewStateForwarder<State: ViewState> = (AnyObject?, State, State.UserAction) -> Void
 
 protocol ViewReactor: class {
     associatedtype State: ViewState
     associatedtype Store: DomainStore
 
-    var action: PublishSubject<State.UserAction> { get }
-    var state: BehaviorSubject<State> { get }
+    var state: StateRelay<State> { get }
+
+    func dispatch(action: State.UserAction)
 
     init(warehouse: DomainStoreFacade,
          transformer: ViewStateTransformer<Store.State, State>?,
-         reducer: ViewStateReducer<State>?)
+         reducer: ViewStateReducer<State>?,
+         forwarder: ViewStateForwarder<State>?)
 }
 
 protocol ChildViewReactor: ViewReactor {
@@ -94,7 +93,8 @@ protocol ChildViewReactor: ViewReactor {
 
     init(parent: Parent,
          transformer: ViewStateTransformer<Store.State, State>?,
-         reducer: ViewStateReducer<State>?)
+         reducer: ViewStateReducer<State>?,
+         forwarder: ViewStateForwarder<State>?)
 }
 
 // MARK: Platform Domain

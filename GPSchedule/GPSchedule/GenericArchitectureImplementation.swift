@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-// MARK: Implementations
+// MARK: Generic Implementations
 import UIKit
 
 enum InitialState: AbstractState {
@@ -23,28 +23,30 @@ enum InitialState: AbstractState {
 
 protocol AppError: AbstractError {}
 
-extension Array: DomainModel where Element: DomainModel {
-
-    var id: String {
-        return self.reduce(into: "", { $0 += $1.id })
+extension DomainEvent where Self: Equatable {
+    
+    func isEqualTo(_ other: DomainEvent) -> Bool {
+        guard let otherEvent = other as? Self else {
+            return false
+        }
+        return self == otherEvent
     }
 }
 
+// MARK: Bussiness Domain
 class GenericUseCase<State: DomainState>: DomainStore {
 
-    var state: BehaviorSubject<State>
+    var state: StateRelay<State>
+    private let events = EventRelay<State.StateEvent>()
+
     private weak var warehouse: DomainStoreFacade?
-    private var currentState: State
-    private let events = PublishSubject<State.StateEvent>()
     private let reduce: DomainStateReducer<State>
-    private let exceptionHandler: DomainErrorFeedback<State>
     private let middlewares: [DomainStateMiddleware<State>]
     private let feedbackLoops: [DomainStateFeedback<State>]
     private let disposeBag = DisposeBag()
 
     required init(warehouse: DomainStoreFacade?,
                   reducer: @escaping DomainStateReducer<State>,
-                  errorHandler: @escaping DomainErrorFeedback<State>,
                   middleware: [DomainStateMiddleware<State>] = [],
                   feedbackLoop: [DomainStateFeedback<State>] = []) {
 
@@ -53,71 +55,68 @@ class GenericUseCase<State: DomainState>: DomainStore {
         }
 
         let initialState = State.init()
-        self.currentState = initialState
         self.warehouse = warehouse
         self.reduce = reducer
-        self.exceptionHandler = errorHandler
         self.middlewares = middleware.isEmpty ? [passthruMiddleware] : middleware
         self.feedbackLoops = feedbackLoop
-        self.state = BehaviorSubject(value: initialState)
+        self.state = StateRelay(value: initialState)
 
         events
-            .distinctUntilChanged() // that may not always be desirable
             .map { [middlewares] event in middlewares.map { $0(event) } }
             .map { Observable.from($0).merge() }.merge()
-            .map { [reduce] in reduce(self.currentState, $0) }
-            .asObservable()
+            .withLatestFrom(state) { return ($1, $0) }
+            .map { [reduce] in reduce($0.0, $0.1) }
+            .distinctUntilChanged()
             .subscribe(weak: self, { object in return object.eventStreamHandler })
             .disposed(by: disposeBag)
 
+        // delay is due to the last `event` not yet being registered at the time of the new `state` event
         state
-            .distinctUntilChanged()
+            .delay(0.1, scheduler: MainScheduler.instance)
             .map { [feedbackLoops] state in feedbackLoops.map { $0(state) } }
             .map { Observable.from($0).merge() }.merge()
-            .subscribe(onNext: { [warehouse] (event) in
-                warehouse?.dispatch(event: event)
-            })
+            .distinctUntilChanged { $0.isEqualTo($1) }
+            .do(onNext: { [warehouse] (event) in warehouse?.dispatch(event: event) })
+            .subscribe()
             .disposed(by: disposeBag)
     }
 
     func dispatch(event: State.StateEvent) {
-        events.onNext(event)
+        events.accept(event)
     }
 
     private func eventStreamHandler(rxEvent: Event<State>) {
         switch rxEvent {
         case .next(let newState):
-            currentState = newState
-            state.onNext(newState)
+            state.accept(newState)
         case .error(let error):
-            if let error = error as? State.StateError {
-                warehouse?.dispatch(event: exceptionHandler(currentState, error))
-            } else {
-                fatalError("Use case encountered unhandled error")
-            }
+            fatalError("Use case encountered unhandled error")
         case .completed:
             fatalError("Event stream must not be compleated while UseCase is alive")
         }
     }
 }
 
+// MARK: Presentation Domain
 class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
 
     typealias State = VS
     typealias Store = ST
 
-    let action = PublishSubject<State.UserAction>()
-    let state: BehaviorSubject<State>
+    let state: StateRelay<State>
+    let action = EventRelay<State.UserAction>()
+
     weak var store: Store!
     weak var warehouse: DomainStoreFacade!
-    private var currentState: State
     private let transform: ViewStateTransformer<Store.State, State>
     private let reduce: ViewStateReducer<State>
+    private let forward: ViewStateForwarder<State>
     private let disposeBag = DisposeBag()
 
     required init(warehouse: DomainStoreFacade,
                   transformer: ViewStateTransformer<Store.State, State>?,
-                  reducer: ViewStateReducer<State>?) {
+                  reducer: ViewStateReducer<State>?,
+                  forwarder: ViewStateForwarder<State>?) {
 
         func defaultViewStateTransformer<StoreState, State>(storeState: StoreState, state: State) -> State
             where StoreState: DomainState, State: ViewState {
@@ -129,45 +128,56 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
                 return state
         }
 
+        func defaultViewStateForwarder(self: AnyObject?, state: State, action: State.UserAction) -> Void {
+            return
+        }
+
         let initialState = State.init()
-        self.currentState = initialState
-        self.state = BehaviorSubject(value: initialState)
+        self.state = StateRelay(value: initialState)
         self.store = warehouse.getStore(for: Store.self)
         self.warehouse = warehouse
         self.transform = transformer ?? defaultViewStateTransformer
         self.reduce = reducer ?? defaultViewStateReducer
+        self.forward = forwarder ?? defaultViewStateForwarder
 
-        store.state
+        let transformedState = store
+            .state
             .distinctUntilChanged()
-            .map { [transform] in transform($0, self.currentState) }
-            .asObservable()
-            .subscribe(weak: self, { object in return object.eventStreamHandler })
+            .withLatestFrom(state) { ($0, $1) }
+            .map { [transform] in transform($0.0, $0.1) }
+            .distinctUntilChanged()
+
+        let reducedState = action
+            .withLatestFrom(state) { ($1, $0) }
+            .map { [reduce] in reduce($0.0, $0.1) }
+            .distinctUntilChanged()
+
+        Observable
+            .merge(transformedState, reducedState)
+            .distinctUntilChanged()
+            .subscribe(weak: self, { object in return object.stateStreamHandler })
             .disposed(by: disposeBag)
 
-        action
-            .distinctUntilChanged()
-            .map { [reduce] in reduce(self.currentState, $0) }
-            .asObservable()
-            .subscribe(weak: self, { object in return object.eventStreamHandler })
+        // delay is due to the last `action` event not yet being registered at the time of the new `state` event
+        state
+            .delay(0.1, scheduler: MainScheduler.instance)
+            .withLatestFrom(action, resultSelector: { return ($0, $1) })
+            .do(onNext: { [weak self] in self?.forward(self, $0.0, $0.1) })
+            .subscribe()
             .disposed(by: disposeBag)
+
     }
 
-    func forwarder(state: State) {
-        return
+    final func dispatch(action: State.UserAction) {
+        self.action.accept(action)
     }
 
-    func errorHandler(error: Error) {
-        fatalError("Unhandler error")
-    }
-
-    private func eventStreamHandler(rxEvent: Event<State>) {
+    private func stateStreamHandler(rxEvent: Event<State>) {
         switch rxEvent {
         case .next(let newState):
-            currentState = newState
-            state.onNext(newState)
-            forwarder(state: newState)
-        case .error(let error):
-            errorHandler(error: error)
+            state.accept(newState)
+        case .error:
+            fatalError("Unhandled error")
         case .completed:
             fatalError("Event stream must not be compleated while UseCase is alive")
         }
@@ -178,23 +188,26 @@ class GenericChildViewModel<VS: ViewState, ST: DomainStore, PT: ViewReactor>: Ge
 
     typealias Parent = GenericViewModel<PT.State, PT.Store>
 
-    weak var parent: Parent?
+    weak var parent: Parent!
 
     required convenience init(
         parent: Parent,
         transformer: ViewStateTransformer<Store.State, State>?,
-        reducer: ViewStateReducer<State>?) {
-        self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer, forwarder: forwarder)
         self.parent = parent
     }
 
     required init(warehouse: DomainStoreFacade,
                   transformer: ViewStateTransformer<Store.State, State>?,
-                  reducer: ViewStateReducer<State>?) {
-        super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
+                  reducer: ViewStateReducer<State>?,
+                  forwarder: ViewStateForwarder<State>?) {
+        super.init(warehouse: warehouse, transformer: transformer, reducer: reducer, forwarder: forwarder)
     }
 }
 
+// MARK: Platform Domain
 class GenericViewController<VM: ViewReactor>: UIViewController, AppView {
 
     typealias ViewModel = VM
@@ -223,13 +236,10 @@ class GenericViewController<VM: ViewReactor>: UIViewController, AppView {
     }
 
     func bindToViewModel() {
-        viewModel.state.share()
-            .subscribe(
-                weak: self,
-                onNext: { return $0.process },
-                onError: { (_) -> (Error) -> Void in fatalError("Unhandled error has occured") },
-                onCompleted: { (_) -> () -> Void in fatalError("Root state must not compleate while application is running") },
-                onDisposed: { (_) -> () -> Void in fatalError("Root state must not be disposed while application is running") })
+        viewModel
+            .state
+            .distinctUntilChanged()
+            .subscribeNext(weak: self, { object in return object.process })
             .disposed(by: disposeBag)
     }
 
@@ -242,4 +252,11 @@ enum APIError: AppError {
     case backendError
     case parsingError
     case noData
+}
+
+extension Array: DomainModel where Element: DomainModel {
+
+    var id: String {
+        return self.reduce(into: "", { $0 += $1.id })
+    }
 }
