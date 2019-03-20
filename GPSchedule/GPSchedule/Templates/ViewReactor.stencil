@@ -2,30 +2,62 @@
     {% if type.isGeneric == false %}
     {% set parent %}{{ type.inheritedTypes|join }}{% endset %}
     // sourcery:inline:auto:{{ type.name }}.AutoInit
-// swiftlint:disable all
+    // swiftlint:disable all
         {% if parent|contains:"Child" %}
-convenience init(parent: RootViewModel) {
-    self.init(parent: parent, transformer: {{ type.name }}.transform, reducer: {{ type.name }}.reduce)
-}
+    convenience init(parent: RootViewModel) {
+    self.init(
+        parent: parent,
+        transformer: {{ type.name }}.transform,
+        reducer: {{ type.name }}.reduce,
+        forwarder: {{ type.name }}.forward)
+    }
 
-required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
-    self.parent = parent
-}
+    required convenience init(
+        parent: Parent,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        self.init(
+            warehouse: parent.warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+        self.parent = parent
+    }
 
-required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
-}
+    required init(
+        warehouse: DomainStoreFacade,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        super.init(
+            warehouse: warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+    }
         {% else %}
-convenience init(warehouse: DomainStoreFacade) {
-    self.init(warehouse: warehouse, transformer: {{ type.name }}.transform, reducer: {{ type.name }}.reduce)
-}
+    convenience init(warehouse: DomainStoreFacade) {
+        self.init(
+            warehouse: warehouse,
+            transformer: {{ type.name }}.transform,
+            reducer: {{ type.name }}.reduce,
+            forwarder: {{ type.name }}.forward)
+    }
 
-required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
-}
+    required init(
+            warehouse: DomainStoreFacade,
+            transformer: ViewStateTransformer<Store.State, State>?,
+            reducer: ViewStateReducer<State>?,
+            forwarder: ViewStateForwarder<State>?) {
+        super.init(
+            warehouse: warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+    }
         {% endif %}
-// swiftlint:enable all
+    // swiftlint:enable all
     // sourcery:end
     {% endif %}
 {% endfor %}

@@ -70,5 +70,6 @@ variable_name:
     - top
     - raw
     - of
+    - api
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit)
 

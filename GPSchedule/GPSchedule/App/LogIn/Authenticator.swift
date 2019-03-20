@@ -37,6 +37,7 @@ struct Authenticator: AuthService {
             .errorOnNil(APIError.parsingError)
             .map { $0.first }
             .errorOnNil(APIError.noData)
+            .observeOn(MainScheduler.instance)
             .asSingle()
     }
 }

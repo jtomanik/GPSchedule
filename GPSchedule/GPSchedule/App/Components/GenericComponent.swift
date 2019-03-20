@@ -10,6 +10,7 @@ import UIKit
 import Bento
 
 class GenericComponent<S, V: NativeView>: NSObject, Renderable {
+
     typealias View = V
 
     let state: S
@@ -23,6 +24,7 @@ class GenericComponent<S, V: NativeView>: NSObject, Renderable {
 }
 
 class GenericActionableComponent<S, R, V: NativeView>: GenericComponent<S, V> {
+
     let didUpdate: ((R) -> Void)?
 
     init(state: S, didUpdate: @escaping (R) -> Void) {

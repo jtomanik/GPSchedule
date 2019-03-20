@@ -2,7 +2,6 @@
 //  this template generates  the contents of DomainWarehouse.swift
 // sourcery:inline:auto:DomainWarehouse.Generated
 // swiftlint:disable all
-    let state = BehaviorSubject<AbstractState>(value: InitialState())
 
 {% for type in types.implementing.ServiceCommand %}
     {% if type.kind|!contains: "protocol" %}
@@ -30,11 +29,6 @@
         {% endif %}
     {% endif %}
 {% endfor %}
-
-        Observable.merge([rootUseCase!.state])
-            .map { $0 as AbstractState}
-            .bind(to: state)
-            .disposed(by: disposeBag)
     }
 
     func getStore<S>(for type: S.Type) -> S {

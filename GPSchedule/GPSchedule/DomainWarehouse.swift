@@ -8,12 +8,12 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class DomainWarehouse: DomainStoreFacade {
 
 // sourcery:inline:auto:DomainWarehouse.Generated
 // swiftlint:disable all
-    let state = BehaviorSubject<AbstractState>(value: InitialState())
 
     let appointmentService = AppointmentDetails.self
     let authService = Authenticator.self
@@ -34,11 +34,6 @@ class DomainWarehouse: DomainStoreFacade {
 
         self.rootUseCase = RootUseCase(initialState: RootState(),warehouse: self,  dependencyProvider: self)
 
-
-        Observable.merge([rootUseCase!.state])
-            .map { $0 as AbstractState}
-            .bind(to: state)
-            .disposed(by: disposeBag)
     }
 
     func getStore<S>(for type: S.Type) -> S {
