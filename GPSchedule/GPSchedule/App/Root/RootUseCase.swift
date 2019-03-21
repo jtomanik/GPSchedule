@@ -38,18 +38,16 @@ enum RootState: DomainState {
 class RootUseCase: GenericUseCase<RootState> {
 
     static func reduce(_ state: RootState, _ event: RootState.StateEvent) -> RootState {
-        switch event {
-        case .loggedIn(let user):
+        switch (state, event) {
+        case (.unauthorized, .loggedIn(let user)):
             return .authorized(user: user)
-        case .logout:
+        case (_, .logout):
             return .unauthorized
-        case .error:
+        case (_, .error):
             return .error(.genericError)
+        default:
+            return state
         }
-    }
-
-    static func errorHandler(_ state: RootState, _ error: Error) -> DomainEvent {
-        return RootState.StateEvent.error(.genericError)
     }
 
     static func rootFeedback() -> DomainStateFeedback<RootState> {
@@ -67,7 +65,6 @@ class RootUseCase: GenericUseCase<RootState> {
         dependencyProvider: DependenciesProvider) {
         self.init(warehouse: warehouse,
                   reducer: RootUseCase.reduce,
-                  errorHandler: RootUseCase.errorHandler,
                   middleware: [],
                   feedbackLoop: [RootUseCase.rootFeedback()])
     }

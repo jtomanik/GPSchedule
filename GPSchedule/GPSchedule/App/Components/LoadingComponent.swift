@@ -10,6 +10,7 @@ import UIKit
 import Bento
 
 final class LoadingComponentView: UIView, NibLoadable {
+
     @IBOutlet weak var activity: UIActivityIndicatorView!
 }
 

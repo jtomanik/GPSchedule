@@ -12,7 +12,7 @@ import RxSwift
 import RxSwiftExt
 
 // sourcery: defaultState = "inProgress(DisplayModel())"
-enum LoginViewState: BasicViewGenerator, ViewState {
+enum LoginViewState: ViewState, BasicViewGenerator {
 
     struct DisplayModel: Equatable {
         var title: LabelState
@@ -46,35 +46,23 @@ enum LoginViewState: BasicViewGenerator, ViewState {
 // sourcery:end
 }
 
-extension LoginViewState {
-    var context: DisplayModel {
-        switch self {
-        case .inProgress(let displayModel): return displayModel
-        case .done(let displayModel): return displayModel
-        }
-    }
-}
-
 class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootViewModel> {
 
     static func transform(storeState: Store.State, state: State) -> State {
-        switch storeState {
-        case .unauthorized:
+        switch (storeState, state) {
+        case (.unauthorized, _):
             return State.init()
-        case .authFailure:
-            var newContext = state.context
-            newContext.errorMessage.text = "There was an errror while logging in"
-            newContext.errorMessage.isHidden = false
-            return .inProgress(newContext)
+        case (.authFailure, .done(let model)):
+            var newModel = model
+            newModel.errorMessage.text = "There was an errror while logging in"
+            newModel.errorMessage.isHidden = false
+            return .inProgress(newModel)
         default:
             return state
         }
     }
 
     static func reduce(state: LoginViewState, action: LoginViewState.UserAction) -> LoginViewState {
-        guard case .inProgress(let context) = state else {
-            return state
-        }
 
         func isValid(state: State.DisplayModel) -> Bool {
             return isValid(username: state.usernameField.text) &&
@@ -95,56 +83,84 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
             return username.count > 4
         }
 
-        var newContext = context
-        switch action {
-        case .usernameEntry(let text):
-            newContext.usernameField.text = text
-            newContext.passwordField.isEnabled = isValid(username: text)
-            newContext.loginButton.isEnabled = isValid(state: newContext)
-            return .inProgress(newContext)
-        case .passwordEntry(let text):
-            newContext.passwordField.text = text
-            newContext.loginButton.isEnabled = isValid(state: newContext)
-            return .inProgress(newContext)
-        case .loginButtonPressed:
-            if isValid(state: newContext) {
-                return .done(newContext)
+        switch (state, action) {
+        case (.inProgress(let model), .usernameEntry(let text)):
+            var newModel = model
+            newModel.usernameField.text = text
+            newModel.passwordField.isEnabled = isValid(username: text)
+            newModel.loginButton.isEnabled = isValid(state: newModel)
+            return .inProgress(newModel)
+        case (.inProgress(let model), .passwordEntry(let text)):
+            var newModel = model
+            newModel.passwordField.text = text
+            newModel.loginButton.isEnabled = isValid(state: newModel)
+            return .inProgress(newModel)
+        case (.inProgress(let model), .loginButtonPressed):
+            if isValid(state: model) {
+                return .done(model)
             } else {
-                return .inProgress(newContext)
+                return .inProgress(model)
             }
+        default:
+            return state
         }
     }
 
-    override func forwarder(state: LoginViewState) {
-        switch state {
-        case .inProgress:
-            if let parentValue = try? parent?.state.value(),
-                let parentState = parentValue,
-                case .loading(_) = parentState {
-                parent?.action.onNext(RootViewState.UserAction.dissmissLoading)
+    static func forward(object: AnyObject?, state: LoginViewState, lastAction: LoginViewState.UserAction) {
+        guard let object = object as? LoginViewModel else {
+            return
+        }
+
+        switch (state, lastAction) {
+        case (.inProgress, .loginButtonPressed):
+            let parentState = object.parent.state.value
+            if case .loading(_) = parentState {
+                object.parent.dispatch(action: RootViewState.UserAction.dissmissLoading)
             }
-        case .done(let context):
-            parent?.action.onNext(.bussy)
-            store.dispatch(event: .login(
+        case (.done(let context), .loginButtonPressed):
+            object.parent.dispatch(action: .bussy)
+            object.store.dispatch(event: .login(
                 username: context.usernameField.text!,
                 password: context.passwordField.text!))
+        default:
+            return
         }
     }
 
 // sourcery:inline:auto:LoginViewModel.AutoInit
-// swiftlint:disable all
-convenience init(parent: RootViewModel) {
-    self.init(parent: parent, transformer: LoginViewModel.transform, reducer: LoginViewModel.reduce)
-}
+    // swiftlint:disable all
+    convenience init(parent: RootViewModel) {
+    self.init(
+        parent: parent,
+        transformer: LoginViewModel.transform,
+        reducer: LoginViewModel.reduce,
+        forwarder: LoginViewModel.forward)
+    }
 
-required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
-    self.parent = parent
-}
+    required convenience init(
+        parent: Parent,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        self.init(
+            warehouse: parent.warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+        self.parent = parent
+    }
 
-required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
-}
-// swiftlint:enable all
+    required init(
+        warehouse: DomainStoreFacade,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        super.init(
+            warehouse: warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+    }
+    // swiftlint:enable all
 // sourcery:end
 }

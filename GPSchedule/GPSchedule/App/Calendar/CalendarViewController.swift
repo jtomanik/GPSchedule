@@ -16,19 +16,30 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
     typealias RowId = String
     typealias SectionId = String
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let view = UIRefreshControl()
+        view.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        return view
+    }()
+
     private lazy var detailView: AppointmentDetailViewController = {
         return AppointmentDetailViewController(viewModel: self.viewModel)
     }()
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let state = try? viewModel.state.value(),
-            case CalendarViewState.detail = state {
-            viewModel.action.onNext(CalendarViewState.UserAction.refresh)
+    override func setupView() {
+        super.setupView()
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let state = viewModel.state.value
+    }
+
     override func process(state: CalendarViewModel.State) {
+        self.refreshControl.endRefreshing()
         switch state {
         case .empty(let title):
             self.title = title
@@ -76,10 +87,15 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
     }
 
     private func userDidTap(on appointmentId: String) {
-        viewModel.action.onNext(CalendarViewState.UserAction.showDetail(id: appointmentId))
+        viewModel.dispatch(action: CalendarViewState.UserAction.showDetail(id: appointmentId))
     }
 
     private func showDetailView() {
         navigationController?.pushViewController(detailView, animated: true)
+    }
+
+    @objc
+    private func refreshData() {
+        viewModel.dispatch(action: CalendarViewState.UserAction.refresh)
     }
 }

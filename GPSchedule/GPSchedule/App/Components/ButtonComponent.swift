@@ -10,7 +10,9 @@ import UIKit
 import Bento
 
 final class ButtonComponentView: UIView, NibLoadable {
+
     @IBOutlet weak var button: UIButton!
+
     var onButtonPressed: ((Void) -> Void)?
 
     @IBAction func buttonPressed(_ sender: Any) {

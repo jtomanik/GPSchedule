@@ -9,6 +9,7 @@
 import Foundation
 
 class TimeFormatter: DateFormatter {
+
     static let shared: TimeFormatter = {
         let instance = TimeFormatter()
         instance.locale = Locale(identifier: "en_US_POSIX")
@@ -29,6 +30,7 @@ class TimeFormatter: DateFormatter {
             return ""
         }
 
-        return self.string(from: date)
+        let result = self.string(from: date)
+        return result
     }
 }

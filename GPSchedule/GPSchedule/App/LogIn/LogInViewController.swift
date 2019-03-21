@@ -32,14 +32,24 @@ class LoginViewController: GenericTableViewController<LoginViewModel> {
     }
 
     private func loginFieldChanged(text: String?) {
-        viewModel.action.onNext(.usernameEntry(text))
+        viewModel.dispatch(action: .usernameEntry(text))
     }
 
     private func passwordFieldChanged(text: String?) {
-        viewModel.action.onNext(.passwordEntry(text))
+        viewModel.dispatch(action: .passwordEntry(text))
     }
 
     private func loginButtonTapped() {
-        viewModel.action.onNext(.loginButtonPressed)
+        viewModel.dispatch(action: .loginButtonPressed)
+    }
+}
+
+fileprivate extension LoginViewState {
+
+    var context: DisplayModel {
+        switch self {
+        case .inProgress(let displayModel): return displayModel
+        case .done(let displayModel): return displayModel
+        }
     }
 }

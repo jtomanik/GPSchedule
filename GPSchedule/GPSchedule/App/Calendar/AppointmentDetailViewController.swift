@@ -45,6 +45,5 @@ class AppointmentDetailViewController: GenericTableViewController<CalendarViewMo
 
     private func noBoxes() -> Box<SectionId, RowId> {
         return Box<SectionId, RowId>.empty
-
     }
 }

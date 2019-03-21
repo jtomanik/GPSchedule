@@ -8,58 +8,123 @@
 
 import Foundation
 import UIKit
+import Cartography
 
-// sourcery: viewName = "Error"
-// sourcery: parentViewModel = "RootViewModel"
-// sourcery: defaultState = "none"
 enum ErrorViewState: BasicViewGenerator, ViewState {
-    case none
+
+    struct DisplayModel: Equatable {
+        let closeTitle: String?
+        let message: String?
+    }
 
     enum UserAction: AbstractEvent, Equatable {
+        case close
     }
 
-// sourcery:inline:auto:ErrorViewState.AutoInit
+    case showing(DisplayModel)
+    case hiding(TimeInterval)
+
     init() {
-        self = .none
+        self = .showing(DisplayModel(closeTitle: nil, message: nil))
     }
-// sourcery:end
 }
 
 class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootUseCase, RootViewModel> {
 
     static func transform(storeState: RootState, state: State) -> State {
-        return state
+        if case RootState.error(let error) = storeState {
+            return .showing(ErrorViewState.DisplayModel(closeTitle: "close", message: "There was an error"))
+        } else {
+            return state
+        }
     }
 
     static func reduce(state: State, action: State.UserAction) -> State {
-        return state
+        return .hiding(Date().timeIntervalSinceReferenceDate)
+    }
+
+    static func forward(object: AnyObject?, state: ErrorViewState, action: ErrorViewState.UserAction) {
+        guard let object = object as? ErrorViewModel else {
+            return
+        }
+        if case .hiding = state {
+            object.parent.dispatch(action: RootViewState.UserAction.dissmissError)
+        }
     }
 
 // sourcery:inline:auto:ErrorViewModel.AutoInit
-// swiftlint:disable all
-convenience init(parent: RootViewModel) {
-    self.init(parent: parent, transformer: ErrorViewModel.transform, reducer: ErrorViewModel.reduce)
-}
+    // swiftlint:disable all
+    convenience init(parent: RootViewModel) {
+    self.init(
+        parent: parent,
+        transformer: ErrorViewModel.transform,
+        reducer: ErrorViewModel.reduce,
+        forwarder: ErrorViewModel.forward)
+    }
 
-required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
-    self.parent = parent
-}
+    required convenience init(
+        parent: Parent,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        self.init(
+            warehouse: parent.warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+        self.parent = parent
+    }
 
-required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
-}
-// swiftlint:enable all
+    required init(
+        warehouse: DomainStoreFacade,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        super.init(
+            warehouse: warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+    }
+    // swiftlint:enable all
 // sourcery:end
 }
 
 class ErrorViewController: GenericViewController<ErrorViewModel> {
 
+    lazy var errorLabel: UILabel = {
+        let view = UILabel()
+        return view
+    }()
+
+    lazy var closeButton: UIButton = {
+        let view = UIButton()
+        view.setTitleColor(UIColor.black, for: .normal)
+        view.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        return view
+    }()
+
     override func setupView() {
-        self.view.backgroundColor = UIColor.black
+        self.view.addSubview(errorLabel)
+        constrain(errorLabel) { view in
+            view.center == view.superview!.center
+        }
+        self.view.addSubview(closeButton)
+        constrain(closeButton) { view in
+            view.top == view.superview!.safeAreaLayoutGuide.top + 20
+            view.right == view.superview!.safeAreaLayoutGuide.right - 60
+        }
     }
 
     override func process(state: ErrorViewModel.State) {
-        return
+        if case .showing(let model) = state {
+            errorLabel.text = model.message
+            closeButton.setTitle(model.closeTitle, for: .normal)
+        }
+    }
+
+    @objc
+    private func closeButtonTapped() {
+        viewModel.dispatch(action: ErrorViewState.UserAction.close)
     }
 }

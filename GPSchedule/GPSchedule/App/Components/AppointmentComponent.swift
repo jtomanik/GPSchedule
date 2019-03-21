@@ -10,6 +10,7 @@ import UIKit
 import Bento
 
 final class AppointmentComponentView: UIView, NibLoadable {
+
     @IBOutlet weak var timeFrom: UILabel!
     @IBOutlet weak var timeTo: UILabel!
     @IBOutlet weak var title: UILabel!

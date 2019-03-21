@@ -11,6 +11,7 @@ import OpenMRS
 import RxSwift
 
 extension RequestBuilder {
+
     public func rx() -> Observable<T?> {
         return Observable<T?>.create { observer -> Disposable in
             self.execute { (response, error) in

@@ -49,13 +49,9 @@ class RootViewController: GenericViewController<RootViewModel> {
     override func process(state: RootViewModel.State) {
         switch state {
         case .logIn:
-            hideLoggedInView()
             showLogInView()
-            hideLoadingView()
         case .loggedIn:
-            hideLogInView()
             showLoggedInView()
-            hideLoadingView()
         case .error:
             showErrorView()
         case .loading:
@@ -66,6 +62,8 @@ class RootViewController: GenericViewController<RootViewModel> {
     private func showLogInView() {
         logInView.view.isUserInteractionEnabled = true
         logInView.view.isHidden = false
+        hideLoadingView()
+        hideErrorView()
     }
     private func hideLogInView() {
         logInView.view.isUserInteractionEnabled = false
@@ -74,29 +72,50 @@ class RootViewController: GenericViewController<RootViewModel> {
     private func showLoggedInView() {
         loggedInView.view.isUserInteractionEnabled = true
         loggedInView.view.isHidden = false
+        hideLoadingView()
+        hideErrorView()
     }
     private func hideLoggedInView() {
         loggedInView.view.isUserInteractionEnabled = false
         loggedInView.view.isHidden = true
     }
     private func showErrorView() {
-        hideLoadingView()
-        self.present(errorView,
-                     animated: true,
-                     completion: nil)
+        guard errorView.presentingViewController == nil else {
+            return
+        }
+        if loadingView.presentingViewController != nil {
+            hideLoadingView(animated: false)
+            self.present(errorView,
+                         animated: false,
+                         completion: nil)
+        } else {
+            self.present(errorView,
+                         animated: true,
+                         completion: nil)
+        }
     }
-    private func hideErrorView() {
-        errorView.dismiss(animated: true,
+    private func hideErrorView(animated: Bool = true) {
+        errorView.dismiss(animated: animated,
                           completion: nil)
     }
     private func showLoadingView() {
-        hideErrorView()
-        self.present(loadingView,
-                     animated: true,
-                     completion: nil)
+        guard loadingView.presentingViewController == nil else {
+            return
+        }
+        if errorView.presentingViewController != nil {
+            hideErrorView(animated: false)
+            self.present(loadingView,
+                         animated: false,
+                         completion: nil)
+        } else {
+            self.present(loadingView,
+                         animated: true,
+                         completion: nil)
+        }
+
     }
-    private func hideLoadingView() {
-        loadingView.dismiss(animated: true,
+    private func hideLoadingView(animated: Bool = true) {
+        loadingView.dismiss(animated: animated,
                           completion: nil)
     }
 }

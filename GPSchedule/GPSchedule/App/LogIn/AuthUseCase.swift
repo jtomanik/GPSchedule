@@ -53,32 +53,12 @@ enum AuthState: DomainState {
 // sourcery: defaultState = "AuthState"
 class AuthUseCase: GenericUseCase<AuthState> {
 
-    static func reduce(_ state: AuthState, _ event: AuthState.StateEvent) -> AuthState {
-        switch event {
-        case .login:
-            return state
-        case .loggedIn(let user):
-            return .authorized(user: user)
-        case .logout:
-            return .unauthorized
-        case .lock:
-            return state
-        case .unlock:
-            return state
-        case .error:
-            return .authFailure(State.StateError.unauthorized)
-        }
-    }
-
-    static func errorHandler(_ state: AuthState, _ error: Error) -> DomainEvent {
-        return RootState.StateEvent.error(.genericError)
-    }
-
     static func authMiddleware<Service: AuthService>(service: Service.Type) -> DomainStateMiddleware<AuthState> {
         return { (event: AuthState.StateEvent) -> Observable<AuthState.StateEvent> in
             guard case .login(let username, let password) = event else {
                 return Observable.just(event)
             }
+
             return service.logIn(username: username, password: password)
                 .execute()
                 .map { AuthState.StateEvent.loggedIn($0) }
@@ -86,7 +66,6 @@ class AuthUseCase: GenericUseCase<AuthState> {
                     guard let error = error as? APIError else {
                         return Single.just(AuthState.StateEvent.error(.unknown))
                     }
-                    // sourcery:inline:APIError.Switch
                     switch error {
                     case .backendError:
                         return Single.just(AuthState.StateEvent.error(.unauthorized))
@@ -95,6 +74,21 @@ class AuthUseCase: GenericUseCase<AuthState> {
                     }
                 }
                 .asObservable()
+        }
+    }
+
+    static func reduce(_ state: AuthState, _ event: AuthState.StateEvent) -> AuthState {
+        switch (state, event) {
+        case (.unauthorized, .loggedIn(let user)):
+            return .authorized(user: user)
+        case (.authFailure, .loggedIn(let user)):
+            return .authorized(user: user)
+        case (_, .logout):
+            return .unauthorized
+        case (_, .error):
+            return .authFailure(State.StateError.unauthorized)
+        default:
+            return state
         }
     }
 
@@ -116,7 +110,6 @@ class AuthUseCase: GenericUseCase<AuthState> {
         dependencyProvider: DependenciesProvider) {
         self.init(warehouse: warehouse,
                   reducer: AuthUseCase.reduce,
-                  errorHandler: AuthUseCase.errorHandler,
                   middleware: [AuthUseCase.authMiddleware(service: dependencyProvider.authService)],
                   feedbackLoop: [AuthUseCase.authFeedback()])
     }

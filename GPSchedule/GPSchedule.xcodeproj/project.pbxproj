@@ -16,6 +16,8 @@
 		7A6A0E91223FF638001F834E /* TimeslotDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6A0E90223FF638001F834E /* TimeslotDetails.swift */; };
 		7A6A0E93224027CF001F834E /* AppointmentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6A0E92224027CF001F834E /* AppointmentDetailViewController.swift */; };
 		7A6A0E95224063CD001F834E /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6A0E94224063CD001F834E /* TimeFormatter.swift */; };
+		7A6A0E992242DE56001F834E /* EventRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6A0E982242DE56001F834E /* EventRelay.swift */; };
+		7A6A0E9B2242DEEA001F834E /* StateRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6A0E9A2242DEEA001F834E /* StateRelay.swift */; };
 		7A79A6A92233030800E22CDA /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6A82233030800E22CDA /* LogInViewController.swift */; };
 		7A79A6AB2233031D00E22CDA /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6AA2233031D00E22CDA /* CalendarViewController.swift */; };
 		7A79A6AD2233033100E22CDA /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79A6AC2233033100E22CDA /* LoadingViewController.swift */; };
@@ -68,6 +70,8 @@
 		7A6A0E90223FF638001F834E /* TimeslotDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeslotDetails.swift; sourceTree = "<group>"; };
 		7A6A0E92224027CF001F834E /* AppointmentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentDetailViewController.swift; sourceTree = "<group>"; };
 		7A6A0E94224063CD001F834E /* TimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatter.swift; sourceTree = "<group>"; };
+		7A6A0E982242DE56001F834E /* EventRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRelay.swift; sourceTree = "<group>"; };
+		7A6A0E9A2242DEEA001F834E /* StateRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateRelay.swift; sourceTree = "<group>"; };
 		7A79A6A82233030800E22CDA /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		7A79A6AA2233031D00E22CDA /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		7A79A6AC2233033100E22CDA /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
@@ -145,11 +149,11 @@
 		7A6A0E8B223FA440001F834E /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				7A79A6B522342C5400E22CDA /* RootUseCase.swift */,
 				7A79A6AE2233034B00E22CDA /* ErrorViewController.swift */,
 				7A79A6AC2233033100E22CDA /* LoadingViewController.swift */,
 				7A79A6B02233037300E22CDA /* RootViewController.swift */,
 				7A79A6CE2235A03D00E22CDA /* RootViewModel.swift */,
+				7A79A6B522342C5400E22CDA /* RootUseCase.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -281,10 +285,10 @@
 		7AEFB27C22386F2300E86256 /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
-				7A6A0E85223EEDFE001F834E /* AuthUseCase.swift */,
-				7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */,
 				7A79A6A82233030800E22CDA /* LogInViewController.swift */,
 				7A79A6C82235935400E22CDA /* LoginViewModel.swift */,
+				7A6A0E85223EEDFE001F834E /* AuthUseCase.swift */,
+				7AC554BC223AB62A00FDEDE5 /* Authenticator.swift */,
 			);
 			path = LogIn;
 			sourceTree = "<group>";
@@ -294,6 +298,8 @@
 			children = (
 				7AC554CB223B36EE00FDEDE5 /* OpenMRS+Rx.swift */,
 				7AEFB26B22381B3600E86256 /* UIView+Extensions.swift */,
+				7A6A0E982242DE56001F834E /* EventRelay.swift */,
+				7A6A0E9A2242DEEA001F834E /* StateRelay.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -513,6 +519,7 @@
 				7AC554BD223AB62A00FDEDE5 /* Authenticator.swift in Sources */,
 				7AC554C3223AFB1500FDEDE5 /* DomainImportable.generated.swift in Sources */,
 				7AACDE132231BBD400B24351 /* AppDelegate.swift in Sources */,
+				7A6A0E992242DE56001F834E /* EventRelay.swift in Sources */,
 				7A6A0E8D223FF502001F834E /* PatientDetails.swift in Sources */,
 				7A6A0E86223EEDFE001F834E /* AuthUseCase.swift in Sources */,
 				7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */,
@@ -521,6 +528,7 @@
 				7AEFB26C22381B3600E86256 /* UIView+Extensions.swift in Sources */,
 				7A79A6B622342C5400E22CDA /* RootUseCase.swift in Sources */,
 				7A79A6B12233037300E22CDA /* RootViewController.swift in Sources */,
+				7A6A0E9B2242DEEA001F834E /* StateRelay.swift in Sources */,
 				7AC554D9223EC25500FDEDE5 /* AppointmentComponent.swift in Sources */,
 				7A6A0E91223FF638001F834E /* TimeslotDetails.swift in Sources */,
 				7A6A0E88223EEE2E001F834E /* CalendarUseCase.swift in Sources */,

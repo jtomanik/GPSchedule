@@ -8,10 +8,8 @@
 
 import Foundation
 
-// sourcery: viewName = "LoggedIn"
-// sourcery: parentViewModel = "RootViewModel"
 // sourcery: defaultState = "empty(title: "")"
-enum CalendarViewState: BasicViewGenerator, ViewState {
+enum CalendarViewState: ViewState, BasicViewGenerator {
 
     struct ListDisplayModel: Equatable {
         let title: String?
@@ -28,16 +26,16 @@ enum CalendarViewState: BasicViewGenerator, ViewState {
         let reason: LabelState
     }
 
+    enum UserAction: AbstractEvent, Equatable {
+        case refresh
+        case showDetail(id: String)
+    }
+
     case empty(title: String?)
     case refreshing(title: String?, for: User)
     case list(model: ListDisplayModel, for: User)
     case fetching(id: String, for: User)
     case detail(DetailDisplayModel, for: User)
-
-    enum UserAction: AbstractEvent, Equatable {
-        case refresh
-        case showDetail(id: String)
-    }
 
     // sourcery:inline:auto:CalendarViewState.AutoInit
         init() {
@@ -82,8 +80,8 @@ class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCas
     }
 
     static func transform(storeState: CalendarState, state: State) -> State {
-        switch storeState {
-        case .all(let values, let user):
+        switch (storeState, state) {
+        case (.all(let values, let user), _):
             if values.isEmpty {
                 return .empty(title: user.display)
             } else {
@@ -92,72 +90,75 @@ class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCas
                     items: values.map { CalendarViewModel.translate(short: $0) }),
                              for: user)
             }
-        case .detail(let item, let user):
+        case (.detail(let item, let user), _):
             return .detail(CalendarViewModel.translate(full: item), for: user)
-        case .error:
+        case (.error, _):
             return state
         }
     }
 
     static func reduce(state: State, action: State.UserAction) -> State {
-        switch action {
-        case .refresh:
-            if case CalendarViewState.list(_, let user) = state {
-                return .refreshing(title: user.display, for: user)
-            } else if case CalendarViewState.detail(_, let user) = state {
-                return .refreshing(title: user.display, for: user)
-            } else {
-                return state
-            }
-        case .showDetail(let id):
-            if case CalendarViewState.list(_, let user) = state {
-                return .fetching(id: id, for: user)
-            } else {
-                return state
-            }
+        switch (state, action) {
+        case (.list(_, let user), .refresh):
+            return .refreshing(title: user.display, for: user)
+        case (.detail(_, let user), .refresh):
+            return .refreshing(title: user.display, for: user)
+        case (.list(_, let user), .showDetail(let id)):
+            return .fetching(id: id, for: user)
+        default:
+            return state
         }
     }
 
-    override func forwarder(state: CalendarViewState) {
-        switch state {
-        case .refreshing(_, let user):
-            store.dispatch(event: CalendarState.StateEvent.fetchAll(for: user))
-        case .fetching(let id, let user):
-            store.dispatch(event: CalendarState.StateEvent.fetchDetail(id: id, for: user))
+    static func forward(object: AnyObject?, state: CalendarViewState, lastAction: CalendarViewState.UserAction) {
+        guard let object = object as? CalendarViewModel else {
+            return
+        }
+
+        switch (state, lastAction) {
+        case (.refreshing(_, let user), _):
+            object.store.dispatch(event: CalendarState.StateEvent.fetchAll(for: user))
+        case (.fetching(let id, let user), _):
+            object.store.dispatch(event: CalendarState.StateEvent.fetchDetail(id: id, for: user))
         default:
             return
         }
     }
 
-
 // sourcery:inline:auto:CalendarViewModel.AutoInit
+    // swiftlint:disable all
+    convenience init(parent: RootViewModel) {
+    self.init(
+        parent: parent,
+        transformer: CalendarViewModel.transform,
+        reducer: CalendarViewModel.reduce,
+        forwarder: CalendarViewModel.forward)
+    }
 
-// swiftlint:disable all
+    required convenience init(
+        parent: Parent,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        self.init(
+            warehouse: parent.warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+        self.parent = parent
+    }
 
-convenience init(parent: RootViewModel) {
-
-    self.init(parent: parent, transformer: CalendarViewModel.transform, reducer: CalendarViewModel.reduce)
-
-}
-
-
-
-required convenience init(parent: Parent, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-
-    self.init(warehouse: parent.warehouse, transformer: transformer, reducer: reducer)
-
-    self.parent = parent
-
-}
-
-
-
-required init(warehouse: DomainStoreFacade, transformer: ViewStateTransformer<Store.State, State>?, reducer: ViewStateReducer<State>?) {
-
-    super.init(warehouse: warehouse, transformer: transformer, reducer: reducer)
-
-}
-
-// swiftlint:enable all
+    required init(
+        warehouse: DomainStoreFacade,
+        transformer: ViewStateTransformer<Store.State, State>?,
+        reducer: ViewStateReducer<State>?,
+        forwarder: ViewStateForwarder<State>?) {
+        super.init(
+            warehouse: warehouse,
+            transformer: transformer,
+            reducer: reducer,
+            forwarder: forwarder)
+    }
+    // swiftlint:enable all
 // sourcery:end
 }

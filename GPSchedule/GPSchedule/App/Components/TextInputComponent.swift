@@ -13,8 +13,10 @@ import RxCocoa
 import RxSwift
 
 class TextInputComponentView: UIView, NibLoadable {
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
+
     var didUpdate: ((String?) -> Void)?
 
     override func awakeFromNib() {
@@ -30,6 +32,7 @@ class TextInputComponentView: UIView, NibLoadable {
 }
 
 final class TextInputComponent: GenericActionableComponent<TextInputState, String?, TextInputComponentView>, Focusable {
+
     var focusEligibility: FocusEligibility {
         return (state.text?.isEmpty ?? true) ? .eligible(.empty) : .eligible(.populated)
     }
@@ -45,6 +48,7 @@ final class TextInputComponent: GenericActionableComponent<TextInputState, Strin
 }
 
 extension TextInputComponentView: FocusableView {
+
     public func focus() {
         textField.becomeFirstResponder()
     }
@@ -57,6 +61,7 @@ extension TextInputComponentView: FocusableView {
 }
 
 extension TextInputComponentView: UITextFieldDelegate {
+
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         updateReturnKeyType()
         return true
@@ -90,6 +95,7 @@ extension TextInputComponentView: UITextFieldDelegate {
 }
 
 final class FocusToolbar: UIToolbar {
+
     weak var view: (UIView & FocusableView)?
     var backwardButton: UIBarButtonItem!
     var forwardButton: UIBarButtonItem!
@@ -153,6 +159,7 @@ final class FocusToolbar: UIToolbar {
 }
 
 extension UIBarButtonItem {
+
     func settingEnabled(_ isEnabled: Bool) -> Self {
         self.isEnabled = isEnabled
         return self
