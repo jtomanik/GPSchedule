@@ -12,7 +12,7 @@ open class OrderGet: JSONEncodable {
     public var uuid: String?
     public var display: String?
     public var instructions: String?
-    public var startDate: ISOFullDate?
+    public var startDate: Date?
     public var autoExpireDate: ISOFullDate?
     public var accessionNumber: String?
     public var discontinuedDate: ISOFullDate?
@@ -27,7 +27,7 @@ open class OrderGet: JSONEncodable {
     public var discontinuedReason: ConceptGetRef?
 
 
-    public init(uuid: String?=nil, display: String?=nil, instructions: String?=nil, startDate: ISOFullDate?=nil, autoExpireDate: ISOFullDate?=nil, accessionNumber: String?=nil, discontinuedDate: ISOFullDate?=nil, discontinuedReasonNonCoded: String?=nil, voided: Bool?=nil, orderType: OrdertypeGetRef?=nil, patient: PatientGetRef?=nil, concept: ConceptGetRef?=nil, encounter: EncounterGetRef?=nil, orderer: UserGetRef?=nil, discontinuedBy: UserGetRef?=nil, discontinuedReason: ConceptGetRef?=nil) {
+    public init(uuid: String?=nil, display: String?=nil, instructions: String?=nil, startDate: Date?=nil, autoExpireDate: ISOFullDate?=nil, accessionNumber: String?=nil, discontinuedDate: ISOFullDate?=nil, discontinuedReasonNonCoded: String?=nil, voided: Bool?=nil, orderType: OrdertypeGetRef?=nil, patient: PatientGetRef?=nil, concept: ConceptGetRef?=nil, encounter: EncounterGetRef?=nil, orderer: UserGetRef?=nil, discontinuedBy: UserGetRef?=nil, discontinuedReason: ConceptGetRef?=nil) {
         self.uuid = uuid
         self.display = display
         self.instructions = instructions

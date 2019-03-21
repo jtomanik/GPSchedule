@@ -468,11 +468,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -514,11 +514,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -564,11 +564,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -810,11 +810,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -856,11 +856,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -906,11 +906,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -1326,7 +1326,7 @@ public class Decoders {
                 case let .success(value): _result.patientUuid = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
@@ -1352,7 +1352,7 @@ public class Decoders {
                 case let .success(value): _result.patientUuid = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
@@ -1382,11 +1382,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -1420,11 +1420,11 @@ public class Decoders {
                 case let .success(value): _result.display = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -1460,7 +1460,7 @@ public class Decoders {
         Decoders.addDecoder(clazz: CohortMembershipUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CohortMembershipUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = CohortMembershipUpdate()
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
@@ -9062,7 +9062,7 @@ public class Decoders {
                 case let .success(value): _result.instructions = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
@@ -9144,7 +9144,7 @@ public class Decoders {
                 case let .success(value): _result.instructions = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
@@ -10840,11 +10840,11 @@ public class Decoders {
                 case let .success(value): _result.address6 = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -10918,11 +10918,11 @@ public class Decoders {
                 case let .success(value): _result.address6 = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -11004,11 +11004,11 @@ public class Decoders {
                 case let .success(value): _result.address6 = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -11098,11 +11098,11 @@ public class Decoders {
                 case let .success(value): _result.address6 = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -11202,11 +11202,11 @@ public class Decoders {
                 case let .success(value): _result.address6 = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -13028,11 +13028,11 @@ public class Decoders {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -13066,11 +13066,11 @@ public class Decoders {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -13104,11 +13104,11 @@ public class Decoders {
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -13138,11 +13138,11 @@ public class Decoders {
         Decoders.addDecoder(clazz: ProgramenrollmentStateUpdate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ProgramenrollmentStateUpdate> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = ProgramenrollmentStateUpdate()
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["endDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["endDate"] as AnyObject?) {
                 case let .success(value): _result.endDate = value
                 case let .failure(error): break
                 }
@@ -13904,7 +13904,7 @@ public class Decoders {
                     return .failure(.typeMismatch(expected: "RelationshipCreate", actual: "\(personBSource)"))
                 }
                 let _result = RelationshipCreate(personA: personA, relationshipType: relationshipType, personB: personB)
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }
@@ -13944,7 +13944,7 @@ public class Decoders {
                     return .failure(.typeMismatch(expected: "RelationshipCreateFull", actual: "\(personBSource)"))
                 }
                 let _result = RelationshipCreateFull(personA: personA, relationshipType: relationshipType, personB: personB)
-                switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["startDate"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["startDate"] as AnyObject?) {
                 case let .success(value): _result.startDate = value
                 case let .failure(error): break
                 }

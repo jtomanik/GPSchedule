@@ -9,11 +9,11 @@ import Foundation
 
 
 open class CohortMembershipUpdate: JSONEncodable {
-    public var startDate: ISOFullDate?
+    public var startDate: Date?
     public var endDate: ISOFullDate?
 
 
-    public init(startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil) {
+    public init(startDate: Date?=nil, endDate: ISOFullDate?=nil) {
         self.startDate = startDate
         self.endDate = endDate
     }

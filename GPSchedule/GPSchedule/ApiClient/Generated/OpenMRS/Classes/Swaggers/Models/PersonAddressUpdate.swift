@@ -21,13 +21,13 @@ open class PersonAddressUpdate: JSONEncodable {
     public var address4: String?
     public var address5: String?
     public var address6: String?
-    public var startDate: ISOFullDate?
-    public var endDate: ISOFullDate?
+    public var startDate: Date?
+    public var endDate: Date?
     public var latitude: String?
     public var longitude: String?
 
 
-    public init(preferred: Bool?=nil, address1: String?=nil, address2: String?=nil, cityVillage: String?=nil, stateProvince: String?=nil, country: String?=nil, postalCode: String?=nil, countyDistrict: String?=nil, address3: String?=nil, address4: String?=nil, address5: String?=nil, address6: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, latitude: String?=nil, longitude: String?=nil) {
+    public init(preferred: Bool?=nil, address1: String?=nil, address2: String?=nil, cityVillage: String?=nil, stateProvince: String?=nil, country: String?=nil, postalCode: String?=nil, countyDistrict: String?=nil, address3: String?=nil, address4: String?=nil, address5: String?=nil, address6: String?=nil, startDate: Date?=nil, endDate: Date?=nil, latitude: String?=nil, longitude: String?=nil) {
         self.preferred = preferred
         self.address1 = address1
         self.address2 = address2
