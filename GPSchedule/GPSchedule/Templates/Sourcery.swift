@@ -21,6 +21,7 @@ extension String: DomainMapable {}
 extension Double: DomainMapable {}
 extension Bool: DomainMapable {}
 extension Int: DomainMapable {}
+extension Date: DomainMapable {}
 
 extension UserGet: DomainMapable {}
 extension AppointmentschedulingAppointmentGet: DomainMapable {}

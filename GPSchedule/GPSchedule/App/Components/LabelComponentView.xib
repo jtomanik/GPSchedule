@@ -16,8 +16,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaR-Hv-hiu">
-                    <rect key="frame" x="166.5" y="14.5" width="42" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaR-Hv-hiu">
+                    <rect key="frame" x="14" y="14" width="347" height="22"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -25,8 +25,10 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="eaR-Hv-hiu" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Oov-6r-Xfk"/>
-                <constraint firstItem="eaR-Hv-hiu" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="fbz-Oe-edl"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="eaR-Hv-hiu" secondAttribute="bottom" constant="14" id="4J8-SM-19o"/>
+                <constraint firstItem="eaR-Hv-hiu" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="14" id="Pw0-Qv-8Ac"/>
+                <constraint firstItem="eaR-Hv-hiu" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="14" id="Zax-Mm-2dk"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="eaR-Hv-hiu" secondAttribute="trailing" constant="14" id="oLa-mY-Tzo"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>

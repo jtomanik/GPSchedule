@@ -1,5 +1,3 @@
-{% include "Common.stencil"%}
-
 {% for type in types.implementing.AppView|annotated:"viewmodel" %}
 // generating AppView for {{type.name}} with {{type.annotations.viewmodel}}
 {% set inline_body %}

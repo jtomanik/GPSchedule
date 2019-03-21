@@ -24,7 +24,7 @@ enum InitialState: AbstractState {
 protocol AppError: AbstractError {}
 
 extension DomainEvent where Self: Equatable {
-    
+
     func isEqualTo(_ other: DomainEvent) -> Bool {
         guard let otherEvent = other as? Self else {
             return false

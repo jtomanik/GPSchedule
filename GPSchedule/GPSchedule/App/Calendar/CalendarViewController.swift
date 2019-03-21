@@ -35,24 +35,26 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let state = viewModel.state.value
+        viewModel.dispatch(action: CalendarViewState.UserAction.showList)
     }
 
     override func process(state: CalendarViewModel.State) {
-        self.refreshControl.endRefreshing()
         switch state {
         case .empty(let title):
+            stopRefreshingData()
             self.title = title
             tableView.render(noBoxes())
         case .refreshing(let title, _):
             self.title = title
             tableView.render(loadingBoxes())
-        case .list(let model, _):
+        case .list(let model, _, _):
+            stopRefreshingData()
             self.title = model.title
             tableView.render(package(model: model))
         case .fetching:
             tableView.render(loadingBoxes())
         case .detail:
+            stopRefreshingData()
             showDetailView()
         }
     }
@@ -68,10 +70,6 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
                                                        didUpdate: { [weak self] in self?.userDidTap(on: $0) })
     }
 
-    private func package(model: CalendarViewState.DetailDisplayModel) -> Box<SectionId, RowId> {
-        return Box<SectionId, RowId>.empty
-    }
-
     private func loadingBoxes() -> Box<SectionId, RowId> {
         return Box<SectionId, RowId>.empty
             |-+ Section(id: "loading")
@@ -82,7 +80,7 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
         return Box<SectionId, RowId>.empty
                 |-+ Section(id: "empty")
                 |---+ RowId("0") <> LabelComponent(
-                    state: LabelState(text: "No data available", isHidden: false))
+                    state: LabelState(text: "", isHidden: false))
 
     }
 
@@ -97,5 +95,15 @@ class CalendarViewController: GenericTableViewController<CalendarViewModel> {
     @objc
     private func refreshData() {
         viewModel.dispatch(action: CalendarViewState.UserAction.refresh)
+    }
+
+    private func stopRefreshingData() {
+        guard tableView.refreshControl?.isRefreshing ?? false else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.refreshControl?.endRefreshing()
+        }
     }
 }
