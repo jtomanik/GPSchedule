@@ -11,12 +11,12 @@ import Foundation
 open class CohortMembershipGet: JSONEncodable {
     public var uuid: String?
     public var display: String?
-    public var startDate: ISOFullDate?
-    public var endDate: ISOFullDate?
+    public var startDate: Date?
+    public var endDate: Date?
     public var patientUuid: String?
 
 
-    public init(uuid: String?=nil, display: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, patientUuid: String?=nil) {
+    public init(uuid: String?=nil, display: String?=nil, startDate: Date?=nil, endDate: Date?=nil, patientUuid: String?=nil) {
         self.uuid = uuid
         self.display = display
         self.startDate = startDate

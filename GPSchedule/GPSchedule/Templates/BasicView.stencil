@@ -1,6 +1,7 @@
 {% include "Common.stencil"%}
 
 {% for type in types.implementing.BasicViewGenerator|annotated:"viewName" %}
+// Generated boilerplate for {{ type.name }}
 // sourcery:inline:{{ type.name }}.BasicViewGenerator
 extension {{type.annotations.viewName}}ViewState: ViewState {
     init() {

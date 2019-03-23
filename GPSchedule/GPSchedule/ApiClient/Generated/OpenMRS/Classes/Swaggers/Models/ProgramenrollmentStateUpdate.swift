@@ -9,12 +9,12 @@ import Foundation
 
 
 open class ProgramenrollmentStateUpdate: JSONEncodable {
-    public var startDate: ISOFullDate?
-    public var endDate: ISOFullDate?
+    public var startDate: Date?
+    public var endDate: Date?
     public var voided: Bool?
 
 
-    public init(startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, voided: Bool?=nil) {
+    public init(startDate: Date?=nil, endDate: Date?=nil, voided: Bool?=nil) {
         self.startDate = startDate
         self.endDate = endDate
         self.voided = voided

@@ -1,5 +1,7 @@
 import OpenMRS
 
+// Automaticly hiding OpenMRS Models behind protocols
+
 {% for type in types.implementing.DomainImportable|annotated:"target" %}
 typealias {{type.annotations.target}} = {{type.name}}
 protocol {{type.annotations.target}}Model: DomainModel {

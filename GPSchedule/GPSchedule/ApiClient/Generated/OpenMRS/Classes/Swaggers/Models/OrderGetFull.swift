@@ -13,7 +13,7 @@ open class OrderGetFull: JSONEncodable {
     public var uuid: String?
     public var display: String?
     public var instructions: String?
-    public var startDate: ISOFullDate?
+    public var startDate: Date?
     public var autoExpireDate: ISOFullDate?
     public var accessionNumber: String?
     public var discontinuedDate: ISOFullDate?
@@ -28,7 +28,7 @@ open class OrderGetFull: JSONEncodable {
     public var discontinuedReason: ConceptGet?
 
 
-    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, instructions: String?=nil, startDate: ISOFullDate?=nil, autoExpireDate: ISOFullDate?=nil, accessionNumber: String?=nil, discontinuedDate: ISOFullDate?=nil, discontinuedReasonNonCoded: String?=nil, voided: Bool?=nil, orderType: OrdertypeGet?=nil, patient: PatientGet?=nil, concept: ConceptGet?=nil, encounter: EncounterGet?=nil, orderer: UserGet?=nil, discontinuedBy: UserGet?=nil, discontinuedReason: ConceptGet?=nil) {
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, instructions: String?=nil, startDate: Date?=nil, autoExpireDate: ISOFullDate?=nil, accessionNumber: String?=nil, discontinuedDate: ISOFullDate?=nil, discontinuedReasonNonCoded: String?=nil, voided: Bool?=nil, orderType: OrdertypeGet?=nil, patient: PatientGet?=nil, concept: ConceptGet?=nil, encounter: EncounterGet?=nil, orderer: UserGet?=nil, discontinuedBy: UserGet?=nil, discontinuedReason: ConceptGet?=nil) {
         self.auditInfo = auditInfo
         self.uuid = uuid
         self.display = display

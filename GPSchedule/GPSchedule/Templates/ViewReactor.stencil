@@ -1,4 +1,5 @@
 {% for type in types.classes where type.name|contains:"ViewModel" %}
+// Automatically generated initializers for {{ type.name }}
     {% if type.isGeneric == false %}
     {% set parent %}{{ type.inheritedTypes|join }}{% endset %}
     // sourcery:inline:auto:{{ type.name }}.AutoInit

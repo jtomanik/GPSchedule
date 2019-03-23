@@ -12,12 +12,12 @@ open class CohortMembershipGetFull: JSONEncodable {
     public var auditInfo: String?
     public var uuid: String?
     public var display: String?
-    public var startDate: ISOFullDate?
-    public var endDate: ISOFullDate?
+    public var startDate: Date?
+    public var endDate: Date?
     public var patientUuid: String?
 
 
-    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, patientUuid: String?=nil) {
+    public init(auditInfo: String?=nil, uuid: String?=nil, display: String?=nil, startDate: Date?=nil, endDate: Date?=nil, patientUuid: String?=nil) {
         self.auditInfo = auditInfo
         self.uuid = uuid
         self.display = display

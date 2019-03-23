@@ -28,14 +28,15 @@ enum CalendarViewState: ViewState, BasicViewGenerator {
 
     enum UserAction: AbstractEvent, Equatable {
         case refresh
+        case showList
         case showDetail(id: String)
     }
 
     case empty(title: String?)
     case refreshing(title: String?, for: User)
-    case list(model: ListDisplayModel, for: User)
+    case list(model: ListDisplayModel, for: User, timestamp: Double)
     case fetching(id: String, for: User)
-    case detail(DetailDisplayModel, for: User)
+    case detail(DetailDisplayModel, for: User, timestamp: Double)
 
     // sourcery:inline:auto:CalendarViewState.AutoInit
         init() {
@@ -62,36 +63,40 @@ class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCas
     static func translate(short model: Appointment) -> AppointmentComponentState {
         return AppointmentComponentState(
             id: model.id,
-            timeFrom: TimeFormatter.shared.from(date: model.timeSlot?.startDate?.toDate()),
-            timeTo: TimeFormatter.shared.from(date: model.timeSlot?.endDate?.toDate()),
+            timeFrom: DateTimeFormatter.shared.from(date: model.timeSlot?.appointmentBlock?.startDate),
+            timeTo: HourlyFormatter.shared.from(date: model.timeSlot?.appointmentBlock?.endDate),
             title: model.patient?.person?.display ?? "",
             subtitle: model.appointmentType?.display ?? "")
     }
 
     static func translate(full model: Appointment) -> CalendarViewState.DetailDisplayModel {
         return CalendarViewState.DetailDisplayModel.init(
-            title: LabelState(text: model.patient?.display),
-            brief: LabelState(text: model.display),
+            title: LabelState(text: model.patient?.person?.display),
+            brief: LabelState(text: model.appointmentType?.display),
             timeslotText: LabelState(text: model.timeSlot?.display),
-            startDate: LabelState(text: TimeFormatter.shared.from(date: model.timeSlot?.startDate?.toDate())),
-            endDate: LabelState(text: TimeFormatter.shared.from(date: model.timeSlot?.endDate?.toDate())),
-            appointmenText: LabelState(text: model.appointmentType?.display),
+            startDate: LabelState(text: HourlyFormatter.shared.from(date: model.timeSlot?.appointmentBlock?.startDate)),
+            endDate: LabelState(text: HourlyFormatter.shared.from(date: model.timeSlot?.appointmentBlock?.endDate)),
+            appointmenText: LabelState(text: model.display),
             reason: LabelState(text: model.reason))
     }
 
     static func transform(storeState: CalendarState, state: State) -> State {
         switch (storeState, state) {
-        case (.all(let values, let user), _):
+        case (.all(let values, let user, _), _):
+            let title = user.person?.display
             if values.isEmpty {
-                return .empty(title: user.display)
+                return .empty(title: title)
             } else {
                 return .list(model: State.ListDisplayModel(
-                    title: user.display,
+                    title: title,
                     items: values.map { CalendarViewModel.translate(short: $0) }),
-                             for: user)
+                             for: user,
+                    timestamp: Date.timestamp)
             }
-        case (.detail(let item, let user), _):
-            return .detail(CalendarViewModel.translate(full: item), for: user)
+        case (.detail(let item, _, let user), _):
+            return .detail(CalendarViewModel.translate(full: item),
+                           for: user,
+                           timestamp: Date.timestamp)
         case (.error, _):
             return state
         }
@@ -99,12 +104,16 @@ class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCas
 
     static func reduce(state: State, action: State.UserAction) -> State {
         switch (state, action) {
-        case (.list(_, let user), .refresh):
+        case (.list(_, let user, _), .refresh):
             return .refreshing(title: user.display, for: user)
-        case (.detail(_, let user), .refresh):
+        case (.detail(_, let user, _), .refresh):
             return .refreshing(title: user.display, for: user)
-        case (.list(_, let user), .showDetail(let id)):
+        case (.list(_, let user, _), .showDetail(let id)):
             return .fetching(id: id, for: user)
+        case (.detail(_, let user, _), .showList):
+            return .list(model: CalendarViewState.ListDisplayModel(title: user.display, items: []),
+                         for: user,
+                         timestamp: Date.timestamp)
         default:
             return state
         }
@@ -120,6 +129,8 @@ class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCas
             object.store.dispatch(event: CalendarState.StateEvent.fetchAll(for: user))
         case (.fetching(let id, let user), _):
             object.store.dispatch(event: CalendarState.StateEvent.fetchDetail(id: id, for: user))
+        case (.list, .showList):
+            object.store.dispatch(event: CalendarState.StateEvent.rollback)
         default:
             return
         }

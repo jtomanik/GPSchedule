@@ -20,7 +20,8 @@ class AppointmentDetailViewController: GenericTableViewController<CalendarViewMo
         switch state {
         case .fetching:
             tableView.render(loadingBoxes())
-        case .detail(let model, _):
+        case .detail(let model, _, _):
+            self.title = model.title.text
             tableView.render(package(model: model))
         default:
             tableView.render(noBoxes())
@@ -30,11 +31,13 @@ class AppointmentDetailViewController: GenericTableViewController<CalendarViewMo
     private func package(model: CalendarViewState.DetailDisplayModel) -> Box<SectionId, RowId> {
         return Box<SectionId, RowId>.empty
             |-+ Section(id: "details")
-            |---+ RowId("0") <> LabelComponent(state: model.title)
-            |---+ RowId("1") <> LabelComponent(state: model.title)
-            |---+ RowId("2") <> LabelComponent(state: model.brief)
+            |---+ RowId("0") <> LabelComponent(state: model.brief)
+            |---+ RowId("1") <> LabelComponent(state: model.startDate)
+            |---+ RowId("2") <> LabelComponent(state: model.endDate)
             |---+ RowId("3") <> LabelComponent(state: model.timeslotText)
-            |---+ RowId("4") <> LabelComponent(state: model.startDate)
+            |---+ RowId("4") <> LabelComponent(state: model.brief)
+            |---+ RowId("5") <> LabelComponent(state: model.appointmenText)
+            |---+ RowId("6") <> LabelComponent(state: model.reason)
     }
 
     private func loadingBoxes() -> Box<SectionId, RowId> {

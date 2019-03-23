@@ -12,11 +12,11 @@ open class RelationshipCreate: JSONEncodable {
     public var personA: String
     public var relationshipType: String
     public var personB: String
-    public var startDate: ISOFullDate?
+    public var startDate: Date?
     public var endDate: ISOFullDate?
 
 
-    public init(personA: String, relationshipType: String, personB: String, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil) {
+    public init(personA: String, relationshipType: String, personB: String, startDate: Date?=nil, endDate: ISOFullDate?=nil) {
         self.personA = personA
         self.relationshipType = relationshipType
         self.personB = personB

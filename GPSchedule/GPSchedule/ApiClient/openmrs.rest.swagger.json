@@ -10210,11 +10210,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "provider": {
           "$ref": "#/definitions/ProviderGet"
@@ -10243,11 +10243,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "provider": {
           "$ref": "#/definitions/ProviderGetRef"
@@ -10276,11 +10276,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "provider": {
           "$ref": "#/definitions/ProviderGetRef"
@@ -12176,11 +12176,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "appointmentBlock": {
           "$ref": "#/definitions/AppointmentschedulingAppointmentblockGet"
@@ -12208,11 +12208,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "appointmentBlock": {
           "$ref": "#/definitions/AppointmentschedulingAppointmentblockGetRef"
@@ -12240,11 +12240,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "appointmentBlock": {
           "$ref": "#/definitions/AppointmentschedulingAppointmentblockGetRef"
@@ -12831,7 +12831,7 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "autoExpireDate": {
           "type": "string",
@@ -12892,7 +12892,7 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "autoExpireDate": {
           "type": "string",
@@ -14137,7 +14137,7 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
@@ -14163,7 +14163,7 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
@@ -16496,11 +16496,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "patientUuid": {
           "type": "string"
@@ -16523,11 +16523,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "patientUuid": {
           "type": "string"
@@ -16541,7 +16541,7 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
@@ -16556,7 +16556,7 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
@@ -16568,7 +16568,7 @@
       "properties": {
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
@@ -16901,11 +16901,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "latitude": {
           "type": "string"
@@ -16978,11 +16978,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "latitude": {
           "type": "string"
@@ -17036,11 +17036,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "latitude": {
           "type": "string"
@@ -17091,11 +17091,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "latitude": {
           "type": "string"
@@ -17146,11 +17146,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "latitude": {
           "type": "string"
@@ -18545,11 +18545,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "voided": {
           "type": "boolean"
@@ -18566,11 +18566,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "voided": {
           "type": "boolean"
@@ -18593,11 +18593,11 @@
         },
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "voided": {
           "type": "boolean"
@@ -18614,11 +18614,11 @@
       "properties": {
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
         "voided": {
           "type": "boolean"

@@ -11,15 +11,15 @@ import Foundation
 open class AppointmentschedulingAppointmentblockGet: JSONEncodable {
     public var uuid: String?
     public var display: String?
-    public var startDate: ISOFullDate?
-    public var endDate: ISOFullDate?
+    public var startDate: Date?
+    public var endDate: Date?
     public var provider: ProviderGet?
     public var location: LocationGet?
     public var types: [AppointmentschedulingAppointmenttypeGetRef]?
     public var voided: Bool?
 
 
-    public init(uuid: String?=nil, display: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, provider: ProviderGet?=nil, location: LocationGet?=nil, types: [AppointmentschedulingAppointmenttypeGetRef]?=nil, voided: Bool?=nil) {
+    public init(uuid: String?=nil, display: String?=nil, startDate: Date?=nil, endDate: Date?=nil, provider: ProviderGet?=nil, location: LocationGet?=nil, types: [AppointmentschedulingAppointmenttypeGetRef]?=nil, voided: Bool?=nil) {
         self.uuid = uuid
         self.display = display
         self.startDate = startDate

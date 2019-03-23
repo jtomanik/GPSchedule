@@ -61,14 +61,15 @@ indirect enum CalendarState: DomainState {
         case error(StateError)
         case recoverFromError
         case refresh
+        case rollback
     }
 
-    case all(entires: [Appointment], user: User)
-    case detail(entry: Appointment, user: User)
+    case all(entries: [Appointment], user: User, timestamp: Double)
+    case detail(entry: Appointment, from: [Appointment], user: User)
     case error(StateError, from: CalendarState)
 
     init() {
-        self = .all(entires: [], user: User(uuid: ""))
+        self = .all(entries: [], user: User(uuid: ""), timestamp: Date.timestamp)
     }
 }
 
@@ -147,15 +148,17 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
     static func reduce(_ state: CalendarState, _ event: CalendarState.StateEvent) -> CalendarState {
         switch (state, event) {
         case (_, .fetched(let items, let user)):
-            return .all(entires: items, user: user)
-        case (_, .fetchedFull(let appointment, let user)):
-            return .detail(entry: appointment, user: user)
+            return .all(entries: items, user: user, timestamp: Date.timestamp)
+        case (.all(let entries, let user, _), .fetchedFull(let appointment, _)):
+            return .detail(entry: appointment, from: entries, user: user)
         case (_, .error(let error)):
             return .error(error, from: state)
         case (.error(_, let oldState), .recoverFromError):
             return oldState
         case (let oldState, .refresh):
             return oldState
+        case (.detail(_, let list, let user), .rollback):
+            return .all(entries: list, user: user, timestamp: Date.timestamp)
         default:
             return state
         }

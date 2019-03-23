@@ -10,13 +10,13 @@ import Foundation
 
 open class ProgramenrollmentStateGet: JSONEncodable {
     public var uuid: String?
-    public var startDate: ISOFullDate?
-    public var endDate: ISOFullDate?
+    public var startDate: Date?
+    public var endDate: Date?
     public var voided: Bool?
     public var state: WorkflowStateGet?
 
 
-    public init(uuid: String?=nil, startDate: ISOFullDate?=nil, endDate: ISOFullDate?=nil, voided: Bool?=nil, state: WorkflowStateGet?=nil) {
+    public init(uuid: String?=nil, startDate: Date?=nil, endDate: Date?=nil, voided: Bool?=nil, state: WorkflowStateGet?=nil) {
         self.uuid = uuid
         self.startDate = startDate
         self.endDate = endDate
