@@ -12,15 +12,6 @@ import RxSwift
 // MARK: Generic Implementations
 import UIKit
 
-enum InitialState: AbstractState {
-
-    case uninitialized
-
-    init() {
-        self = .uninitialized
-    }
-}
-
 protocol AppError: AbstractError {}
 
 extension DomainEvent where Self: Equatable {

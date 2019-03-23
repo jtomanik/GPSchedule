@@ -16,7 +16,6 @@ enum RootState: DomainState {
 
     enum StateError: DomainError, Equatable {
         case genericError
-        case errorMessage(String)
     }
 
     enum StateEvent: DomainEvent, Equatable {

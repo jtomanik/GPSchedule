@@ -157,11 +157,3 @@ final class FocusToolbar: UIToolbar {
         view?.endEditing(true)
     }
 }
-
-extension UIBarButtonItem {
-
-    func settingEnabled(_ isEnabled: Bool) -> Self {
-        self.isEnabled = isEnabled
-        return self
-    }
-}

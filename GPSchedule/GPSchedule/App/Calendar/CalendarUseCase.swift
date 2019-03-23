@@ -50,7 +50,6 @@ indirect enum CalendarState: DomainState {
     enum StateError: DomainError, Equatable {
         case unknown
         case api(APIError)
-        case authError
     }
 
     enum StateEvent: DomainEvent, Equatable {

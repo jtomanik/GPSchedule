@@ -28,21 +28,17 @@ enum AuthState: DomainState {
     enum StateError: DomainError, Equatable {
         case unauthorized
         case unknown
-        case errorMessage(String)
     }
 
     enum StateEvent: DomainEvent, Equatable {
         case login(username: String, password: String)
         case loggedIn(User)
         case logout
-        case lock
-        case unlock
         case error(StateError)
     }
 
     case unauthorized
     case authorized(user: User)
-    //        case locked(user: User)
     case authFailure(StateError)
 
     init() {
