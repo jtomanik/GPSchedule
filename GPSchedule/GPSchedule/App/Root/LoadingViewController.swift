@@ -56,6 +56,7 @@ class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootUseCase, Roo
         reducer: ViewStateReducer<State>?,
         forwarder: ViewStateForwarder<State>?) {
         self.init(
+            initialState: State.init(),
             warehouse: parent.warehouse,
             transformer: transformer,
             reducer: reducer,
@@ -64,6 +65,7 @@ class LoadingViewModel: GenericChildViewModel<LoadingViewState, RootUseCase, Roo
     }
 
     required init(
+        initialState: State,
         warehouse: DomainStoreFacade,
         transformer: ViewStateTransformer<Store.State, State>?,
         reducer: ViewStateReducer<State>?,
@@ -85,11 +87,13 @@ class LoadingViewController: GenericViewController<LoadingViewModel> {
     }()
 
     override func setupView() {
+        // swiftlint:disable force_unwrapping
         self.view.addSubview(activityIndicator)
         constrain(activityIndicator) { view in
             view.center == view.superview!.center
         }
         activityIndicator.style = .gray
+        // swiftlint:enable force_unwrapping
     }
 
     override func process(state: LoadingViewModel.State) {

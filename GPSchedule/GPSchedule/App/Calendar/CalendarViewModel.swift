@@ -152,6 +152,7 @@ class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCas
         reducer: ViewStateReducer<State>?,
         forwarder: ViewStateForwarder<State>?) {
         self.init(
+            initialState: State.init(),
             warehouse: parent.warehouse,
             transformer: transformer,
             reducer: reducer,
@@ -160,6 +161,7 @@ class CalendarViewModel: GenericChildViewModel<CalendarViewState, CalendarUseCas
     }
 
     required init(
+        initialState: State,
         warehouse: DomainStoreFacade,
         transformer: ViewStateTransformer<Store.State, State>?,
         reducer: ViewStateReducer<State>?,

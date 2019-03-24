@@ -10,7 +10,7 @@ import UIKit
 import Bento
 
 final class LabelComponentView: UIView, NibLoadable {
-    
+
     @IBOutlet weak var titleLabel: UILabel!
 }
 

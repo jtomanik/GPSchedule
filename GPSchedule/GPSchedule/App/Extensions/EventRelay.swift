@@ -10,6 +10,8 @@ import RxSwift
 
 // EventRelay is a wrapper for `PublishSubject`.
 // Unlike `PublishSubject` it can't terminate with error or completed.
+// This was created to avoid importing RxCocoa just for PublishSubject
+// swiftlint:disable all
 final class EventRelay<Element: AbstractEvent>: ObservableType {
 
     typealias E = Element
@@ -32,3 +34,4 @@ final class EventRelay<Element: AbstractEvent>: ObservableType {
         return self.subject.asObservable()
     }
 }
+// swiftlint:enable all

@@ -9,14 +9,19 @@ PODS:
     - StyleSheets
   - Cartography (3.1.0)
   - FlexibleDiff (0.0.7)
+  - Nimble (8.0.1)
   - OpenMRS (0.0.1):
     - Alamofire (~> 4.7.0)
+  - Quick (2.0.0)
   - ReactiveCocoa (8.0.2):
     - ReactiveSwift (~> 4.0)
   - ReactiveSwift (4.0.0):
     - Result (~> 4.0)
   - Result (4.1.0)
   - RxAtomic (4.4.2)
+  - RxBlocking (4.4.2):
+    - RxAtomic (>= 4.4.2, ~> 4.4)
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - RxCocoa (4.4.2):
     - RxSwift (>= 4.4.2, ~> 4.4)
   - RxFeedback (2.0.0):
@@ -35,6 +40,9 @@ PODS:
   - RxSwiftExt/RxCocoa (3.4.0):
     - RxCocoa (~> 4.0)
     - RxSwiftExt/Core
+  - RxTest (4.4.2):
+    - RxAtomic (>= 4.4.2, ~> 4.4)
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - Sourcery (0.16.0)
   - StyleSheets (0.3)
   - SwiftLint (0.31.0)
@@ -43,12 +51,15 @@ DEPENDENCIES:
   - Bento (from `https://github.com/Babylonpartners/Bento.git`)
   - BentoKit (from `https://github.com/Babylonpartners/Bento.git`)
   - Cartography
+  - Nimble
   - OpenMRS (from `./GPSchedule/ApiClient/Generated/OpenMRS.podspec`)
-  - RxCocoa
+  - Quick
+  - RxBlocking
   - RxFeedback
   - RxOptional
   - RxSwift
   - RxSwiftExt
+  - RxTest
   - Sourcery
   - StyleSheets (from `https://github.com/Babylonpartners/Bento.git`)
   - SwiftLint
@@ -58,15 +69,19 @@ SPEC REPOS:
     - Alamofire
     - Cartography
     - FlexibleDiff
+    - Nimble
+    - Quick
     - ReactiveCocoa
     - ReactiveSwift
     - Result
     - RxAtomic
+    - RxBlocking
     - RxCocoa
     - RxFeedback
     - RxOptional
     - RxSwift
     - RxSwiftExt
+    - RxTest
     - Sourcery
     - SwiftLint
 
@@ -97,20 +112,24 @@ SPEC CHECKSUMS:
   BentoKit: c1907158e740e3184256c26c94073b45158c1270
   Cartography: 1988b7578871a56c036e7af17195cb2190edf18c
   FlexibleDiff: 9449f18d480e07b0d6599838c973f088df8e5d33
+  Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
   OpenMRS: 610674a285c695f7a670cd567ad01dbdf2a88bfc
+  Quick: ce1276c7c27ba2da3cb2fd0cde053c3648b3b22d
   ReactiveCocoa: fbd26e9ba60e98417ee47433e59465a98ed9da0f
   ReactiveSwift: a2bb9ace428a109e9c0209615645d9d286c8c433
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
+  RxBlocking: e96fdda1473d81332a6ed2cface935dc2167a122
   RxCocoa: 477990dc3b4c3ff55fb0ac77e1cc06244e0aaec8
   RxFeedback: 49bb931caf6d05e315d5b5366c0991ad1474ea36
   RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
   RxSwift: 74c29b693c8e42b0f64400e8b06564575742d649
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
+  RxTest: 6433d5b6229f5de424fa534bc22b5e6c38b0b671
   Sourcery: 3e55aad9719ee5782ab81eb16addd44d272e4d13
   StyleSheets: cb35ec6073f95ad4b6ede668f5ba33099bfb3fda
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: 1a3b05358fdfe30882406ac95d46a1c84c7e5f16
+PODFILE CHECKSUM: bc9993056577b9c1302e87b142dae0f76b71fd49
 
 COCOAPODS: 1.6.1

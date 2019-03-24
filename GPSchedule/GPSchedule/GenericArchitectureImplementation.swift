@@ -12,15 +12,6 @@ import RxSwift
 // MARK: Generic Implementations
 import UIKit
 
-enum InitialState: AbstractState {
-
-    case uninitialized
-
-    init() {
-        self = .uninitialized
-    }
-}
-
 protocol AppError: AbstractError {}
 
 extension DomainEvent where Self: Equatable {
@@ -45,7 +36,8 @@ class GenericUseCase<State: DomainState>: DomainStore {
     private let feedbackLoops: [DomainStateFeedback<State>]
     private let disposeBag = DisposeBag()
 
-    required init(warehouse: DomainStoreFacade?,
+    required init(initialState: State = State.init(),
+                  warehouse: DomainStoreFacade?,
                   reducer: @escaping DomainStateReducer<State>,
                   middleware: [DomainStateMiddleware<State>] = [],
                   feedbackLoop: [DomainStateFeedback<State>] = []) {
@@ -54,7 +46,6 @@ class GenericUseCase<State: DomainState>: DomainStore {
             return Observable.just(event)
         }
 
-        let initialState = State.init()
         self.warehouse = warehouse
         self.reduce = reducer
         self.middlewares = middleware.isEmpty ? [passthruMiddleware] : middleware
@@ -89,7 +80,7 @@ class GenericUseCase<State: DomainState>: DomainStore {
         switch rxEvent {
         case .next(let newState):
             state.accept(newState)
-        case .error(let error):
+        case .error:
             fatalError("Use case encountered unhandled error")
         case .completed:
             fatalError("Event stream must not be compleated while UseCase is alive")
@@ -113,7 +104,8 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
     private let forward: ViewStateForwarder<State>
     private let disposeBag = DisposeBag()
 
-    required init(warehouse: DomainStoreFacade,
+    required init(initialState: State = State.init(),
+                  warehouse: DomainStoreFacade,
                   transformer: ViewStateTransformer<Store.State, State>?,
                   reducer: ViewStateReducer<State>?,
                   forwarder: ViewStateForwarder<State>?) {
@@ -128,11 +120,10 @@ class GenericViewModel<VS: ViewState, ST: DomainStore>: ViewReactor {
                 return state
         }
 
-        func defaultViewStateForwarder(self: AnyObject?, state: State, action: State.UserAction) -> Void {
+        func defaultViewStateForwarder(self: AnyObject?, state: State, action: State.UserAction) {
             return
         }
 
-        let initialState = State.init()
         self.state = StateRelay(value: initialState)
         self.store = warehouse.getStore(for: Store.self)
         self.warehouse = warehouse
@@ -199,7 +190,8 @@ class GenericChildViewModel<VS: ViewState, ST: DomainStore, PT: ViewReactor>: Ge
         self.parent = parent
     }
 
-    required init(warehouse: DomainStoreFacade,
+    required init(initialState: State = State.init(),
+                  warehouse: DomainStoreFacade,
                   transformer: ViewStateTransformer<Store.State, State>?,
                   reducer: ViewStateReducer<State>?,
                   forwarder: ViewStateForwarder<State>?) {

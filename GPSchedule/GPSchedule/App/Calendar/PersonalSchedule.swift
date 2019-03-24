@@ -13,8 +13,6 @@ import RxOptional
 
 struct PersonalSchedule: AppointmentsService {
 
-    typealias Model = [Appointment]
-
     static func appointments(for id: String) -> PersonalSchedule {
         return PersonalSchedule(uuid: id)
     }

@@ -10,6 +10,8 @@ import RxSwift
 
 // StateRelay is a wrapper for `BehaviorSubject`.
 // Unlike `BehaviorSubject` it can't terminate with error or completed.
+// This was created to avoid importing RxCocoa just for BehaviorSubject
+// swiftlint:disable all
 final class StateRelay<Element: AbstractState>: ObservableType {
 
     typealias E = Element
@@ -37,3 +39,4 @@ final class StateRelay<Element: AbstractState>: ObservableType {
         return self.subject.asObservable()
     }
 }
+// swiftlint:enable all

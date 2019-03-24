@@ -1,4 +1,4 @@
-{% for type in types.classes where type.name|contains:"ViewModel" %}
+{% for type in types.classes where type.name|hasSuffix:"ViewModel" %}
 // Automatically generated initializers for {{ type.name }}
     {% if type.isGeneric == false %}
     {% set parent %}{{ type.inheritedTypes|join }}{% endset %}
@@ -19,6 +19,7 @@
         reducer: ViewStateReducer<State>?,
         forwarder: ViewStateForwarder<State>?) {
         self.init(
+            initialState: State.init(),
             warehouse: parent.warehouse,
             transformer: transformer,
             reducer: reducer,
@@ -27,6 +28,7 @@
     }
 
     required init(
+        initialState: State,
         warehouse: DomainStoreFacade,
         transformer: ViewStateTransformer<Store.State, State>?,
         reducer: ViewStateReducer<State>?,
@@ -40,6 +42,7 @@
         {% else %}
     convenience init(warehouse: DomainStoreFacade) {
         self.init(
+            initialState: State.init(),
             warehouse: warehouse,
             transformer: {{ type.name }}.transform,
             reducer: {{ type.name }}.reduce,
@@ -47,6 +50,7 @@
     }
 
     required init(
+            initialState: State,
             warehouse: DomainStoreFacade,
             transformer: ViewStateTransformer<Store.State, State>?,
             reducer: ViewStateReducer<State>?,

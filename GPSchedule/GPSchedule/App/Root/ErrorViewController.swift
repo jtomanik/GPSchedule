@@ -32,7 +32,7 @@ enum ErrorViewState: BasicViewGenerator, ViewState {
 class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootUseCase, RootViewModel> {
 
     static func transform(storeState: RootState, state: State) -> State {
-        if case RootState.error(let error) = storeState {
+        if case RootState.error = storeState {
             return .showing(ErrorViewState.DisplayModel(closeTitle: "close", message: "There was an error"))
         } else {
             return state
@@ -48,7 +48,7 @@ class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootUseCase, RootVie
             return
         }
         if case .hiding = state {
-            object.parent.dispatch(action: RootViewState.UserAction.dissmissError)
+            object.parent.dispatch(action: RootViewState.UserAction.dismissError)
         }
     }
 
@@ -68,6 +68,7 @@ class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootUseCase, RootVie
         reducer: ViewStateReducer<State>?,
         forwarder: ViewStateForwarder<State>?) {
         self.init(
+            initialState: State.init(),
             warehouse: parent.warehouse,
             transformer: transformer,
             reducer: reducer,
@@ -76,6 +77,7 @@ class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootUseCase, RootVie
     }
 
     required init(
+        initialState: State,
         warehouse: DomainStoreFacade,
         transformer: ViewStateTransformer<Store.State, State>?,
         reducer: ViewStateReducer<State>?,
@@ -105,6 +107,7 @@ class ErrorViewController: GenericViewController<ErrorViewModel> {
     }()
 
     override func setupView() {
+        // swiftlint:disable force_unwrapping
         self.view.addSubview(errorLabel)
         constrain(errorLabel) { view in
             view.center == view.superview!.center
@@ -114,6 +117,7 @@ class ErrorViewController: GenericViewController<ErrorViewModel> {
             view.top == view.superview!.safeAreaLayoutGuide.top + 20
             view.right == view.superview!.safeAreaLayoutGuide.right - 60
         }
+        // swiftlint:enable force_unwrapping
     }
 
     override func process(state: ErrorViewModel.State) {

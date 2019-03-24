@@ -44,13 +44,11 @@ protocol CalendarServiceProvider: ServiceProvider {
 
 typealias CalendarUseCaseDependenciesProvider = CalendarServiceProvider
 
-// sourcery: defaultState = "AuthState"
 indirect enum CalendarState: DomainState {
 
     enum StateError: DomainError, Equatable {
         case unknown
         case api(APIError)
-        case authError
     }
 
     enum StateEvent: DomainEvent, Equatable {
@@ -97,7 +95,7 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
         }
     }
 
-    static func appointmentsDetailsMiddleware<Services: CalendarUseCaseDependenciesProvider>(services: Services) -> DomainStateMiddleware<CalendarState> {
+    static func appointmentsDetailsMiddleware<Services: CalendarServiceProvider>(services: Services) -> DomainStateMiddleware<CalendarState> {
         return { (event: CalendarState.StateEvent) -> Observable<CalendarState.StateEvent> in
             guard case .fetchDetail(let id, let user) = event else {
                     return Observable.just(event)
@@ -165,7 +163,7 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
     }
 
     static func feedback(state: CalendarState) -> Observable<DomainEvent> {
-        if case CalendarState.error(let error) = state {
+        if case CalendarState.error = state {
             return Observable.just(RootState.StateEvent.error(RootState.StateError.genericError))
         } else {
             return Observable.empty()
@@ -173,7 +171,7 @@ class CalendarUseCase: GenericUseCase<CalendarState> {
     }
 
     convenience init<DependenciesProvider: CalendarUseCaseDependenciesProvider>(
-        initialState: State = CalendarState(),
+        initialState: State,
         warehouse: DomainStoreFacade?,
         dependencyProvider: DependenciesProvider) {
         self.init(warehouse: warehouse,

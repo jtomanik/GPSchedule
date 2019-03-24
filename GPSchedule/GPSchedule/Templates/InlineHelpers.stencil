@@ -1,4 +1,4 @@
-// Following enums can be autamitcally expanded into `switch` statements
+// Following enums can be automatically expanded into `switch` statements
 {% for enum in types.enums %}
 // sourcery:inline:{{ enum.name }}.Switch
 switch value {
