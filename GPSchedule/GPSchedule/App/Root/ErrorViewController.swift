@@ -48,7 +48,7 @@ class ErrorViewModel: GenericChildViewModel<ErrorViewState, RootUseCase, RootVie
             return
         }
         if case .hiding = state {
-            object.parent.dispatch(action: RootViewState.UserAction.dissmissError)
+            object.parent.dispatch(action: RootViewState.UserAction.dismissError)
         }
     }
 

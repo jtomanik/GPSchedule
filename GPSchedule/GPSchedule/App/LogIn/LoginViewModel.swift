@@ -54,7 +54,7 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
             return State.init()
         case (.authFailure, .done(let model)):
             var newModel = model
-            newModel.errorMessage.text = "There was an errror while logging in"
+            newModel.errorMessage.text = "There was an error while logging in"
             newModel.errorMessage.isHidden = false
             return .inProgress(newModel)
         default:
@@ -115,11 +115,11 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
         case (.inProgress, .loginButtonPressed):
             let parentState = object.parent.state.value
             if case .loading(_) = parentState {
-                object.parent.dispatch(action: RootViewState.UserAction.dissmissLoading)
+                object.parent.dispatch(action: RootViewState.UserAction.dismissLoading)
             }
         case (.done(let context), .loginButtonPressed):
             // swiftlint:disable force_unwrapping
-            object.parent.dispatch(action: .bussy)
+            object.parent.dispatch(action: .busy)
             object.store.dispatch(event: .login(
                 username: context.usernameField.text!,
                 password: context.passwordField.text!))

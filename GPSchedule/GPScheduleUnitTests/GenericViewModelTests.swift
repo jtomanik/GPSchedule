@@ -65,7 +65,7 @@ class GenericViewModelSpec: QuickSpec {
                     expect(actions[.firstAction]).to(equal(1))
                 }
 
-                it("that changes current state corectly more than once") {
+                it("that changes current state correctly more than once") {
                     viewModel.dispatch(action: .firstAction)
                     viewModel.dispatch(action: .secondAction)
                     let actions = viewModel.state.value.actions

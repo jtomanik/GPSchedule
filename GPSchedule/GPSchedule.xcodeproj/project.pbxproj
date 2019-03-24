@@ -50,6 +50,8 @@
 		7AC9152122479CF40016D095 /* MockingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC9152022479CF40016D095 /* MockingSource.swift */; };
 		7AC915242247F5020016D095 /* GenericViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC915232247F5020016D095 /* GenericViewModelTests.swift */; };
 		7AC91526224817F50016D095 /* MockViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC91525224817F50016D095 /* MockViewState.swift */; };
+		7AC9152A22482B580016D095 /* cSpell.json in Resources */ = {isa = PBXBuildFile; fileRef = 7AC9152922482B580016D095 /* cSpell.json */; };
+		7AC9152C22482BE80016D095 /* swift.dictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7AC9152B22482BE80016D095 /* swift.dictionary.txt */; };
 		7ADFDE2D22443A2A00237C72 /* Date+timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADFDE2C22443A2A00237C72 /* Date+timestamp.swift */; };
 		7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */; };
 		7AE0E0F72239C27100F341B7 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F62239C27100F341B7 /* CalendarViewModel.swift */; };
@@ -134,6 +136,8 @@
 		7AC9152022479CF40016D095 /* MockingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockingSource.swift; sourceTree = "<group>"; };
 		7AC915232247F5020016D095 /* GenericViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericViewModelTests.swift; sourceTree = "<group>"; };
 		7AC91525224817F50016D095 /* MockViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewState.swift; sourceTree = "<group>"; };
+		7AC9152922482B580016D095 /* cSpell.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cSpell.json; sourceTree = "<group>"; };
+		7AC9152B22482BE80016D095 /* swift.dictionary.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = swift.dictionary.txt; sourceTree = "<group>"; };
 		7ADFDE2C22443A2A00237C72 /* Date+timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+timestamp.swift"; sourceTree = "<group>"; };
 		7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainWarehouse.swift; sourceTree = "<group>"; };
 		7AE0E0F62239C27100F341B7 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -237,6 +241,8 @@
 		7AACDE062231BBD300B24351 = {
 			isa = PBXGroup;
 			children = (
+				7AC9152B22482BE80016D095 /* swift.dictionary.txt */,
+				7AC9152922482B580016D095 /* cSpell.json */,
 				7A345EEF2231C340004DDD11 /* .sourcery.yml */,
 				7A345EF12231C74A004DDD11 /* .swiftlint.yml */,
 				7AACDE112231BBD400B24351 /* GPSchedule */,
@@ -470,6 +476,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AC9152A22482B580016D095 /* cSpell.json in Resources */,
+				7AC9152C22482BE80016D095 /* swift.dictionary.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

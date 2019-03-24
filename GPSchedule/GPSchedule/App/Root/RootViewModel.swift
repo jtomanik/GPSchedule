@@ -15,9 +15,9 @@ import RxSwiftExt
 indirect enum RootViewState: ViewState, BasicViewGenerator {
 
     enum UserAction: AbstractEvent {
-        case bussy
-        case dissmissError
-        case dissmissLoading
+        case busy
+        case dismissError
+        case dismissLoading
     }
 
     case logIn
@@ -49,14 +49,14 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
 
     static func reduce(state: State, action: State.UserAction) -> State {
         switch (state, action) {
-        case (let oldState, .bussy):
+        case (let oldState, .busy):
             if case .error(_, _) = oldState {
                 return state
             }
             return .loading(from: state)
-        case (.loading(let oldState), .dissmissLoading):
+        case (.loading(let oldState), .dismissLoading):
             return oldState
-        case (.error(_, let oldState), .dissmissError):
+        case (.error(_, let oldState), .dismissError):
             return oldState
         default:
             return state
@@ -68,7 +68,7 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
             return
         }
         switch (state, lastAction) {
-        case (.loggedIn, .dissmissError):
+        case (.loggedIn, .dismissError):
             object.warehouse.dispatch(event: CalendarState.StateEvent.refresh)
         default:
             return

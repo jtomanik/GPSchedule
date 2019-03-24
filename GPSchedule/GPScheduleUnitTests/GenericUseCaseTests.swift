@@ -16,13 +16,13 @@ import RxOptional
 class GenericUseCaseSpec: QuickSpec {
     override func spec() {
 
-        // UseCase stores the current state of a speciffic business process
+        // UseCase stores the current state of a specific business process
         describe("UseCase") {
 
             var useCase: GenericUseCase<MockState>!
             let warehouse = MockWarehouse()
 
-        // It's state can be changed only by the reduce funtion that produces a new state based on the current and a new event
+        // It's state can be changed only by the reduce function that produces a new state based on the current and a new event
             describe("has state reducer") {
 
                 beforeEach {
@@ -47,7 +47,7 @@ class GenericUseCaseSpec: QuickSpec {
                     expect(context[.first]).to(equal(1))
                 }
 
-                it("that changes current state corectly more than once") {
+                it("that changes current state correctly more than once") {
                     useCase.dispatch(event: .first)
                     useCase.dispatch(event: .first)
                     let context = useCase.state.value.events
@@ -88,7 +88,7 @@ class GenericUseCaseSpec: QuickSpec {
                             feedbackLoop: [])
                     }
 
-                    it("that all are run in paralel") {
+                    it("that all are run in parallel") {
                         useCase.dispatch(event: .first)
                         let context = useCase.state.value.events
                         expect(context.count).to(equal(2))
