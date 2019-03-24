@@ -118,10 +118,12 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
                 object.parent.dispatch(action: RootViewState.UserAction.dissmissLoading)
             }
         case (.done(let context), .loginButtonPressed):
+            // swiftlint:disable force_unwrapping
             object.parent.dispatch(action: .bussy)
             object.store.dispatch(event: .login(
                 username: context.usernameField.text!,
                 password: context.passwordField.text!))
+            // swiftlint:enable force_unwrapping
         default:
             return
         }
@@ -143,6 +145,7 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
         reducer: ViewStateReducer<State>?,
         forwarder: ViewStateForwarder<State>?) {
         self.init(
+            initialState: State.init(),
             warehouse: parent.warehouse,
             transformer: transformer,
             reducer: reducer,
@@ -151,6 +154,7 @@ class LoginViewModel: GenericChildViewModel<LoginViewState, AuthUseCase, RootVie
     }
 
     required init(
+        initialState: State,
         warehouse: DomainStoreFacade,
         transformer: ViewStateTransformer<Store.State, State>?,
         reducer: ViewStateReducer<State>?,

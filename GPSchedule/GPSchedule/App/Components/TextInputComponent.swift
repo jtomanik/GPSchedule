@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Bento
-import RxCocoa
 import RxSwift
 
 class TextInputComponentView: UIView, NibLoadable {
@@ -110,12 +109,14 @@ final class FocusToolbar: UIToolbar {
 
         translatesAutoresizingMaskIntoConstraints = false
 
+        // swiftlint:disable force_unwrapping
         let items = [
             forwardButton!,
             backwardButton!,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismiss))
         ]
+        // swiftlint:enable force_unwrapping
         setItems(items, animated: false)
     }
 

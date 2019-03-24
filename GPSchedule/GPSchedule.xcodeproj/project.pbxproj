@@ -43,6 +43,13 @@
 		7AC554D7223EC1C900FDEDE5 /* ComponentStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554D6223EC1C900FDEDE5 /* ComponentStates.swift */; };
 		7AC554D9223EC25500FDEDE5 /* AppointmentComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC554D8223EC25500FDEDE5 /* AppointmentComponent.swift */; };
 		7AC554DB223EC32500FDEDE5 /* AppointmentComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AC554DA223EC32500FDEDE5 /* AppointmentComponentView.xib */; };
+		7AC915122246A0BC0016D095 /* GenericUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC915112246A0BC0016D095 /* GenericUseCaseTests.swift */; };
+		7AC915162246B2B00016D095 /* MockWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC915152246B2B00016D095 /* MockWarehouse.swift */; };
+		7AC9151D22479C950016D095 /* MockState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC9151C22479C940016D095 /* MockState.swift */; };
+		7AC9151F22479CD40016D095 /* MockUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC9151E22479CD40016D095 /* MockUseCase.swift */; };
+		7AC9152122479CF40016D095 /* MockingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC9152022479CF40016D095 /* MockingSource.swift */; };
+		7AC915242247F5020016D095 /* GenericViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC915232247F5020016D095 /* GenericViewModelTests.swift */; };
+		7AC91526224817F50016D095 /* MockViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC91525224817F50016D095 /* MockViewState.swift */; };
 		7ADFDE2D22443A2A00237C72 /* Date+timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADFDE2C22443A2A00237C72 /* Date+timestamp.swift */; };
 		7AE0E0F1223961A200F341B7 /* DomainWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */; };
 		7AE0E0F72239C27100F341B7 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE0E0F62239C27100F341B7 /* CalendarViewModel.swift */; };
@@ -56,10 +63,23 @@
 		7AEFB27722383CD600E86256 /* ButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEFB27622383CD600E86256 /* ButtonComponent.swift */; };
 		7AEFB27922383D3700E86256 /* ButtonComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB27822383D3700E86256 /* ButtonComponentView.xib */; };
 		7AEFB27B22383E2500E86256 /* TextInputComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AEFB27A22383E2500E86256 /* TextInputComponentView.xib */; };
+		C0CB08402A5812CCA27D6DBB /* Pods_GPScheduleUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACACED482D57A20214A73CB0 /* Pods_GPScheduleUnitTests.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7AC9150C22469EE60016D095 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AACDE072231BBD300B24351 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7AACDE0E2231BBD400B24351;
+			remoteInfo = GPSchedule;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0FE4FBBC8B08F2E17E6A7C3D /* Pods-GPSchedule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPSchedule.debug.xcconfig"; path = "Target Support Files/Pods-GPSchedule/Pods-GPSchedule.debug.xcconfig"; sourceTree = "<group>"; };
+		29DF905E163D9E642293304D /* Pods-GPScheduleUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPScheduleUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-GPScheduleUnitTests/Pods-GPScheduleUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3E06ACAAE6656BA28C619261 /* Pods-GPScheduleUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPScheduleUnitTests.release.xcconfig"; path = "Target Support Files/Pods-GPScheduleUnitTests/Pods-GPScheduleUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		7A345EEF2231C340004DDD11 /* .sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .sourcery.yml; sourceTree = "<group>"; };
 		7A345EF12231C74A004DDD11 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7A6A0E85223EEDFE001F834E /* AuthUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUseCase.swift; sourceTree = "<group>"; };
@@ -105,6 +125,15 @@
 		7AC554D6223EC1C900FDEDE5 /* ComponentStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentStates.swift; sourceTree = "<group>"; };
 		7AC554D8223EC25500FDEDE5 /* AppointmentComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentComponent.swift; sourceTree = "<group>"; };
 		7AC554DA223EC32500FDEDE5 /* AppointmentComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppointmentComponentView.xib; sourceTree = "<group>"; };
+		7AC9150722469EE60016D095 /* GPScheduleUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPScheduleUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AC9150B22469EE60016D095 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7AC915112246A0BC0016D095 /* GenericUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericUseCaseTests.swift; sourceTree = "<group>"; };
+		7AC915152246B2B00016D095 /* MockWarehouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWarehouse.swift; sourceTree = "<group>"; };
+		7AC9151C22479C940016D095 /* MockState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockState.swift; sourceTree = "<group>"; };
+		7AC9151E22479CD40016D095 /* MockUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUseCase.swift; sourceTree = "<group>"; };
+		7AC9152022479CF40016D095 /* MockingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockingSource.swift; sourceTree = "<group>"; };
+		7AC915232247F5020016D095 /* GenericViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericViewModelTests.swift; sourceTree = "<group>"; };
+		7AC91525224817F50016D095 /* MockViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewState.swift; sourceTree = "<group>"; };
 		7ADFDE2C22443A2A00237C72 /* Date+timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+timestamp.swift"; sourceTree = "<group>"; };
 		7AE0E0F0223961A200F341B7 /* DomainWarehouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainWarehouse.swift; sourceTree = "<group>"; };
 		7AE0E0F62239C27100F341B7 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -120,6 +149,7 @@
 		7AEFB27622383CD600E86256 /* ButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonComponent.swift; sourceTree = "<group>"; };
 		7AEFB27822383D3700E86256 /* ButtonComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonComponentView.xib; sourceTree = "<group>"; };
 		7AEFB27A22383E2500E86256 /* TextInputComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextInputComponentView.xib; sourceTree = "<group>"; };
+		ACACED482D57A20214A73CB0 /* Pods_GPScheduleUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GPScheduleUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07D5D047C7571DDD8060662 /* Pods-GPSchedule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPSchedule.release.xcconfig"; path = "Target Support Files/Pods-GPSchedule/Pods-GPSchedule.release.xcconfig"; sourceTree = "<group>"; };
 		F91310B779E80B23342F30A1 /* Pods_GPSchedule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GPSchedule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -133,6 +163,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7AC9150422469EE60016D095 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0CB08402A5812CCA27D6DBB /* Pods_GPScheduleUnitTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -140,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				F91310B779E80B23342F30A1 /* Pods_GPSchedule.framework */,
+				ACACED482D57A20214A73CB0 /* Pods_GPScheduleUnitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -201,6 +240,7 @@
 				7A345EEF2231C340004DDD11 /* .sourcery.yml */,
 				7A345EF12231C74A004DDD11 /* .swiftlint.yml */,
 				7AACDE112231BBD400B24351 /* GPSchedule */,
+				7AC9150822469EE60016D095 /* GPScheduleUnitTests */,
 				7AACDE102231BBD400B24351 /* Products */,
 				D65D608BAEC3BA30D7E95970 /* Pods */,
 				299441F591CBFAB7EC60AB28 /* Frameworks */,
@@ -211,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				7AACDE0F2231BBD400B24351 /* GPSchedule.app */,
+				7AC9150722469EE60016D095 /* GPScheduleUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -230,6 +271,29 @@
 				7AACDE1E2231BBD600B24351 /* Info.plist */,
 			);
 			path = GPSchedule;
+			sourceTree = "<group>";
+		};
+		7AC9150822469EE60016D095 /* GPScheduleUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				7AC9150B22469EE60016D095 /* Info.plist */,
+				7AC915112246A0BC0016D095 /* GenericUseCaseTests.swift */,
+				7AC915232247F5020016D095 /* GenericViewModelTests.swift */,
+				7AC9152222479D830016D095 /* Mocks */,
+			);
+			path = GPScheduleUnitTests;
+			sourceTree = "<group>";
+		};
+		7AC9152222479D830016D095 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				7AC9152022479CF40016D095 /* MockingSource.swift */,
+				7AC9151E22479CD40016D095 /* MockUseCase.swift */,
+				7AC9151C22479C940016D095 /* MockState.swift */,
+				7AC91525224817F50016D095 /* MockViewState.swift */,
+				7AC915152246B2B00016D095 /* MockWarehouse.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		7AE0E0F82239C27700F341B7 /* Calendar */ = {
@@ -297,6 +361,8 @@
 			children = (
 				0FE4FBBC8B08F2E17E6A7C3D /* Pods-GPSchedule.debug.xcconfig */,
 				D07D5D047C7571DDD8060662 /* Pods-GPSchedule.release.xcconfig */,
+				29DF905E163D9E642293304D /* Pods-GPScheduleUnitTests.debug.xcconfig */,
+				3E06ACAAE6656BA28C619261 /* Pods-GPScheduleUnitTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -325,6 +391,26 @@
 			productReference = 7AACDE0F2231BBD400B24351 /* GPSchedule.app */;
 			productType = "com.apple.product-type.application";
 		};
+		7AC9150622469EE60016D095 /* GPScheduleUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7AC9151022469EE60016D095 /* Build configuration list for PBXNativeTarget "GPScheduleUnitTests" */;
+			buildPhases = (
+				E9DA35B24DF3AC31F5D780BF /* [CP] Check Pods Manifest.lock */,
+				7AC9150322469EE60016D095 /* Sources */,
+				7AC9150422469EE60016D095 /* Frameworks */,
+				7AC9150522469EE60016D095 /* Resources */,
+				4EA1CA7A7D3712C3A96629A0 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7AC9150D22469EE60016D095 /* PBXTargetDependency */,
+			);
+			name = GPScheduleUnitTests;
+			productName = GPScheduleUnitTests;
+			productReference = 7AC9150722469EE60016D095 /* GPScheduleUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -337,6 +423,10 @@
 				TargetAttributes = {
 					7AACDE0E2231BBD400B24351 = {
 						CreatedOnToolsVersion = 10.1;
+					};
+					7AC9150622469EE60016D095 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 7AACDE0E2231BBD400B24351;
 					};
 				};
 			};
@@ -354,6 +444,7 @@
 			projectRoot = "";
 			targets = (
 				7AACDE0E2231BBD400B24351 /* GPSchedule */,
+				7AC9150622469EE60016D095 /* GPScheduleUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -372,6 +463,13 @@
 				7AC554D5223EBBF800FDEDE5 /* LoadingComponentView.xib in Resources */,
 				7AEFB27922383D3700E86256 /* ButtonComponentView.xib in Resources */,
 				7AEFB2732238341700E86256 /* LabelComponentView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC9150522469EE60016D095 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +496,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4EA1CA7A7D3712C3A96629A0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GPScheduleUnitTests/Pods-GPScheduleUnitTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GPScheduleUnitTests/Pods-GPScheduleUnitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7A79A6BE22353D0000E22CDA /* Sourcery */ = {
@@ -488,6 +622,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GPSchedule/Pods-GPSchedule-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E9DA35B24DF3AC31F5D780BF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GPScheduleUnitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -537,7 +693,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7AC9150322469EE60016D095 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7AC9151D22479C950016D095 /* MockState.swift in Sources */,
+				7AC9151F22479CD40016D095 /* MockUseCase.swift in Sources */,
+				7AC915122246A0BC0016D095 /* GenericUseCaseTests.swift in Sources */,
+				7AC915162246B2B00016D095 /* MockWarehouse.swift in Sources */,
+				7AC915242247F5020016D095 /* GenericViewModelTests.swift in Sources */,
+				7AC91526224817F50016D095 /* MockViewState.swift in Sources */,
+				7AC9152122479CF40016D095 /* MockingSource.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7AC9150D22469EE60016D095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7AACDE0E2231BBD400B24351 /* GPSchedule */;
+			targetProxy = 7AC9150C22469EE60016D095 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		7AACDE1B2231BBD600B24351 /* LaunchScreen.storyboard */ = {
@@ -705,6 +883,48 @@
 			};
 			name = Release;
 		};
+		7AC9150E22469EE60016D095 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29DF905E163D9E642293304D /* Pods-GPScheduleUnitTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XAV4QTNJ2K;
+				INFOPLIST_FILE = GPScheduleUnitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jakub.tomanik.GPScheduleUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GPSchedule.app/GPSchedule";
+			};
+			name = Debug;
+		};
+		7AC9150F22469EE60016D095 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E06ACAAE6656BA28C619261 /* Pods-GPScheduleUnitTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XAV4QTNJ2K;
+				INFOPLIST_FILE = GPScheduleUnitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jakub.tomanik.GPScheduleUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GPSchedule.app/GPSchedule";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -722,6 +942,15 @@
 			buildConfigurations = (
 				7AACDE222231BBD600B24351 /* Debug */,
 				7AACDE232231BBD600B24351 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7AC9151022469EE60016D095 /* Build configuration list for PBXNativeTarget "GPScheduleUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AC9150E22469EE60016D095 /* Debug */,
+				7AC9150F22469EE60016D095 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

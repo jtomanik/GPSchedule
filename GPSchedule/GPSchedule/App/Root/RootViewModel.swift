@@ -79,6 +79,7 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
     // swiftlint:disable all
     convenience init(warehouse: DomainStoreFacade) {
         self.init(
+            initialState: State.init(),
             warehouse: warehouse,
             transformer: RootViewModel.transform,
             reducer: RootViewModel.reduce,
@@ -86,6 +87,7 @@ class RootViewModel: GenericViewModel<RootViewState, RootUseCase> {
     }
 
     required init(
+            initialState: State,
             warehouse: DomainStoreFacade,
             transformer: ViewStateTransformer<Store.State, State>?,
             reducer: ViewStateReducer<State>?,

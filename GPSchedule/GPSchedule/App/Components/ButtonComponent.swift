@@ -10,7 +10,7 @@ import UIKit
 import Bento
 
 final class ButtonComponentView: UIView, NibLoadable {
-
+    // swiftlint:disable empty_parameters
     @IBOutlet weak var button: UIButton!
 
     var onButtonPressed: ((Void) -> Void)?
@@ -18,6 +18,7 @@ final class ButtonComponentView: UIView, NibLoadable {
     @IBAction func buttonPressed(_ sender: Any) {
         onButtonPressed?(())
     }
+    // swiftlint:enable empty_parameters
 }
 
 class ButtonComponent: GenericActionableComponent<ButtonState, Void, ButtonComponentView> {

@@ -40,7 +40,8 @@ protocol DomainStore: class {
 
     func dispatch(event: State.StateEvent)
 
-    init(warehouse: DomainStoreFacade?,
+    init(initialState: State,
+         warehouse: DomainStoreFacade?,
          reducer: @escaping DomainStateReducer<State>,
          middleware: [DomainStateMiddleware<State>],
          feedbackLoop: [DomainStateFeedback<State>])
@@ -82,7 +83,8 @@ protocol ViewReactor: class {
 
     func dispatch(action: State.UserAction)
 
-    init(warehouse: DomainStoreFacade,
+    init(initialState: State,
+         warehouse: DomainStoreFacade,
          transformer: ViewStateTransformer<Store.State, State>?,
          reducer: ViewStateReducer<State>?,
          forwarder: ViewStateForwarder<State>?)

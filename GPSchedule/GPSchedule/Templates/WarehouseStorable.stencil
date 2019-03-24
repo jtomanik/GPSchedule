@@ -4,16 +4,20 @@
 // swiftlint:disable all
 
 {% for type in types.implementing.ServiceCommand %}
-    {% if type.kind|!contains: "protocol" %}
-    {% set service %}{{type.inheritedTypes|join}}{% endset %}
+    {% if type.name|!contains: "Mock" %}
+        {% if type.kind|!contains: "protocol" %}
+        {% set service %}{{type.inheritedTypes|join}}{% endset %}
     let {{service|lowerFirstLetter}} = {{type.name}}.self
+        {% endif %}
     {% endif %}
 {% endfor %}
 
 {% for type in types.classes %}
-    {% if type.name|contains: "UseCase" %}
-        {% if type.isGeneric == false %}
+    {% if type.name|!contains: "Mock" %}
+        {% if type.name|hasSuffix: "UseCase" %}
+            {% if type.isGeneric == false %}
     var {{type.name|lowerFirstLetter}}: {{type.name}}!
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endfor %}
@@ -21,11 +25,12 @@
     private let disposeBag = DisposeBag()
 
     init() {
-{% for type in types.classes|annotated:"defaultState" %}
-    {% if type.name|contains: "UseCase" %}
-        {% if type.isGeneric == false %}
-        self.{{type.name|lowerFirstLetter}} = {{type.name}}(initialState: {{type.annotations.defaultState}}(),warehouse: self,  dependencyProvider: self)
-
+{% for type in types.classes %}
+    {% if type.name|!contains: "Mock" %}
+        {% if type.name|hasSuffix: "UseCase" %}
+            {% if type.isGeneric == false %}
+        self.{{type.name|lowerFirstLetter}} = {{type.name}}(initialState: {{type.annotations.defaultState}}(), warehouse: self,  dependencyProvider: self)
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endfor %}
@@ -34,11 +39,13 @@
     func getStore<S>(for type: S.Type) -> S {
         switch type {
 {% for type in types.classes %}
-    {% if type.name|contains: "UseCase" %}
-        {% if type.isGeneric == false %}
+        {% if type.name|!contains: "Mock" %}
+            {% if type.name|hasSuffix: "UseCase" %}
+                {% if type.isGeneric == false %}
         case is {{type.name}}.Type:
             return {{type.name|lowerFirstLetter}}! as! S
-        {% endif %}
+                {% endif %}
+            {% endif %}
     {% endif %}
 {% endfor %}
         default:
@@ -49,10 +56,12 @@
     func dispatch(event: DomainEvent) {
         switch event {
 {% for type in types.classes|annotated:"defaultState" %}
-    {% if type.name|contains: "UseCase" %}
-        {% if type.isGeneric == false %}
+    {% if type.name|!contains: "Mock" %}
+        {% if type.name|hasSuffix: "UseCase" %}
+            {% if type.isGeneric == false %}
         case let event as {{type.annotations.defaultState}}.StateEvent:
             {{type.name|lowerFirstLetter}}.dispatch(event: event)
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endfor %}
@@ -64,5 +73,7 @@
 // sourcery:end
 // Following types ware added to DomainWarehouse
 {% for type in types.implementing.ServiceProvider %}
+    {% if type.name|!contains: "Mock" %}
 extension DomainWarehouse: {{type.name}} {}
+    {% endif %}
 {% endfor %}

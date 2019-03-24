@@ -8,7 +8,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
 
 class DomainWarehouse: DomainStoreFacade {
 
@@ -28,12 +27,9 @@ class DomainWarehouse: DomainStoreFacade {
     private let disposeBag = DisposeBag()
 
     init() {
-        self.authUseCase = AuthUseCase(initialState: AuthState(),warehouse: self,  dependencyProvider: self)
-
-        self.calendarUseCase = CalendarUseCase(initialState: CalendarState(),warehouse: self,  dependencyProvider: self)
-
-        self.rootUseCase = RootUseCase(initialState: RootState(),warehouse: self,  dependencyProvider: self)
-
+        self.authUseCase = AuthUseCase(initialState: AuthState(), warehouse: self,  dependencyProvider: self)
+        self.calendarUseCase = CalendarUseCase(initialState: CalendarState(), warehouse: self,  dependencyProvider: self)
+        self.rootUseCase = RootUseCase(initialState: RootState(), warehouse: self,  dependencyProvider: self)
     }
 
     func getStore<S>(for type: S.Type) -> S {

@@ -10,7 +10,7 @@ import UIKit
 import Bento
 
 final class AppointmentComponentView: UIView, NibLoadable {
-
+    // swiftlint:disable empty_parameters
     @IBOutlet weak var timeFrom: UILabel!
     @IBOutlet weak var timeTo: UILabel!
     @IBOutlet weak var title: UILabel!
@@ -21,6 +21,7 @@ final class AppointmentComponentView: UIView, NibLoadable {
     @IBAction func userDidTap(_ sender: Any) {
         onPressed?(())
     }
+    // swiftlint:enable empty_parameters
 }
 
 class AppointmentComponent: GenericActionableComponent<AppointmentComponentState, String, AppointmentComponentView> {
